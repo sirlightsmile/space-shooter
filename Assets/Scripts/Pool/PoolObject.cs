@@ -4,11 +4,10 @@ namespace SmileProject.SpaceShooter
 {
 	public abstract class PoolObject : MonoBehaviour
 	{
-		public bool IsActive { get; private set; }
+		public bool IsActive { get { return gameObject.activeInHierarchy; } }
 
 		public virtual void SetAction(bool isActive)
 		{
-			this.IsActive = isActive;
 			this.gameObject.SetActive(isActive);
 		}
 
