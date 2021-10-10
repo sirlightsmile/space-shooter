@@ -36,6 +36,9 @@ namespace SmileProject.SpaceShooter
 		[SerializeField]
 		private PoolOptions poolOptions;
 
+		[SerializeField]
+		private Transform poolContainer;
+
 		private List<T> poolObjectList;
 
 		/// <summary>
@@ -63,6 +66,10 @@ namespace SmileProject.SpaceShooter
 		/// <param name="poolObj">Pool object to be return</param>
 		public void ReturnItem(T poolObj)
 		{
+			if (poolContainer)
+			{
+				poolObj.transform.SetParent(poolContainer);
+			}
 			poolObj.OnDespawn();
 		}
 
@@ -82,7 +89,7 @@ namespace SmileProject.SpaceShooter
 		{
 			for (int i = 0; i < amount; i++)
 			{
-				T poolObj = Instantiate<T>(poolObject);
+				T poolObj = poolContainer != null ? Instantiate<T>(poolObject, poolContainer) : Instantiate<T>(poolObject);
 				poolObjectList.Add(poolObj);
 			}
 		}
