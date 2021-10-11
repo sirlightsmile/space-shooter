@@ -7,6 +7,11 @@ namespace SmileProject.SpaceShooter
 	public class PoolOptions
 	{
 		/// <summary>
+		/// Pool name
+		/// </summary>
+		public string PoolName;
+
+		/// <summary>
 		/// Number of initial object when start
 		/// </summary>
 		public int InitialPoolSize = 2;
@@ -22,7 +27,7 @@ namespace SmileProject.SpaceShooter
 		public int ExtendAmount = 2;
 	}
 
-	public class PoolManager<T> : MonoBehaviour where T : PoolObject
+	public class PoolManager<T> where T : PoolObject
 	{
 		/// <summary>
 		/// Pool object (blueprint)
@@ -73,12 +78,7 @@ namespace SmileProject.SpaceShooter
 			poolObj.OnDespawn();
 		}
 
-		private void Start()
-		{
-			InitialPoolObjects();
-		}
-
-		private void InitialPoolObjects()
+		private void CreatePool(string name, PoolOptions options)
 		{
 			int poolSize = poolOptions.InitialPoolSize;
 			poolObjectList = new List<T>(poolSize);
@@ -89,7 +89,7 @@ namespace SmileProject.SpaceShooter
 		{
 			for (int i = 0; i < amount; i++)
 			{
-				T poolObj = poolContainer != null ? Instantiate<T>(poolObject, poolContainer) : Instantiate<T>(poolObject);
+				T poolObj = poolContainer != null ? GameObject.Instantiate<T>(poolObject, poolContainer) : GameObject.Instantiate<T>(poolObject);
 				poolObjectList.Add(poolObj);
 			}
 		}
