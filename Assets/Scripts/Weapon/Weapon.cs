@@ -8,13 +8,15 @@ namespace SmileProject.SpaceShooter
 		Bullet
 	}
 
-	public class Weapon
+	public abstract class Weapon
 	{
 		protected AttackType attackType;
 		protected int durability;
 		protected int level;
 		protected int maxLevel;
 		protected int damage;
+
+		public abstract void Attack();
 
 		public void SetDamage(int damage)
 		{
