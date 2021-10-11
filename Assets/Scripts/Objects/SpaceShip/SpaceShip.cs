@@ -1,11 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace SmileProject.SpaceShooter
 {
 	public abstract class SpaceShip : MonoBehaviour
 	{
+		public Weapon Weapon { get; private set; }
+
 		[SerializeField]
 		protected int hp;
 
@@ -20,6 +20,11 @@ namespace SmileProject.SpaceShooter
 			this.hp = hp;
 			this.speed = speed;
 			this.atk = atk;
+		}
+
+		public void SetWeapon(Weapon weapon)
+		{
+			this.Weapon = weapon;
 		}
 
 		public abstract void GetHit();

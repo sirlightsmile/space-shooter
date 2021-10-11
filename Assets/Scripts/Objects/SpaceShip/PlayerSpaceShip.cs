@@ -11,8 +11,10 @@ namespace SmileProject.SpaceShooter
 
 	public class PlayerSpaceShip : SpaceShip
 	{
+		public int PlayerLevel { get; private set; }
 		public PlayerSpaceShip(int hp, float speed, float atk) : base(hp, speed, atk)
 		{
+			this.PlayerLevel = 1;
 		}
 
 		public override void GetHit()
