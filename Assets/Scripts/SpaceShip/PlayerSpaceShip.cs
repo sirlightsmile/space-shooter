@@ -11,20 +11,16 @@ namespace SmileProject.SpaceShooter
 
 	public class PlayerSpaceShip : SpaceShip
 	{
+		public EventHandler Destroyed;
 		public int PlayerLevel { get; private set; }
 		public PlayerSpaceShip(int hp, float speed, float atk) : base(hp, speed, atk)
 		{
 			this.PlayerLevel = 1;
 		}
 
-		public override void GetHit()
+		public override void GetHit(int damage)
 		{
-			// player take static damage
-			int damage = -1;
-			if (AddHP(damage) == 0)
-			{
-				OnShipDestroy();
-			}
+			this.hp -= damage;
 		}
 
 		public void MoveToDirection(MoveDirection direction)
@@ -34,15 +30,9 @@ namespace SmileProject.SpaceShooter
 			this.transform.position = new Vector3(posX, 0, this.transform.position.z);
 		}
 
-		private int AddHP(int amount)
+		protected override void ShipDestroy()
 		{
-			this.hp += amount;
-			return this.hp;
-		}
-
-		protected override void OnShipDestroy()
-		{
-			throw new NotImplementedException();
+			Destroyed?.Invoke(this, new EventArgs());
 		}
 	}
 }

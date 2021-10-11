@@ -5,6 +5,7 @@ namespace SmileProject.SpaceShooter
 	public abstract class SpaceShip : MonoBehaviour
 	{
 		public Weapon Weapon { get; private set; }
+		public int HP { get { return hp; } }
 
 		[SerializeField]
 		protected int hp;
@@ -27,8 +28,8 @@ namespace SmileProject.SpaceShooter
 			this.Weapon = weapon;
 		}
 
-		public abstract void GetHit();
+		public abstract void GetHit(int damage);
 
-		protected abstract void OnShipDestroy();
+		protected abstract void ShipDestroy();
 	}
 }
