@@ -16,6 +16,9 @@ namespace SmileProject.SpaceShooter
 		[SerializeField]
 		protected float atk;
 
+		[SerializeField]
+		protected Transform attackPointTransform;
+
 		public SpaceShip(int hp, float speed, float atk)
 		{
 			this.hp = hp;
@@ -26,9 +29,14 @@ namespace SmileProject.SpaceShooter
 		public void SetWeapon(Weapon weapon)
 		{
 			this.Weapon = weapon;
+			this.Weapon.SetAttackPointTransform(attackPointTransform);
 		}
 
-		public abstract void GetHit(int damage);
+		public virtual void GetHit(int damage)
+		{
+			int result = this.hp - damage;
+			this.hp = Mathf.Clamp(result, 0, this.hp);
+		}
 
 		protected abstract void ShipDestroy();
 	}

@@ -5,22 +5,23 @@ namespace SmileProject.SpaceShooter
 {
 	public class SpaceShipGun : Weapon
 	{
-		public BulletType BulletType { get; private set; }
 		private SpaceShipGunModel model;
 
 		public SpaceShipGun(SpaceShipGunModel model)
 		{
-			this.BulletType = model.BulletType;
 			SetLevel(WeaponInitialLevel);
 			SetMaxLevel(model.MaxLevel);
-			SetBulletType(model.BulletType);
 			SetDamage(model.BaseDamage);
 			SetAttackSpeed(model.BaseSpeed);
 		}
 
 		public void Shoot()
 		{
-			//TODO: implement
+			Bullet bullet = PoolManager.GetInstance().GetItem<Bullet>(model.BulletAsset);
+			bullet.transform.SetParent(null);
+			bullet.transform.position = attackPointTransform.transform.position;
+			bullet.transform.rotation = attackPointTransform.transform.rotation;
+			bullet.gameObject.SetActive(true);
 		}
 
 		public void LevelUp(int addLevel = 1)
@@ -41,11 +42,6 @@ namespace SmileProject.SpaceShooter
 			int newAttackSpeed = model.BaseSpeed + (currentLevel * model.SpeedIncrement);
 			SetDamage(newDamage);
 			SetAttackSpeed(newAttackSpeed);
-		}
-
-		private void SetBulletType(BulletType attackType)
-		{
-			this.BulletType = attackType;
 		}
 	}
 }

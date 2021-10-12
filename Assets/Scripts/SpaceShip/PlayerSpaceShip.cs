@@ -20,7 +20,8 @@ namespace SmileProject.SpaceShooter
 
 		public override void GetHit(int damage)
 		{
-			this.hp -= damage;
+			base.GetHit(damage);
+			//TODO: invoke dead
 		}
 
 		public void MoveToDirection(MoveDirection direction)

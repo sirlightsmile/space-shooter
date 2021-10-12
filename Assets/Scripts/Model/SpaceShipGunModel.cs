@@ -13,6 +13,11 @@ namespace SmileProject.SpaceShooter
 		public BulletType BulletType;
 
 		/// <summary>
+		/// Bullet's asset name
+		/// </summary>
+		public string BulletAsset;
+
+		/// <summary>
 		/// Base Damage
 		/// </summary>
 		public int BaseDamage;
