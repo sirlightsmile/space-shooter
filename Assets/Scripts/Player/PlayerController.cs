@@ -8,9 +8,6 @@ namespace SmileProject.SpaceShooter
 		[SerializeField]
 		private PlayerSpaceShip player;
 
-		[SerializeField]
-		private PoolManager<Bullet> playerBulletPool;
-
 		private bool allowControl = true;
 
 		public void Initialize()
