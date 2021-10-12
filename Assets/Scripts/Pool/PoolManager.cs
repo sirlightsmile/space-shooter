@@ -21,7 +21,7 @@ namespace SmileProject.SpaceShooter
 	{
 		[SerializeField]
 		private Transform poolContainer;
-		private Dictionary<string, PoolInfo> poolObjectDict = new Dictionary<string, PoolInfo>();
+		private Dictionary<string, PoolInfo> poolInfoDict = new Dictionary<string, PoolInfo>();
 
 		/// <summary>
 		/// Get item from pool
@@ -87,9 +87,31 @@ namespace SmileProject.SpaceShooter
 			GameObject container = new GameObject(name);
 			container.transform.SetParent(poolContainer);
 			PoolInfo poolInfo = new PoolInfo(options, container.transform);
-			poolObjectDict.Add(name, poolInfo);
+			poolInfoDict.Add(name, poolInfo);
 			int poolSize = options.InitialSize;
 			AddObjectToPool(poolInfo, options.InitialSize);
+		}
+
+		/// <summary>
+		/// Destroy pool from pool manager
+		/// </summary>
+		/// <param name="poolName">Pool name to destroy</param>
+		public void DestroyPool(string poolName)
+		{
+			PoolInfo poolInfo = GetPoolInfo(poolName);
+			if (poolInfo == null)
+			{
+				Debug.LogAssertion($"Pool name [{name}] not exist.");
+				return;
+			}
+
+			List<PoolObject> poolList = poolInfo.PoolList;
+			int lastIndex = poolInfo.PoolList.Count - 1;
+			for (int i = lastIndex - 1; i >= 0; i--)
+			{
+				Destroy(poolList[i]);
+			}
+			poolInfoDict.Remove(poolName);
 		}
 
 		private void AddObjectToPool(PoolInfo poolInfo, int extendAmount)
@@ -117,7 +139,7 @@ namespace SmileProject.SpaceShooter
 
 		private PoolInfo GetPoolInfo(string poolName)
 		{
-			PoolInfo poolInfo = poolObjectDict[poolName];
+			PoolInfo poolInfo = poolInfoDict[poolName];
 			if (poolInfo == null)
 			{
 				Debug.Log($"Pool info name {poolName} not found");
