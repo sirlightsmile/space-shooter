@@ -15,5 +15,11 @@ namespace SmileProject.SpaceShooter
 		public override void OnSpawn() { }
 
 		public override void OnDespawn() { }
+
+		private void OnCollisionEnter(Collision other)
+		{
+			string tag = other.transform.tag;
+			Debug.Log("Collision with : " + tag);
+		}
 	}
 }
