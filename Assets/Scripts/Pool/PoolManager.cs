@@ -5,16 +5,15 @@ namespace SmileProject.SpaceShooter
 {
 	public class PoolInfo
 	{
-		public readonly PoolObject PoolObject;
-		public readonly PoolOptions PoolOptions;
-		public readonly Transform PoolContainer;
+		public readonly PoolOptions Options;
+		public readonly Transform Container;
 		public readonly List<PoolObject> PoolList;
-		public PoolInfo(PoolObject poolObject, PoolOptions options, Transform container)
+
+		public PoolInfo(PoolOptions options, Transform container)
 		{
-			this.PoolObject = poolObject;
-			this.PoolOptions = options;
-			this.PoolContainer = container;
-			this.PoolList = new List<PoolObject>(options.InitialPoolSize);
+			this.Options = options;
+			this.Container = container;
+			this.PoolList = new List<PoolObject>(options.InitialSize);
 		}
 	}
 
@@ -59,7 +58,7 @@ namespace SmileProject.SpaceShooter
 		/// <typeparam name="T">T inherited PoolObject</typeparam>
 		public void ReturnItem<T>(string poolName, T poolObj) where T : PoolObject
 		{
-			Transform container = GetPoolInfo(poolName)?.PoolContainer;
+			Transform container = GetPoolInfo(poolName)?.Container;
 			if (container)
 			{
 				poolObj.transform.SetParent(container);
@@ -72,14 +71,13 @@ namespace SmileProject.SpaceShooter
 		}
 
 		/// <summary>
-		/// Create new pool objects on pool manager
+		/// Create new pool on pool manager
 		/// </summary>
-		/// <param name="name">Pool name</param>
-		/// <param name="poolObject">Pool object prefab</param>
 		/// <param name="options">Pool options</param>
 		/// <typeparam name="T">T inherited PoolObject</typeparam>
-		public void CreatePool<T>(string name, T poolObject, PoolOptions options) where T : PoolObject
+		public void CreatePool<T>(PoolOptions options) where T : PoolObject
 		{
+			string name = options.PoolName;
 			if (GetPoolInfo(name) != null)
 			{
 				Debug.LogAssertion($"Pool name [{name}] already exist.");
@@ -88,25 +86,25 @@ namespace SmileProject.SpaceShooter
 
 			GameObject container = new GameObject(name);
 			container.transform.SetParent(poolContainer);
-			PoolInfo poolInfo = new PoolInfo(poolObject, options, container.transform);
+			PoolInfo poolInfo = new PoolInfo(options, container.transform);
 			poolObjectDict.Add(name, poolInfo);
-			int poolSize = options.InitialPoolSize;
-			AddObjectToPool(poolInfo, options.InitialPoolSize);
+			int poolSize = options.InitialSize;
+			AddObjectToPool(poolInfo, options.InitialSize);
 		}
 
 		private void AddObjectToPool(PoolInfo poolInfo, int extendAmount)
 		{
 			for (int i = 0; i < extendAmount; i++)
 			{
-				PoolObject originObj = poolInfo.PoolObject;
-				PoolObject poolObj = Instantiate(originObj, poolContainer);
+				PoolObject prefab = poolInfo.Options.Prefab;
+				PoolObject poolObj = Instantiate(prefab, poolContainer);
 				poolInfo.PoolList.Add(poolObj);
 			}
 		}
 
 		private bool Resize(PoolInfo poolInfo)
 		{
-			PoolOptions options = poolInfo.PoolOptions;
+			PoolOptions options = poolInfo.Options;
 			if (!options.CanExtend || options.ExtendAmount < 1)
 			{
 				return false;
