@@ -4,31 +4,31 @@ namespace SmileProject.SpaceShooter
 {
 	public abstract class Weapon
 	{
-		protected int durability;
+		public const int WeaponInitialLevel = 1;
+
 		protected int level;
 		protected int maxLevel;
 		protected int damage;
+		protected float attackSpeed;
 
-		public abstract void Attack();
-
-		public void SetDamage(int damage)
+		protected void SetDamage(int damage)
 		{
 			this.damage = damage;
 		}
 
-		public void SetLevel(int level)
+		protected void SetLevel(int level)
 		{
 			this.level = level;
 		}
 
-		public void SetMaxLevel(int maxLevel)
+		protected void SetMaxLevel(int maxLevel)
 		{
 			this.maxLevel = maxLevel;
 		}
 
-		public void SetDurability(int durability)
+		protected void SetAttackSpeed(int speed)
 		{
-			this.durability = durability;
+			this.attackSpeed = speed;
 		}
 	}
 }
