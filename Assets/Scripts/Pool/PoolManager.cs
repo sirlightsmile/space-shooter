@@ -17,7 +17,7 @@ namespace SmileProject.SpaceShooter
 		}
 	}
 
-	public class PoolManager : MonoBehaviour
+	public class PoolManager : MonoSingleton<PoolManager>
 	{
 		[SerializeField]
 		private Transform poolContainer;
