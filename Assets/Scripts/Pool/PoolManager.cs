@@ -114,6 +114,16 @@ namespace SmileProject.SpaceShooter
 			poolInfoDict.Remove(poolName);
 		}
 
+		/// <summary>
+		/// Check whether pool manager contain this pool name or not
+		/// /// </summary>
+		/// <param name="poolName">target pool name</param>
+		/// <returns></returns>
+		public bool HasPool(string poolName)
+		{
+			return poolInfoDict[poolName] != null;
+		}
+
 		private void AddObjectToPool(PoolInfo poolInfo, int extendAmount)
 		{
 			for (int i = 0; i < extendAmount; i++)
