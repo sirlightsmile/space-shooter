@@ -75,7 +75,7 @@ namespace SmileProject.SpaceShooter
 		/// </summary>
 		/// <param name="options">Pool options</param>
 		/// <typeparam name="T">T inherited PoolObject</typeparam>
-		public void CreatePool<T>(PoolOptions options) where T : PoolObject
+		public void CreatePool(PoolOptions options)
 		{
 			string name = options.PoolName;
 			if (GetPoolInfo(name) != null)
