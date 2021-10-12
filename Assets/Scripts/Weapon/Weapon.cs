@@ -2,15 +2,8 @@ using UnityEngine;
 
 namespace SmileProject.SpaceShooter
 {
-	public enum AttackType
-	{
-		Laser,
-		Bullet
-	}
-
 	public abstract class Weapon
 	{
-		protected AttackType attackType;
 		protected int durability;
 		protected int level;
 		protected int maxLevel;
@@ -31,11 +24,6 @@ namespace SmileProject.SpaceShooter
 		public void SetMaxLevel(int maxLevel)
 		{
 			this.maxLevel = maxLevel;
-		}
-
-		public void SetAttackType(AttackType attackType)
-		{
-			this.attackType = attackType;
 		}
 
 		public void SetDurability(int durability)
