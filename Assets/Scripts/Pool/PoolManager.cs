@@ -3,107 +3,129 @@ using UnityEngine;
 
 namespace SmileProject.SpaceShooter
 {
-	[System.Serializable]
-	public class PoolOptions
+	public class PoolInfo
 	{
-		/// <summary>
-		/// Pool name
-		/// </summary>
-		public string PoolName;
-
-		/// <summary>
-		/// Number of initial object when start
-		/// </summary>
-		public int InitialPoolSize = 2;
-
-		/// <summary>
-		/// Whether this pool can extends when call 'spawn' over than initial size limit
-		/// </summary>
-		public bool CanExtend = true;
-
-		/// <summary>
-		/// Amount of items that will increase when resize pool after reach limit
-		/// </summary>
-		public int ExtendAmount = 2;
+		public readonly PoolObject PoolObject;
+		public readonly PoolOptions PoolOptions;
+		public readonly Transform PoolContainer;
+		public readonly List<PoolObject> PoolList;
+		public PoolInfo(PoolObject poolObject, PoolOptions options, Transform container)
+		{
+			this.PoolObject = poolObject;
+			this.PoolOptions = options;
+			this.PoolContainer = container;
+			this.PoolList = new List<PoolObject>(options.InitialPoolSize);
+		}
 	}
 
-	public class PoolManager<T> where T : PoolObject
+	public class PoolManager : MonoBehaviour
 	{
-		/// <summary>
-		/// Pool object (blueprint)
-		/// </summary>
-		[SerializeField]
-		private T poolObject;
-
-		/// <summary>
-		/// Pool options for this pool
-		/// </summary>
-		[SerializeField]
-		private PoolOptions poolOptions;
-
 		[SerializeField]
 		private Transform poolContainer;
-
-		private List<T> poolObjectList;
+		private Dictionary<string, PoolInfo> poolObjectDict = new Dictionary<string, PoolInfo>();
 
 		/// <summary>
 		/// Get item from pool
 		/// </summary>
 		/// <returns>Pool object from pool</returns>
-		public T GetItem()
+		/// <typeparam name="T">T inherited PoolObject</typeparam>
+		/// <returns></returns>
+		public T GetItem<T>(string poolName) where T : PoolObject
 		{
+			PoolInfo poolInfo = GetPoolInfo(poolName);
+			if (poolInfo == null)
+			{
+				return null;
+			}
+
+			List<PoolObject> poolObjectList = poolInfo.PoolList;
 			int index = poolObjectList.FindIndex(obj => !obj.IsActive);
 			if (index == -1)
 			{
 				int newIndex = poolObjectList.Count;
-				if (Resize())
+				if (Resize(poolInfo))
 				{
 					// index of first item which been added
 					index = newIndex;
 				}
 			}
-			return poolObjectList[index];
+			return poolObjectList[index] as T;
 		}
 
 		/// <summary>
-		/// Return item to pool
+		/// Return item to pool or destroy it if pool not found
 		/// </summary>
 		/// <param name="poolObj">Pool object to be return</param>
-		public void ReturnItem(T poolObj)
+		/// <typeparam name="T">T inherited PoolObject</typeparam>
+		public void ReturnItem<T>(string poolName, T poolObj) where T : PoolObject
 		{
-			if (poolContainer)
+			Transform container = GetPoolInfo(poolName)?.PoolContainer;
+			if (container)
 			{
-				poolObj.transform.SetParent(poolContainer);
+				poolObj.transform.SetParent(container);
+				poolObj.OnDespawn();
 			}
-			poolObj.OnDespawn();
-		}
-
-		private void CreatePool(string name, PoolOptions options)
-		{
-			int poolSize = poolOptions.InitialPoolSize;
-			poolObjectList = new List<T>(poolSize);
-			AddObjectToPool(poolSize);
-		}
-
-		private void AddObjectToPool(int amount)
-		{
-			for (int i = 0; i < amount; i++)
+			else
 			{
-				T poolObj = poolContainer != null ? GameObject.Instantiate<T>(poolObject, poolContainer) : GameObject.Instantiate<T>(poolObject);
-				poolObjectList.Add(poolObj);
+				Destroy(poolObj);
 			}
 		}
 
-		private bool Resize()
+		/// <summary>
+		/// Create new pool objects on pool manager
+		/// </summary>
+		/// <param name="name">Pool name</param>
+		/// <param name="poolObject">Pool object prefab</param>
+		/// <param name="options">Pool options</param>
+		/// <typeparam name="T">T inherited PoolObject</typeparam>
+		public void CreatePool<T>(string name, T poolObject, PoolOptions options) where T : PoolObject
 		{
-			if (!poolOptions.CanExtend || poolOptions.ExtendAmount < 1)
+			if (GetPoolInfo(name) != null)
+			{
+				Debug.LogAssertion($"Pool name [{name}] already exist.");
+				return;
+			}
+
+			GameObject container = new GameObject(name);
+			container.transform.SetParent(poolContainer);
+			PoolInfo poolInfo = new PoolInfo(poolObject, options, container.transform);
+			poolObjectDict.Add(name, poolInfo);
+			int poolSize = options.InitialPoolSize;
+			AddObjectToPool(poolInfo, options.InitialPoolSize);
+		}
+
+		private void AddObjectToPool(PoolInfo poolInfo, int extendAmount)
+		{
+			for (int i = 0; i < extendAmount; i++)
+			{
+				PoolObject originObj = poolInfo.PoolObject;
+				PoolObject poolObj = Instantiate(originObj, poolContainer);
+				poolInfo.PoolList.Add(poolObj);
+			}
+		}
+
+		private bool Resize(PoolInfo poolInfo)
+		{
+			PoolOptions options = poolInfo.PoolOptions;
+			if (!options.CanExtend || options.ExtendAmount < 1)
 			{
 				return false;
 			}
 
-			int extendSize = poolOptions.ExtendAmount;
-			AddObjectToPool(extendSize);
+			int extendSize = options.ExtendAmount;
+			AddObjectToPool(poolInfo, extendSize);
 			return true;
+		}
+
+		private PoolInfo GetPoolInfo(string poolName)
+		{
+			PoolInfo poolInfo = poolObjectDict[poolName];
+			if (poolInfo == null)
+			{
+				Debug.Log($"Pool info name {poolName} not found");
+				return null;
+			}
+			return poolInfo;
 		}
 	}
 }
