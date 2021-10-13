@@ -16,7 +16,22 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: aadf56dbc3118b94e99bf9e2ac7c541a
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 791472ed991399d4d972afe8fce9e9ee
+    m_Address: BuleltTypeB_Prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - gameplay
+  - m_GUID: 3b5ba9e377c71284f95f520861c7c19a
+    m_Address: PlayerPrefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - gameplay
+  - m_GUID: fd585546c2ae81149a6445e4799aa79b
+    m_Address: GameData
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: e7da8c064d2834f458c2bcf8af1f6581, type: 2}
   m_SchemaSet:

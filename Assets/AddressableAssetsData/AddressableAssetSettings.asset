@@ -38,7 +38,6 @@ MonoBehaviour:
   m_GroupAssets:
   - {fileID: 11400000, guid: ca1c5d160824293489bd9fa68e172cca, type: 2}
   - {fileID: 11400000, guid: 90a2d2c4dd7594047bb7f246152f0af2, type: 2}
-  - {fileID: 11400000, guid: 5463ffe861eb03b41b41449e3d47e598, type: 2}
   m_BuildSettings:
     m_CompileScriptsInVirtualMode: 0
     m_CleanupStreamingAssetsAfterBuilds: 1
@@ -80,6 +79,7 @@ MonoBehaviour:
   m_LabelTable:
     m_LabelNames:
     - default
+    - gameplay
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 9bce2f6a91d82044a8a82f3c60be3351, type: 2}
