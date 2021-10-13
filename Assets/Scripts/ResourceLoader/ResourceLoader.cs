@@ -17,7 +17,6 @@ namespace SmileProject.SpaceShooter
 			await initialize.Task;
 		}
 
-
 		public static async Task<GameDataModel> LoadGameData()
 		{
 			var loadGameDataAsync = Addressables.LoadAssetAsync<TextAsset>(gameDataAddress);
