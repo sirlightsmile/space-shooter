@@ -4,11 +4,15 @@ namespace SmileProject.SpaceShooter
 {
 	public class Bullet : PoolObject
 	{
+		[SerializeField]
+		private SpriteRenderer bulletRenderer;
+
 		private void FixedUpdate()
 		{
-			if (IsActive)
+			this.transform.Translate(this.transform.up * Time.fixedDeltaTime * 5f);
+			if (!bulletRenderer.isVisible)
 			{
-				this.transform.Translate(Vector3.forward * Time.fixedDeltaTime);
+				OnInvisible();
 			}
 		}
 
@@ -20,6 +24,12 @@ namespace SmileProject.SpaceShooter
 		{
 			string tag = other.transform.tag;
 			Debug.Log("Collision with : " + tag);
+		}
+
+		private void OnInvisible()
+		{
+			SetActive(false);
+			PoolManager.GetInstance().ReturnItem(poolName, this);
 		}
 	}
 }
