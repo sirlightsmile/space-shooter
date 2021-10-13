@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Threading.Tasks;
 
 namespace SmileProject.SpaceShooter
 {
@@ -7,9 +8,9 @@ namespace SmileProject.SpaceShooter
 	{
 		private GameDataModel gameData;
 
-		public GameDataManager()
+		public async Task Initialize()
 		{
-			gameData = ResourceLoader.LoadGameData();
+			gameData = await ResourceLoader.LoadGameData();
 			Debug.Log("Game Data Initialized.");
 		}
 

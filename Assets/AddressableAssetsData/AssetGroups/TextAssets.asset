@@ -10,26 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Default Local Group
+  m_Name: TextAssets
   m_EditorClassIdentifier: 
-  m_GroupName: Default Local Group
+  m_GroupName: TextAssets
   m_Data:
     m_SerializedData: []
-  m_GUID: aadf56dbc3118b94e99bf9e2ac7c541a
+  m_GUID: 8de4a4c714e0fb54786bd5dfc7c1a1b7
   m_SerializeEntries:
-  - m_GUID: 791472ed991399d4d972afe8fce9e9ee
-    m_Address: BuleltTypeB_Prefab
+  - m_GUID: fd585546c2ae81149a6445e4799aa79b
+    m_Address: GameData
     m_ReadOnly: 0
     m_SerializedLabels:
-    - gameplay
-  - m_GUID: 3b5ba9e377c71284f95f520861c7c19a
-    m_Address: PlayerPrefab
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - gameplay
+    - default
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: e7da8c064d2834f458c2bcf8af1f6581, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: e1eaa54979418e44fa6bdf4601f883b3, type: 2}
-    - {fileID: 11400000, guid: 881f08e3425ac5c409707862111fd0c8, type: 2}
+    - {fileID: 11400000, guid: 1b5e23f05dfd0994d91e593e4323f5dc, type: 2}
