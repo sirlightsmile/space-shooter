@@ -15,6 +15,7 @@ namespace SmileProject.SpaceShooter
 		{
 			AsyncOperationHandle<IResourceLocator> initialize = Addressables.InitializeAsync();
 			await initialize.Task;
+			Debug.Log("ResourceLoader initialized");
 		}
 
 		public static async Task<GameDataModel> LoadGameData()
