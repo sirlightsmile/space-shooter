@@ -12,9 +12,14 @@ namespace SmileProject.SpaceShooter
 			this.poolName = poolName;
 		}
 
-		public virtual void SetAction(bool isActive)
+		public virtual void SetActive(bool isActive)
 		{
 			this.gameObject.SetActive(isActive);
+		}
+
+		public virtual void SetParent(Transform parent)
+		{
+			this.transform.SetParent(parent);
 		}
 
 		public abstract void OnSpawn();

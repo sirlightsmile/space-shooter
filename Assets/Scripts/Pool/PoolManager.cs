@@ -59,14 +59,16 @@ namespace SmileProject.SpaceShooter
 		/// <typeparam name="T">T inherited PoolObject</typeparam>
 		public void ReturnItem<T>(string poolName, T poolObj) where T : PoolObject
 		{
-			Transform container = GetPoolInfo(poolName)?.Container;
-			if (container)
+			PoolInfo poolInfo = GetPoolInfo(poolName);
+			Transform container = poolInfo?.Container;
+			if (poolInfo != null)
 			{
-				poolObj.transform.SetParent(container);
+				poolObj.SetParent(container);
 				poolObj.OnDespawn();
 			}
 			else
 			{
+				// pool already destroyed
 				Destroy(poolObj);
 			}
 		}
@@ -89,7 +91,6 @@ namespace SmileProject.SpaceShooter
 			container.transform.SetParent(poolContainer);
 			PoolInfo poolInfo = new PoolInfo(options, container.transform);
 			poolInfoDict.Add(name, poolInfo);
-			int poolSize = options.InitialSize;
 			AddObjectToPool(poolInfo, options.InitialSize);
 		}
 
@@ -105,13 +106,7 @@ namespace SmileProject.SpaceShooter
 				Debug.LogAssertion($"Pool name [{name}] not exist.");
 				return;
 			}
-
-			List<PoolObject> poolList = poolInfo.PoolList;
-			int lastIndex = poolInfo.PoolList.Count - 1;
-			for (int i = lastIndex - 1; i >= 0; i--)
-			{
-				Destroy(poolList[i]);
-			}
+			Destroy(poolInfo.Container);
 			poolInfoDict.Remove(poolName);
 		}
 
@@ -122,7 +117,7 @@ namespace SmileProject.SpaceShooter
 		/// <returns></returns>
 		public bool HasPool(string poolName)
 		{
-			return poolInfoDict[poolName] != null;
+			return poolInfoDict.ContainsKey(poolName);
 		}
 
 		private void AddObjectToPool(PoolInfo poolInfo, int extendAmount)
@@ -132,7 +127,14 @@ namespace SmileProject.SpaceShooter
 				PoolOptions options = poolInfo.Options;
 				PoolObject prefab = options.Prefab;
 				PoolObject poolObj = Instantiate(prefab, poolContainer);
+
+				Transform container = poolInfo.Container;
+				if (container)
+				{
+					poolObj.SetParent(container);
+				}
 				poolObj.SetPoolName(options.PoolName);
+				poolObj.SetActive(false);
 				poolInfo.PoolList.Add(poolObj);
 			}
 		}
@@ -152,7 +154,8 @@ namespace SmileProject.SpaceShooter
 
 		private PoolInfo GetPoolInfo(string poolName)
 		{
-			PoolInfo poolInfo = poolInfoDict[poolName];
+			PoolInfo poolInfo;
+			poolInfoDict.TryGetValue(poolName, out poolInfo);
 			if (poolInfo == null)
 			{
 				Debug.Log($"Pool info name {poolName} not found");
