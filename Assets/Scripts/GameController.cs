@@ -1,3 +1,5 @@
+using SmileProject.Generic;
+
 namespace SmileProject.SpaceShooter
 {
 	public class GameController : MonoSingleton<GameController>

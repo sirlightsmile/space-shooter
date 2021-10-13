@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using SmileProject.Generic;
 using UnityEngine;
 
 namespace SmileProject.SpaceShooter
