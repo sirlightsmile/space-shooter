@@ -1,4 +1,4 @@
-namespace SmileProject.SpaceShooter
+namespace SmileProject.Generic
 {
 	public abstract class Singleton<T> where T : class, new()
 	{
