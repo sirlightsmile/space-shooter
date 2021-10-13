@@ -1,0 +1,24 @@
+{
+	"space_ship_gun_models" : [
+		{
+			"id": "01",
+			"bullet_type": "TypeA",
+			"bullet_asset": "/asset/TypeA.prefab",
+			"base_damage": 1,
+			"base_speed": 5,
+			"damage_increment": 1,
+			"speed_increment": 2,
+			"max_level": 3
+		},
+		{
+			"id": "02",
+			"bullet_type": "TypeB",
+			"bullet_asset": "/asset/TypeB.prefab",
+			"base_damage": 3,
+			"base_speed": 5,
+			"damage_increment": 1,
+			"speed_increment": 2,
+			"max_level": 3
+		}
+	]
+}
