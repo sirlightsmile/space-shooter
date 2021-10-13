@@ -6,7 +6,7 @@ namespace SmileProject.SpaceShooter
 	public class PlayerController
 	{
 		[SerializeField]
-		private PlayerSpaceShip player;
+		private PlayerSpaceship player;
 
 		private bool allowControl = true;
 
