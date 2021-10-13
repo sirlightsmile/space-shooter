@@ -6,6 +6,8 @@ namespace SmileProject.SpaceShooter
 	{
 		public Weapon Weapon { get; private set; }
 		public int HP { get { return hp; } }
+		protected float width { get { return shipImage.bounds.size.x * shipImage.sprite.pixelsPerUnit; } }
+		protected float height { get { return shipImage.bounds.size.y * shipImage.sprite.pixelsPerUnit; } }
 
 		[SerializeField]
 		protected int hp;
@@ -14,16 +16,15 @@ namespace SmileProject.SpaceShooter
 		protected float speed;
 
 		[SerializeField]
-		protected float atk;
-
-		[SerializeField]
 		protected Transform attackPointTransform;
 
-		public Spaceship(int hp, float speed, float atk)
+		[SerializeField]
+		protected SpriteRenderer shipImage;
+
+		public Spaceship(int hp, float speed)
 		{
 			this.hp = hp;
 			this.speed = speed;
-			this.atk = atk;
 		}
 
 		public void SetWeapon(Weapon weapon)
