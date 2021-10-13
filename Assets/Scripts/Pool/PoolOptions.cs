@@ -6,7 +6,7 @@ namespace SmileProject.SpaceShooter
 		/// <summary>
 		/// Pool object prefab
 		/// </summary>
-		public readonly PoolObject Prefab;
+		public PoolObject Prefab;
 
 		/// <summary>
 		/// Pool name

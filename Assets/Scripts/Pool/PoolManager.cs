@@ -129,8 +129,10 @@ namespace SmileProject.SpaceShooter
 		{
 			for (int i = 0; i < extendAmount; i++)
 			{
-				PoolObject prefab = poolInfo.Options.Prefab;
+				PoolOptions options = poolInfo.Options;
+				PoolObject prefab = options.Prefab;
 				PoolObject poolObj = Instantiate(prefab, poolContainer);
+				poolObj.SetPoolName(options.PoolName);
 				poolInfo.PoolList.Add(poolObj);
 			}
 		}
