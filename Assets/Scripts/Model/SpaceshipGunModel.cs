@@ -1,26 +1,28 @@
+using System;
 using Newtonsoft.Json;
 
 namespace SmileProject.SpaceShooter
 {
+	[Serializable]
 	public class SpaceshipGunModel
 	{
 		[JsonProperty("id")]
 		/// <summary>
 		/// Id of gun
 		/// </summary>
-		public string ID;
+		public string ID { get; private set; }
 
 		[JsonProperty("bullet_type")]
 		/// <summary>
 		/// Type of bullet
 		/// </summary>
-		public BulletType BulletType;
+		public BulletType BulletType { get; private set; }
 
 		[JsonProperty("bullet_asset")]
 		/// <summary>
 		/// Bullet's asset name
 		/// </summary>
-		public string BulletAsset;
+		public string BulletAsset { get; private set; }
 
 		[JsonProperty("base_damage")]
 		/// <summary>
@@ -32,24 +34,24 @@ namespace SmileProject.SpaceShooter
 		/// <summary>
 		/// Damage increase per level
 		/// </summary>
-		public int DamageIncrement;
+		public int DamageIncrement { get; private set; }
 
 		[JsonProperty("base_speed")]
 		/// <summary>
 		/// Base shooting speed
 		/// </summary>
-		public int BaseSpeed;
+		public int BaseSpeed { get; private set; }
 
 		[JsonProperty("speed_increment")]
 		/// <summary>
 		/// Speed increase per level
 		/// </summary>
-		public int SpeedIncrement;
+		public int SpeedIncrement { get; private set; }
 
 		[JsonProperty("max_level")]
 		/// <summary>
 		/// Max Level
 		/// </summary>
-		public int MaxLevel;
+		public int MaxLevel { get; private set; }
 	}
 }
