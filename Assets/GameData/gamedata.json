@@ -3,7 +3,7 @@
 		{
 			"id": "01",
 			"bullet_type": "TypeA",
-			"bullet_asset": "/asset/TypeA.prefab",
+			"bullet_asset": "Bullet_TypeB",
 			"base_damage": 1,
 			"base_speed": 5,
 			"damage_increment": 1,
@@ -13,7 +13,7 @@
 		{
 			"id": "02",
 			"bullet_type": "TypeB",
-			"bullet_asset": "/asset/TypeB.prefab",
+			"bullet_asset": "Bullet_TypeB",
 			"base_damage": 3,
 			"base_speed": 5,
 			"damage_increment": 1,

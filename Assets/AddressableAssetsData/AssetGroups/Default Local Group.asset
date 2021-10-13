@@ -18,7 +18,7 @@ MonoBehaviour:
   m_GUID: aadf56dbc3118b94e99bf9e2ac7c541a
   m_SerializeEntries:
   - m_GUID: 791472ed991399d4d972afe8fce9e9ee
-    m_Address: BuleltTypeB_Prefab
+    m_Address: Bullet_TypeB
     m_ReadOnly: 0
     m_SerializedLabels:
     - gameplay
