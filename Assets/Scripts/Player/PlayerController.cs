@@ -36,7 +36,7 @@ namespace SmileProject.SpaceShooter
 
 			if (Input.GetButtonDown("Fire1"))
 			{
-				//TODO: fire repeat
+				player.Shoot();
 			}
 			else if (Input.GetButtonUp("Fire1"))
 			{
