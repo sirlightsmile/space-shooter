@@ -5,13 +5,13 @@ namespace SmileProject.SpaceShooter
 {
 	public class PlayerController
 	{
-		[SerializeField]
 		private PlayerSpaceship player;
 
 		private bool allowControl = true;
 
-		public void Initialize()
+		public void SetPlayer(PlayerSpaceship player)
 		{
+			this.player = player;
 			player.Destroyed += OnPlayerDestroyed;
 		}
 
@@ -22,7 +22,7 @@ namespace SmileProject.SpaceShooter
 
 		public void Update()
 		{
-			if (!allowControl)
+			if (!allowControl || player == null)
 			{
 				return;
 			}
