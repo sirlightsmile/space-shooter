@@ -40,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3492213799171678313}
-  - component: {fileID: 1244620548}
+  - component: {fileID: 5229204335637424265}
   m_Layer: 8
   m_Name: PlayerShip
   m_TagString: Player
@@ -63,7 +63,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1244620548
+--- !u!114 &5229204335637424265
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -72,12 +72,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 812334156182985140}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ac075afcf5a04b479d4b43b64c415f7, type: 3}
+  m_Script: {fileID: 11500000, guid: ce9ace812f6f1e94dbe336d537b08e1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 10
-  speed: 5
-  atk: 1
+  hp: 0
+  speed: 0
+  atk: 0
+  attackPointTransform: {fileID: 0}
 --- !u!1 &1937234354778291833
 GameObject:
   m_ObjectHideFlags: 0
