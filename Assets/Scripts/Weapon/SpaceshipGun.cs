@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace SmileProject.SpaceShooter
 {
+	/// <summary>
+	/// Common spaceship gun. Infinity bullet
+	/// </summary>
 	public class SpaceshipGun : Weapon
 	{
 		private SpaceshipGunModel model;
