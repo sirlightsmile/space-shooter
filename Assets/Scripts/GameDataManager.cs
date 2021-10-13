@@ -5,13 +5,11 @@ namespace SmileProject.SpaceShooter
 {
 	public class GameDataManager
 	{
-		//TODO: load game data by other ways
-		public TextAsset gameDataJson;
-		public GameDataModel gameData;
+		private GameDataModel gameData;
 
 		public GameDataManager()
 		{
-			gameData = JsonUtility.FromJson<GameDataModel>(gameDataJson.text);
+			gameData = ResourceLoader.LoadGameData(); ;
 		}
 
 		public SpaceshipGunModel GetSpaceshipGunModelById(string id)
