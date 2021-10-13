@@ -31,7 +31,7 @@ namespace SmileProject.SpaceShooter
 		private PlayerController playerController;
 		private WeaponFactory weaponFactory;
 
-		void Awake()
+		void Start()
 		{
 			GameController.GetInstance().GameDataInitialized += OnGameDataInitialized;
 		}
