@@ -14,7 +14,7 @@ namespace SmileProject.SpaceShooter
 		/// Is Game pause
 		/// </summary>
 		/// <value></value>
-		public bool IsPause { get; private set; }
+		public bool IsPause { get; private set; } = true;
 
 		/// <summary>
 		/// Game timer. Start counting on GameStart and stop when pause or game over.
@@ -30,11 +30,9 @@ namespace SmileProject.SpaceShooter
 
 		private PlayerController playerController;
 
-		//TODO: remove and manual trigger initialize
-		private void Start()
+		void Awake()
 		{
-			Initialize();
-			GameStart();
+			GameController.GetInstance().GameDataInitialized += OnGameDataInitialized;
 		}
 
 		/// <summary>
@@ -75,16 +73,30 @@ namespace SmileProject.SpaceShooter
 		{
 			Vector2 spawnPoint = playerSpawnPoint;
 			PlayerSpaceship player = Instantiate<PlayerSpaceship>(playerPrefab, spawnPoint, Quaternion.identity);
+
+			//TODO: set player gun from game data later
+
+			// WeaponFactory factory = new WeaponFactory(Game);
+
 			playerController.SetPlayer(player);
 		}
 
 		private void Update()
 		{
-			if (!IsPause)
+			if (IsPause)
 			{
-				playerController.Update();
-				Timer += Time.time;
+				return;
 			}
+
+			playerController.Update();
+			Timer += Time.time;
+
+		}
+
+		private void OnGameDataInitialized(System.Object sender, EventArgs args)
+		{
+			Initialize();
+			GameStart();
 		}
 	}
 }
