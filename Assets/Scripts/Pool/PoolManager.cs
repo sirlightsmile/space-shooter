@@ -69,7 +69,7 @@ namespace SmileProject.SpaceShooter
 			else
 			{
 				// pool already destroyed
-				Destroy(poolObj);
+				Destroy(poolObj.gameObject);
 			}
 		}
 
@@ -80,17 +80,17 @@ namespace SmileProject.SpaceShooter
 		/// <typeparam name="T">T inherited PoolObject</typeparam>
 		public void CreatePool(PoolOptions options)
 		{
-			string name = options.PoolName;
-			if (GetPoolInfo(name) != null)
+			string poolName = options.PoolName;
+			if (GetPoolInfo(poolName) != null)
 			{
-				Debug.LogAssertion($"Pool name [{name}] already exist.");
+				Debug.LogAssertion($"Pool name [{poolName}] already exist.");
 				return;
 			}
 
-			GameObject container = new GameObject(name);
+			GameObject container = new GameObject(poolName);
 			container.transform.SetParent(poolContainer);
 			PoolInfo poolInfo = new PoolInfo(options, container.transform);
-			poolInfoDict.Add(name, poolInfo);
+			poolInfoDict.Add(poolName, poolInfo);
 			AddObjectToPool(poolInfo, options.InitialSize);
 		}
 
@@ -103,11 +103,12 @@ namespace SmileProject.SpaceShooter
 			PoolInfo poolInfo = GetPoolInfo(poolName);
 			if (poolInfo == null)
 			{
-				Debug.LogAssertion($"Pool name [{name}] not exist.");
+				Debug.LogAssertion($"Pool name [{poolName}] not exist.");
 				return;
 			}
-			Destroy(poolInfo.Container);
+			Destroy(poolInfo.Container.gameObject);
 			poolInfoDict.Remove(poolName);
+			Debug.Log($"Destroy pool : [{poolName}]");
 		}
 
 		/// <summary>
