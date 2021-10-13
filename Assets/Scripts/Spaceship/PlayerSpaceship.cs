@@ -12,18 +12,14 @@ namespace SmileProject.SpaceShooter
 	public class PlayerSpaceship : Spaceship
 	{
 		public EventHandler Destroyed;
-		public int PlayerLevel { get; private set; }
+		public int PlayerLevel { get; private set; } = playerInitialLevel;
 
+		private const int playerInitialLevel = 1;
 		private float moveBorder = 0;
-
-		public PlayerSpaceship(int hp, float speed) : base(hp, speed)
-		{
-			this.PlayerLevel = 1;
-		}
 
 		private void Start()
 		{
-			SetMoveBorder();
+			SetBorder();
 		}
 
 		public override void GetHit(int damage)
@@ -48,7 +44,7 @@ namespace SmileProject.SpaceShooter
 		/// <summary>
 		/// Setup world border for move
 		/// </summary>
-		private void SetMoveBorder()
+		private void SetBorder()
 		{
 			float halfSize = this.width / 2;
 			float borderRight = Screen.width - halfSize;
