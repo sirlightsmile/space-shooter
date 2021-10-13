@@ -9,7 +9,8 @@ namespace SmileProject.SpaceShooter
 
 		public GameDataManager()
 		{
-			gameData = ResourceLoader.LoadGameData(); ;
+			gameData = ResourceLoader.LoadGameData();
+			Debug.Log("Game Data Initialized.");
 		}
 
 		public SpaceshipGunModel GetSpaceshipGunModelById(string id)
