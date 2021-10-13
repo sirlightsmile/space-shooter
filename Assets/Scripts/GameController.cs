@@ -9,7 +9,7 @@ namespace SmileProject.SpaceShooter
 		public EventHandler GameDataInitialized;
 		public GameDataManager GameDataManager { get; private set; }
 
-		void Awake()
+		void Start()
 		{
 			AsyncInitialize();
 		}
@@ -20,15 +20,10 @@ namespace SmileProject.SpaceShooter
 		/// <returns></returns>
 		private async void AsyncInitialize()
 		{
-			Debug.Log("Start initializing.");
 			await ResourceLoader.InitializeAsync();
-			Debug.Log("Addressable initialized");
 
-			Debug.Log("Start initializing game data.");
 			GameDataManager = new GameDataManager();
 			await GameDataManager.Initialize();
-			Debug.Log("Game data initialized.");
-
 			GameDataInitialized?.Invoke(this, new EventArgs());
 		}
 	}
