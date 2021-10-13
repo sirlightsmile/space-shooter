@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace SmileProject.SpaceShooter
 {
@@ -12,19 +13,42 @@ namespace SmileProject.SpaceShooter
 
 		public SpaceshipGun(SpaceshipGunModel model)
 		{
+			this.model = model;
 			SetLevel(WeaponInitialLevel);
 			SetMaxLevel(model.MaxLevel);
 			SetDamage(model.BaseDamage);
 			SetAttackSpeed(model.BaseSpeed);
+
+			InitBulletPool();
+		}
+
+		//TODO: move this to bullet manager or something.
+		private async void InitBulletPool()
+		{
+			if (!PoolManager.GetInstance().HasPool(model.BulletAsset))
+			{
+				Debug.Log($"asset name : {model.BulletAsset}");
+				GameObject obj = await Addressables.LoadAssetAsync<GameObject>(model.BulletAsset).Task;
+				Bullet bullet = obj.GetComponent<Bullet>();
+				PoolOptions options = new PoolOptions
+				{
+					Prefab = bullet,
+					PoolName = model.BulletType.ToString(),
+					InitialSize = 8,
+					CanExtend = true,
+					ExtendAmount = 8
+				};
+				PoolManager.GetInstance().CreatePool(options);
+			}
 		}
 
 		public void Shoot()
 		{
-			Bullet bullet = PoolManager.GetInstance().GetItem<Bullet>(model.BulletAsset);
+			Bullet bullet = PoolManager.GetInstance().GetItem<Bullet>(model.BulletType.ToString());
 			bullet.transform.SetParent(null);
 			bullet.transform.position = attackPointTransform.transform.position;
 			bullet.transform.rotation = attackPointTransform.transform.rotation;
-			bullet.gameObject.SetActive(true);
+			bullet.SetActive(true);
 		}
 
 		public void LevelUp(int addLevel = 1)
