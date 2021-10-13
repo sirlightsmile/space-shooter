@@ -2,7 +2,7 @@
 
 namespace SmileProject.SpaceShooter
 {
-	public abstract class SpaceShip : MonoBehaviour
+	public abstract class Spaceship : MonoBehaviour
 	{
 		public Weapon Weapon { get; private set; }
 		public int HP { get { return hp; } }
@@ -19,7 +19,7 @@ namespace SmileProject.SpaceShooter
 		[SerializeField]
 		protected Transform attackPointTransform;
 
-		public SpaceShip(int hp, float speed, float atk)
+		public Spaceship(int hp, float speed, float atk)
 		{
 			this.hp = hp;
 			this.speed = speed;

@@ -9,11 +9,11 @@ namespace SmileProject.SpaceShooter
 		Right = 1
 	}
 
-	public class PlayerSpaceShip : SpaceShip
+	public class PlayerSpaceship : Spaceship
 	{
 		public EventHandler Destroyed;
 		public int PlayerLevel { get; private set; }
-		public PlayerSpaceShip(int hp, float speed, float atk) : base(hp, speed, atk)
+		public PlayerSpaceship(int hp, float speed, float atk) : base(hp, speed, atk)
 		{
 			this.PlayerLevel = 1;
 		}

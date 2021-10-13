@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace SmileProject.SpaceShooter
 {
-	public class SpaceShipGunModel
+	public class SpaceshipGunModel
 	{
 		[JsonProperty("id")]
 		/// <summary>

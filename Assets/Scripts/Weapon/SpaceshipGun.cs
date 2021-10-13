@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace SmileProject.SpaceShooter
 {
-	public class SpaceShipGun : Weapon
+	public class SpaceshipGun : Weapon
 	{
-		private SpaceShipGunModel model;
+		private SpaceshipGunModel model;
 
-		public SpaceShipGun(SpaceShipGunModel model)
+		public SpaceshipGun(SpaceshipGunModel model)
 		{
 			SetLevel(WeaponInitialLevel);
 			SetMaxLevel(model.MaxLevel);
