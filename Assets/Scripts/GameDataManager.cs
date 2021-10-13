@@ -14,16 +14,17 @@ namespace SmileProject.SpaceShooter
 			gameData = JsonUtility.FromJson<GameDataModel>(gameDataJson.text);
 		}
 
-		public SpaceShipGunModel GetSpaceShipGunModelById(string id)
+		public SpaceshipGunModel GetSpaceshipGunModelById(string id)
 		{
-			SpaceShipGunModel model = Array.Find(GetSpaceShipGunModels(), (obj) => obj.ID == id);
+			SpaceshipGunModel model = Array.Find(GetSpaceshipGunModels(), (obj) => obj.ID == id);
+			Debug.Assert(model != null, $"SpaceShipGun game data id : [{id}] not found.");
 			return model;
 		}
 
-		public SpaceShipGunModel[] GetSpaceShipGunModels()
+		public SpaceshipGunModel[] GetSpaceshipGunModels()
 		{
-			Debug.Assert(gameData.spaceShipGameData != null, "SpaceShipGun game data should not be null.");
-			return gameData.spaceShipGameData;
+			Debug.Assert(gameData.spaceshipGameData != null, "SpaceShipGun game data should not be null.");
+			return gameData.spaceshipGameData;
 		}
 	}
 }
