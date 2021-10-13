@@ -29,6 +29,7 @@ namespace SmileProject.SpaceShooter
 		private PlayerSpaceship playerPrefab;
 
 		private PlayerController playerController;
+		private WeaponFactory weaponFactory;
 
 		void Awake()
 		{
@@ -40,6 +41,9 @@ namespace SmileProject.SpaceShooter
 		/// </summary>
 		public void Initialize()
 		{
+			GameDataManager manager = GameController.GetInstance().GameDataManager;
+			weaponFactory = new WeaponFactory(manager);
+
 			Timer = 0;
 			IsPause = true;
 			playerController = new PlayerController();
@@ -73,11 +77,8 @@ namespace SmileProject.SpaceShooter
 		{
 			Vector2 spawnPoint = playerSpawnPoint;
 			PlayerSpaceship player = Instantiate<PlayerSpaceship>(playerPrefab, spawnPoint, Quaternion.identity);
-
-			//TODO: set player gun from game data later
-
-			// WeaponFactory factory = new WeaponFactory(Game);
-
+			SpaceshipGun startGun = weaponFactory.CreateRandomSpaceshipGun();
+			player.SetWeapon(startGun);
 			playerController.SetPlayer(player);
 		}
 

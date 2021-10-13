@@ -8,6 +8,10 @@ namespace SmileProject.SpaceShooter
 	{
 		private GameDataModel gameData;
 
+		/// <summary>
+		/// Load game data to game data manager. Call only once per session.
+		/// </summary>
+		/// <returns></returns>
 		public async Task Initialize()
 		{
 			gameData = await ResourceLoader.LoadGameData();
