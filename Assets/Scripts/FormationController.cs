@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using SmileProject.Generic;
 using UnityEngine;
 
@@ -24,6 +27,31 @@ namespace SmileProject.SpaceShooter
 
 		[SerializeField]
 		private Transform formationContainer;
+		private Dictionary<FormationType, List<FormationPoint>> formationMap = new Dictionary<FormationType, List<FormationPoint>>();
+
+		private void Start()
+		{
+			Setup();
+		}
+
+		public void Setup()
+		{
+			FormationPoint[] formationPoints = formationContainer.GetComponentsInChildren<FormationPoint>();
+			foreach (FormationPoint point in formationPoints)
+			{
+				FormationType pointFormation = point.GetFormations();
+				IEnumerable<FormationType> flags = pointFormation.GetFlags<FormationType>();
+				foreach (FormationType formation in flags)
+				{
+					if (!formationMap.ContainsKey(formation))
+					{
+						formationMap.Add(formation, new List<FormationPoint>());
+					}
+
+					formationMap[formation].Add(point);
+				}
+			}
+		}
 
 		public bool IsActiveFormation(FormationType flag)
 		{

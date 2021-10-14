@@ -11,9 +11,14 @@ namespace SmileProject.SpaceShooter
 		/// </summary>
 		private FormationType formationTypes;
 
-		void Start()
+		private void Start()
 		{
 			Debug.Assert(formationTypes != FormationType.None, "Formation point should have at least one formation");
+		}
+
+		public FormationType GetFormations()
+		{
+			return this.formationTypes;
 		}
 
 #if UNITY_EDITOR
