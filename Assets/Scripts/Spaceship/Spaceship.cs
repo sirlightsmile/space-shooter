@@ -22,7 +22,7 @@ namespace SmileProject.SpaceShooter
 
 		protected SpaceshipGun weapon;
 
-		public void Shoot()
+		public virtual void Shoot()
 		{
 			if (weapon == null)
 			{
@@ -32,17 +32,22 @@ namespace SmileProject.SpaceShooter
 			weapon.Shoot();
 		}
 
-		public void SetHP(int hp)
+		public virtual void SetSprite(Sprite sprite)
+		{
+			this.shipImage.sprite = sprite;
+		}
+
+		public virtual void SetHP(int hp)
 		{
 			this.hp = hp;
 		}
 
-		public void SetSpeed(int speed)
+		public virtual void SetSpeed(int speed)
 		{
 			this.speed = speed;
 		}
 
-		public void SetWeapon(SpaceshipGun weapon)
+		public virtual void SetWeapon(SpaceshipGun weapon)
 		{
 			this.weapon = weapon;
 			this.weapon.SetAttackPointTransform(attackPointTransform);
