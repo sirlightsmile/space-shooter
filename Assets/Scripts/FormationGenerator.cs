@@ -20,7 +20,6 @@ namespace SmileProject.SpaceShooter
 			Reset();
 		}
 
-		[ContextMenu("GenerateFormation")]
 		void GenerateFormation()
 		{
 			if (!trigger)
@@ -36,15 +35,13 @@ namespace SmileProject.SpaceShooter
 					Vector2 startPos = Vector2.zero;
 					GameObject obj = new GameObject($"FormationPoint_{x}_{y}");
 					obj.transform.SetParent(container);
-					FormationPoint point = obj.AddComponent<FormationPoint>();
+					obj.AddComponent<FormationPoint>();
 					obj.transform.localPosition = new Vector2(startPos.x + (x * widthInterval), -(startPos.y + (y * heightInterval)));
 
 					// even or odd number
 					FormationType formation = FormationType.None;
 					FormationType linerFormation = (FormationType)Enum.ToObject(typeof(FormationType), 1 << y);
-					formation &= FormationType.LinerOne;
-
-					point.SetFormationFlag(FormationType.LinerOne);
+					formation |= linerFormation;
 				}
 			}
 		}
