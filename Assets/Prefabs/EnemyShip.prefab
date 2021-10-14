@@ -77,10 +77,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 3
-  speed: 5
+  speed: 10
   attackPointTransform: {fileID: 755940592231839850}
   shipImage: {fileID: 657401795837474271}
   pattern: 0
+  smoothTime: 0.5
+  approximate: 0.01
 --- !u!1 &1937234354778291833
 GameObject:
   m_ObjectHideFlags: 0
