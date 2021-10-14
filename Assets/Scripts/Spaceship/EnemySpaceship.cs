@@ -52,6 +52,7 @@ namespace SmileProject.SpaceShooter
 			if (MoveCoroutine != null)
 			{
 				StopCoroutine(MoveCoroutine);
+				MoveCoroutine = null;
 			}
 		}
 
