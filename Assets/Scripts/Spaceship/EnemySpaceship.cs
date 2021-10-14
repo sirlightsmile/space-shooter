@@ -13,6 +13,18 @@ namespace SmileProject.SpaceShooter
 	{
 		public MovePattern pattern;
 
+		[SerializeField]
+		/// <summary>
+		/// Move smooth time
+		/// </summary>
+		private float smoothTime = 0.5f;
+
+		[SerializeField]
+		/// <summary>
+		/// Reach target approximate distance
+		/// </summary>
+		private float approximate = 0.01f;
+
 		public Coroutine MoveCoroutine;
 
 		//TODO: implement setup enemy ship from enemy data
@@ -37,29 +49,34 @@ namespace SmileProject.SpaceShooter
 
 		protected override void ShipDestroy()
 		{
-			throw new System.NotImplementedException();
+			if (MoveCoroutine != null)
+			{
+				StopCoroutine(MoveCoroutine);
+			}
 		}
 
-		private IEnumerator MoveToTargetCoroutine(Vector3 targetPos)
+		private IEnumerator MoveToTargetCoroutine(Vector2 targetPos)
 		{
-			float startTime = Time.time;
-			float duration = 1f; // formation speed
-			while (Time.time - startTime < duration)
+			Vector2 currentPos = this.transform.position;
+			float distance = Vector2.Distance(currentPos, targetPos);
+			Vector2 velocity = Vector3.zero;
+
+			while (distance > approximate)
 			{
-				this.transform.LookAt(targetPos);
-				this.transform.position = Vector3.Lerp(this.transform.position, targetPos, (Time.time - startTime) / duration);
-				yield return new WaitForFixedUpdate();
+				transform.position = Vector2.SmoothDamp(transform.position, targetPos, ref velocity, smoothTime, speed);
+				currentPos = this.transform.position;
+				distance = (targetPos - currentPos).magnitude;
+				yield return null;
 			}
+			// snap
+			this.transform.position = targetPos;
 			OnTargetReached();
 			MoveCoroutine = null;
 		}
 
-		private void Update()
-		{
-		}
-
 		private void OnTargetReached()
 		{
+			Debug.Log("On target reached");
 			//TODO: rotate down
 		}
 	}
