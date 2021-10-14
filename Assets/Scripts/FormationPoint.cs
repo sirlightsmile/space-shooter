@@ -11,16 +11,15 @@ namespace SmileProject.SpaceShooter
 		/// </summary>
 		private FormationType formationTypes;
 
-		[SerializeField]
-		private FormationController controller;
-
 		void Start()
 		{
 			Debug.Assert(formationTypes != FormationType.None, "Formation point should have at least one formation");
-			this.controller = FormationController.GetInstance();
 		}
 
 #if UNITY_EDITOR
+		[SerializeField]
+		private FormationController controller;
+
 		void OnDrawGizmos()
 		{
 			if (controller != null && controller.IsActiveFormation(this.formationTypes))
