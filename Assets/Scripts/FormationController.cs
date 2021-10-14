@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using SmileProject.Generic;
 using UnityEngine;
 
