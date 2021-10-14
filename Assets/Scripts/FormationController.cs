@@ -1,34 +1,34 @@
 using System.Collections.Generic;
 using SmileProject.Generic;
+using UnityEngine;
 
 namespace SmileProject.SpaceShooter
 {
 	[System.Flags]
 	public enum FormationType
 	{
+		None = 0,  // default value
 		LinerOne = 1 << 0,
 		LinerTwo = 1 << 1,
 		LinearThree = 1 << 2,
 		LinearFour = 1 << 3,
 		SideZigzag = 1 << 4,
-		UpperZigZagA = 1 << 5,
-		UpperZigZagB = 1 << 6,
-		BottomZigzagA = 1 << 7,
-		BottomZigzagB = 1 << 8,
-		CenterGroup = 1 << 9,
+		UpperZigZag = 1 << 5,
+		BottomZigzag = 1 << 6,
+		CenterGroup = 1 << 7,
 	}
 
 	public class FormationController : MonoSingleton<FormationController>
 	{
-		private Dictionary<FormationType, bool> formationStatus = new Dictionary<FormationType, bool>();
+		[SerializeField, EnumFlag(EnumFlagAttribute.FlagLayout.List)]
+		private FormationType activeFormation;
 
-		public bool IsActiveFormation(FormationType type)
+		[SerializeField]
+		private Transform formationContainer;
+
+		public bool IsActiveFormation(FormationType flag)
 		{
-			if (formationStatus.TryGetValue(type, out bool status))
-			{
-				return status;
-			}
-			return false;
+			return flag.IsFlagSet(activeFormation);
 		}
 	}
 }
