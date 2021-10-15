@@ -34,7 +34,7 @@ namespace SmileProject.SpaceShooter
 
 		private void Start()
 		{
-			Setup();
+			Initialize();
 		}
 
 		private void Update()
@@ -66,7 +66,7 @@ namespace SmileProject.SpaceShooter
 			}
 		}
 
-		public void Setup()
+		public void Initialize()
 		{
 			FormationPoint[] formationPoints = formationContainer.GetComponentsInChildren<FormationPoint>();
 			foreach (FormationPoint point in formationPoints)
