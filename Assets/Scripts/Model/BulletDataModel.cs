@@ -2,6 +2,8 @@ namespace SmileProject.SpaceShooter
 {
 	public class BulletDataModel
 	{
+		public const string BulletAssetPath = "BulletPrefabs/";
+
 		/// <summary>
 		/// Id of bullet
 		/// </summary>

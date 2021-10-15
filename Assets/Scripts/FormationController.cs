@@ -1,10 +1,12 @@
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using SmileProject.Generic;
 using UnityEngine;
 
 namespace SmileProject.SpaceShooter
 {
 	[System.Flags]
+	[JsonConverter(typeof(FlagConverter))]
 	public enum FormationType
 	{
 		LinearOne = 1 << 0,
