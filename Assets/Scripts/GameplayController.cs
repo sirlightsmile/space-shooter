@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SmileProject.SpaceShooter
 {
-	public class GameplayController : MonoSingleton<GameController>
+	public class GameplayController : MonoBehaviour
 	{
 		public event EventHandler Pause;
 
