@@ -66,12 +66,12 @@ namespace SmileProject.SpaceShooter
 
 		private void OnLandedShipDestroyed(Spaceship destroyedSpaceship)
 		{
+			destroyedSpaceship.Destroyed -= OnLandedShipDestroyed;
 			if (this.spaceship != destroyedSpaceship)
 			{
 				Debug.LogError("Wrong landed ship destroy listener");
 				return;
 			}
-			destroyedSpaceship.Destroyed -= OnLandedShipDestroyed;
 			this.spaceship = null;
 		}
 
