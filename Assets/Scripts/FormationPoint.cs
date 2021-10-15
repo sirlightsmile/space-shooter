@@ -86,6 +86,6 @@ namespace SmileProject.SpaceShooter
 				Gizmos.DrawWireSphere(this.transform.position, 0.5f);
 			}
 		}
-	}
 #endif
+	}
 }
