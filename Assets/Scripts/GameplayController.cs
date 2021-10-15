@@ -35,6 +35,7 @@ namespace SmileProject.SpaceShooter
 		private WeaponFactory weaponFactory;
 		private GameDataManager gameDataManager;
 		private SpaceshipBuilder spaceshipBuilder;
+		private EnemyManager enemyManager;
 
 		private int currentWave;
 
@@ -46,6 +47,7 @@ namespace SmileProject.SpaceShooter
 			weaponFactory = new WeaponFactory(gameDataManager);
 			playerController = new PlayerController();
 			spaceshipBuilder = new SpaceshipBuilder(resourceLoader);
+			enemyManager = new EnemyManager();
 
 			Timer = 0;
 			IsPause = true;
