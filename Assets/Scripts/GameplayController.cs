@@ -33,18 +33,20 @@ namespace SmileProject.SpaceShooter
 
 		private PlayerController playerController;
 		private WeaponFactory weaponFactory;
+		private GameDataManager gameDataManager;
+
 		private int currentWave;
+
 		/// <summary>
 		/// Initialize gameplay controller
 		/// </summary>
 		public void Initialize(GameDataManager gameDataManager)
 		{
-			GameDataManager manager = gameDataManager;
-			weaponFactory = new WeaponFactory(manager);
+			weaponFactory = new WeaponFactory(gameDataManager);
+			playerController = new PlayerController();
 
 			Timer = 0;
 			IsPause = true;
-			playerController = new PlayerController();
 			InitPlayer();
 		}
 
@@ -90,12 +92,6 @@ namespace SmileProject.SpaceShooter
 			playerController.Update();
 			Timer += Time.time;
 
-		}
-
-		private void OnGameDataInitialized(System.Object sender, EventArgs args)
-		{
-			// Initialize();
-			GameStart();
 		}
 	}
 }
