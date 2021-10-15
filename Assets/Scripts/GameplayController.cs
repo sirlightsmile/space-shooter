@@ -6,9 +6,12 @@ namespace SmileProject.SpaceShooter
 {
 	public class GameplayController : MonoSingleton<GameController>
 	{
-		public EventHandler Pause;
+		public event EventHandler Pause;
 
-		public EventHandler Resume;
+		public event EventHandler Resume;
+
+		public event WaveChangeEventHandler WaveChange;
+		public delegate void WaveChangeEventHandler(int newWave);
 
 		/// <summary>
 		/// Is Game pause
@@ -30,6 +33,7 @@ namespace SmileProject.SpaceShooter
 
 		private PlayerController playerController;
 		private WeaponFactory weaponFactory;
+		private int currentWave;
 
 		void Start()
 		{
