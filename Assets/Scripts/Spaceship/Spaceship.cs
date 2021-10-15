@@ -3,15 +3,10 @@ using UnityEngine.Events;
 
 namespace SmileProject.SpaceShooter
 {
-	public abstract class Spaceship : MonoBehaviour
+	public abstract class Spaceship : MonoBehaviour, ISpaceship
 	{
 		public event SpaceshipDestroyed Destroyed;
 		public delegate void SpaceshipDestroyed(Spaceship spaceship);
-
-		public UnityEvent unityEventTest;
-		public UnityAction unityActionTest;
-
-		public int HP { get { return hp; } }
 		protected float width { get { return shipImage.bounds.size.x * shipImage.sprite.pixelsPerUnit; } }
 		protected float height { get { return shipImage.bounds.size.y * shipImage.sprite.pixelsPerUnit; } }
 
@@ -33,7 +28,6 @@ namespace SmileProject.SpaceShooter
 		{
 			this.SetHP(spaceshipModel.HP);
 			this.SetSpeed(spaceshipModel.Speed);
-			//TODO: set sprite
 		}
 
 		public virtual void Shoot()

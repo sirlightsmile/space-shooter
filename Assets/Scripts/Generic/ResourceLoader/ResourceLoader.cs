@@ -4,6 +4,7 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.AddressableAssets.ResourceLocators;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using Newtonsoft.Json;
+using System;
 
 namespace SmileProject.Generic
 {
@@ -33,9 +34,9 @@ namespace SmileProject.Generic
 			return loadedAsset;
 		}
 
-		public async Task<T> InstantiateAsync<T>(object key, Vector3 position) where T : MonoBehaviour
+		public async Task<T> InstantiateAsync<T>(object key, Transform parent = null, bool instantiateInWorldSpace = false, bool trackHandle = true) where T : MonoBehaviour
 		{
-			AsyncOperationHandle<GameObject> loadAssetAsync = Addressables.InstantiateAsync(key, position, Quaternion.identity);
+			AsyncOperationHandle<GameObject> loadAssetAsync = Addressables.InstantiateAsync(key, parent);
 			loadAssetAsync.Completed += (operation) =>
 			{
 				if (operation.Status == AsyncOperationStatus.Failed)
@@ -59,10 +60,10 @@ namespace SmileProject.Generic
 			return model;
 		}
 
-		public async void SetSpriteAsync(string key, SpriteRenderer spriteRenderer)
+		public async void SetSpriteAsync(string key, SetSpriteHandler spriteHandler)
 		{
 			Sprite sprite = await Load<Sprite>(key);
-			spriteRenderer.sprite = sprite;
+			spriteHandler?.Invoke(sprite);
 		}
 	}
 }
