@@ -1,20 +1,22 @@
 using UnityEngine;
 using System;
 using System.Threading.Tasks;
+using SmileProject.Generic;
 
 namespace SmileProject.SpaceShooter
 {
 	public class GameDataManager
 	{
+		private const string gameDataKey = "GameData";
 		private GameDataModel gameData;
 
 		/// <summary>
 		/// Load game data to game data manager. Call only once per session.
 		/// </summary>
 		/// <returns></returns>
-		public async Task Initialize()
+		public async Task Initialize(IResourceLoader resourceLoader)
 		{
-			gameData = await ResourceLoader.LoadGameData();
+			gameData = await resourceLoader.LoadJsonAsModel<GameDataModel>(gameDataKey);
 			Debug.Log("Game Data Initialized.");
 		}
 
