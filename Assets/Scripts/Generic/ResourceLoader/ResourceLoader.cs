@@ -33,6 +33,25 @@ namespace SmileProject.Generic
 			return loadedAsset;
 		}
 
+		public async Task<T> InstantiateAsync<T>(object key, Vector3 position) where T : MonoBehaviour
+		{
+			AsyncOperationHandle<GameObject> loadAssetAsync = Addressables.InstantiateAsync(key, position, Quaternion.identity);
+			loadAssetAsync.Completed += (operation) =>
+			{
+				if (operation.Status == AsyncOperationStatus.Failed)
+				{
+					Debug.LogError($"Failed to instantiate asset : [key]");
+				}
+			};
+			GameObject instantiatedObject = await loadAssetAsync.Task;
+			T component = instantiatedObject.GetComponent<T>();
+			if (component == null)
+			{
+				Debug.LogError($"Failed to get component [{typeof(T).Name}] from instantiate object");
+			}
+			return component;
+		}
+
 		public async Task<T> LoadJsonAsModel<T>(string key)
 		{
 			TextAsset textAsset = await Load<TextAsset>(key);
