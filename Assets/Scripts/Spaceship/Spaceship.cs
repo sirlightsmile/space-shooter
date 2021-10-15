@@ -29,6 +29,13 @@ namespace SmileProject.SpaceShooter
 
 		protected SpaceshipGun weapon;
 
+		public virtual void Setup(SpaceshipModel spaceshipModel)
+		{
+			this.SetHP(spaceshipModel.HP);
+			this.SetSpeed(spaceshipModel.Speed);
+			//TODO: set sprite
+		}
+
 		public virtual void Shoot()
 		{
 			if (weapon == null)
@@ -49,7 +56,7 @@ namespace SmileProject.SpaceShooter
 			this.hp = hp;
 		}
 
-		public virtual void SetSpeed(int speed)
+		public virtual void SetSpeed(float speed)
 		{
 			this.speed = speed;
 		}

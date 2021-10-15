@@ -20,7 +20,7 @@ namespace SmileProject.SpaceShooter
 		/// <summary>
 		/// Spaceship HP
 		/// </summary>
-		public float HP { get; private set; }
+		public int HP { get; private set; }
 
 		[JsonProperty("speed")]
 		/// <summary>
