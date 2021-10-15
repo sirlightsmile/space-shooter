@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 248e8de361949ce499521fcb33e321cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationTypes: 264
+  formationTypes: 132
   controller: {fileID: 1911406246}
 --- !u!1 &261815864747086495
 GameObject:
@@ -158,7 +158,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 248e8de361949ce499521fcb33e321cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationTypes: 98
+  formationTypes: 33
   controller: {fileID: 1911406246}
 --- !u!1 &876272837516207896
 GameObject:
@@ -203,7 +203,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 248e8de361949ce499521fcb33e321cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationTypes: 66
+  formationTypes: 33
   controller: {fileID: 1911406246}
 --- !u!1 &1009734841509692707
 GameObject:
@@ -248,7 +248,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 248e8de361949ce499521fcb33e321cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationTypes: 2
+  formationTypes: 1
   controller: {fileID: 1911406246}
 --- !u!1 &1688098033678735316
 GameObject:
@@ -293,7 +293,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 248e8de361949ce499521fcb33e321cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationTypes: 16
+  formationTypes: 8
   controller: {fileID: 1911406246}
 --- !u!1 &1932378869883731304
 GameObject:
@@ -338,7 +338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 248e8de361949ce499521fcb33e321cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationTypes: 16
+  formationTypes: 8
   controller: {fileID: 1911406246}
 --- !u!1 &2452431407493955357
 GameObject:
@@ -383,7 +383,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 248e8de361949ce499521fcb33e321cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationTypes: 144
+  formationTypes: 72
   controller: {fileID: 1911406246}
 --- !u!1 &2626269083939715253
 GameObject:
@@ -428,7 +428,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 248e8de361949ce499521fcb33e321cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationTypes: 16
+  formationTypes: 24
   controller: {fileID: 1911406246}
 --- !u!1 &2709909668817278252
 GameObject:
@@ -473,7 +473,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 248e8de361949ce499521fcb33e321cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationTypes: 136
+  formationTypes: 68
   controller: {fileID: 1911406246}
 --- !u!1 &2777684726969695104
 GameObject:
@@ -518,7 +518,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 248e8de361949ce499521fcb33e321cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationTypes: 260
+  formationTypes: 130
   controller: {fileID: 1911406246}
 --- !u!1 &2850790638704014541
 GameObject:
@@ -563,7 +563,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 248e8de361949ce499521fcb33e321cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationTypes: 324
+  formationTypes: 162
   controller: {fileID: 1911406246}
 --- !u!1 &2968964612437106865
 GameObject:
@@ -608,7 +608,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 248e8de361949ce499521fcb33e321cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationTypes: 264
+  formationTypes: 132
   controller: {fileID: 1911406246}
 --- !u!1 &3038976180133392523
 GameObject:
@@ -653,7 +653,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 248e8de361949ce499521fcb33e321cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationTypes: 34
+  formationTypes: 17
   controller: {fileID: 1911406246}
 --- !u!1 &3213723687191623890
 GameObject:
@@ -698,7 +698,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 248e8de361949ce499521fcb33e321cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationTypes: 176
+  formationTypes: 72
   controller: {fileID: 1911406246}
 --- !u!1 &3980086213149163035
 GameObject:
@@ -743,7 +743,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 248e8de361949ce499521fcb33e321cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationTypes: 66
+  formationTypes: 33
   controller: {fileID: 1911406246}
 --- !u!1 &4100950177847911493
 GameObject:
@@ -788,7 +788,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 248e8de361949ce499521fcb33e321cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationTypes: 40
+  formationTypes: 20
   controller: {fileID: 1911406246}
 --- !u!1 &4244964700155541206
 GameObject:
@@ -833,7 +833,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 248e8de361949ce499521fcb33e321cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationTypes: 68
+  formationTypes: 34
   controller: {fileID: 1911406246}
 --- !u!1 &4307024917030931477
 GameObject:
@@ -878,7 +878,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 248e8de361949ce499521fcb33e321cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationTypes: 168
+  formationTypes: 68
   controller: {fileID: 1911406246}
 --- !u!1 &4712298745998783939
 GameObject:
@@ -923,7 +923,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 248e8de361949ce499521fcb33e321cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationTypes: 36
+  formationTypes: 18
   controller: {fileID: 1911406246}
 --- !u!1 &4732040458079034953
 GameObject:
@@ -968,7 +968,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 248e8de361949ce499521fcb33e321cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationTypes: 66
+  formationTypes: 33
   controller: {fileID: 1911406246}
 --- !u!1 &4866457922263566813
 GameObject:
@@ -1013,7 +1013,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 248e8de361949ce499521fcb33e321cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationTypes: 144
+  formationTypes: 72
   controller: {fileID: 1911406246}
 --- !u!1 &4899200898371163289
 GameObject:
@@ -1058,7 +1058,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 248e8de361949ce499521fcb33e321cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationTypes: 2
+  formationTypes: 1
   controller: {fileID: 1911406246}
 --- !u!1 &5676335780951439573
 GameObject:
@@ -1103,7 +1103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 248e8de361949ce499521fcb33e321cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationTypes: 16
+  formationTypes: 8
   controller: {fileID: 1911406246}
 --- !u!1 &6167314910471881710
 GameObject:
@@ -1148,7 +1148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 248e8de361949ce499521fcb33e321cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationTypes: 144
+  formationTypes: 72
   controller: {fileID: 1911406246}
 --- !u!1 &6441835745230924928
 GameObject:
@@ -1193,7 +1193,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 248e8de361949ce499521fcb33e321cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationTypes: 4
+  formationTypes: 18
   controller: {fileID: 1911406246}
 --- !u!1 &6598361664889768683
 GameObject:
@@ -1238,7 +1238,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 248e8de361949ce499521fcb33e321cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationTypes: 48
+  formationTypes: 24
   controller: {fileID: 1911406246}
 --- !u!1 &6655813430693130073
 GameObject:
@@ -1283,7 +1283,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 248e8de361949ce499521fcb33e321cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationTypes: 2
+  formationTypes: 17
   controller: {fileID: 1911406246}
 --- !u!1 &6782832544374005028
 GameObject:
@@ -1328,7 +1328,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 248e8de361949ce499521fcb33e321cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationTypes: 66
+  formationTypes: 33
   controller: {fileID: 1911406246}
 --- !u!1 &6961224705470775963
 GameObject:
@@ -1373,7 +1373,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 248e8de361949ce499521fcb33e321cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationTypes: 100
+  formationTypes: 34
   controller: {fileID: 1911406246}
 --- !u!1 &7024405258901356256
 GameObject:
@@ -1418,7 +1418,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 248e8de361949ce499521fcb33e321cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationTypes: 4
+  formationTypes: 2
   controller: {fileID: 1911406246}
 --- !u!1 &7125752338940371628
 GameObject:
@@ -1463,7 +1463,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 248e8de361949ce499521fcb33e321cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationTypes: 68
+  formationTypes: 34
   controller: {fileID: 1911406246}
 --- !u!1 &7166489411521139891
 GameObject:
@@ -1508,7 +1508,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 248e8de361949ce499521fcb33e321cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationTypes: 392
+  formationTypes: 196
   controller: {fileID: 1911406246}
 --- !u!1 &7379860720961240595
 GameObject:
@@ -1553,7 +1553,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 248e8de361949ce499521fcb33e321cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationTypes: 144
+  formationTypes: 72
   controller: {fileID: 1911406246}
 --- !u!1 &7425154808340231945
 GameObject:
@@ -1598,7 +1598,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 248e8de361949ce499521fcb33e321cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationTypes: 324
+  formationTypes: 162
   controller: {fileID: 1911406246}
 --- !u!1 &7732540804737094759
 GameObject:
@@ -1643,7 +1643,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 248e8de361949ce499521fcb33e321cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationTypes: 260
+  formationTypes: 130
   controller: {fileID: 1911406246}
 --- !u!1 &7815317924658825517
 GameObject:
@@ -1688,7 +1688,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 248e8de361949ce499521fcb33e321cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationTypes: 136
+  formationTypes: 68
   controller: {fileID: 1911406246}
 --- !u!1 &7970437974119366849
 GameObject:
@@ -1734,8 +1734,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cef8fe5d8596048438ae23918f38263b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeFormation: 0
+  activeFormations: 0
   formationContainer: {fileID: 6058031320243170520}
+  trigger: 0
+  enemyPrefab: {fileID: 6899399453829682022, guid: 9c94337c5f17050458b5999f93e2e68e,
+    type: 3}
+  spawnpoint: {fileID: 0}
 --- !u!1 &7970437974157887839
 GameObject:
   m_ObjectHideFlags: 0
@@ -1810,7 +1814,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 248e8de361949ce499521fcb33e321cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationTypes: 8
+  formationTypes: 4
   controller: {fileID: 1911406246}
 --- !u!1 &8864294844891530972
 GameObject:
@@ -1855,7 +1859,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 248e8de361949ce499521fcb33e321cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationTypes: 392
+  formationTypes: 196
   controller: {fileID: 1911406246}
 --- !u!1 &9029513075976298684
 GameObject:
@@ -1900,7 +1904,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 248e8de361949ce499521fcb33e321cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationTypes: 2
+  formationTypes: 1
   controller: {fileID: 1911406246}
 --- !u!1 &9092961644971233742
 GameObject:
@@ -1945,5 +1949,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 248e8de361949ce499521fcb33e321cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationTypes: 8
+  formationTypes: 20
   controller: {fileID: 1911406246}

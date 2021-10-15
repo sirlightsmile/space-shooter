@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using UnityEngine;
 
 namespace SmileProject.SpaceShooter
@@ -13,12 +14,17 @@ namespace SmileProject.SpaceShooter
 
 		private void Start()
 		{
-			Debug.Assert(formationTypes != FormationType.None, "Formation point should have at least one formation");
+			Debug.Assert(formationTypes.GetFlags<FormationType>().Count() > 0, "Formation point should have at least one formation");
 		}
 
 		public FormationType GetFormations()
 		{
 			return this.formationTypes;
+		}
+
+		public Vector2 GetPosition()
+		{
+			return this.transform.position;
 		}
 
 #if UNITY_EDITOR

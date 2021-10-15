@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using SmileProject.Generic;
 using UnityEngine;
 
@@ -9,7 +7,6 @@ namespace SmileProject.SpaceShooter
 	[System.Flags]
 	public enum FormationType
 	{
-		None = 0,  // default value
 		LinerOne = 1 << 0,
 		LinerTwo = 1 << 1,
 		LinearThree = 1 << 2,
@@ -23,15 +20,42 @@ namespace SmileProject.SpaceShooter
 	public class FormationController : MonoSingleton<FormationController>
 	{
 		[SerializeField, EnumFlag(EnumFlagAttribute.FlagLayout.List)]
-		private FormationType activeFormation;
+		private FormationType activeFormations;
 
 		[SerializeField]
 		private Transform formationContainer;
 		private Dictionary<FormationType, List<FormationPoint>> formationMap = new Dictionary<FormationType, List<FormationPoint>>();
 
+		public bool trigger = false;
+		public EnemySpaceship enemyPrefab;
+		public Transform spawnpoint;
+
 		private void Start()
 		{
 			Setup();
+		}
+
+		private void Update()
+		{
+			if (!trigger)
+			{
+				return;
+			}
+
+			trigger = false;
+
+			IEnumerable<FormationType> formations = activeFormations.GetFlags<FormationType>();
+			foreach (FormationType formation in formations)
+			{
+				if (formationMap.TryGetValue(formation, out var points))
+				{
+					foreach (FormationPoint point in points)
+					{
+						EnemySpaceship enemy = Instantiate<EnemySpaceship>(enemyPrefab, spawnpoint);
+						enemy.MoveToTarget(point.GetPosition());
+					}
+				}
+			}
 		}
 
 		public void Setup()
@@ -47,7 +71,6 @@ namespace SmileProject.SpaceShooter
 					{
 						formationMap.Add(formation, new List<FormationPoint>());
 					}
-
 					formationMap[formation].Add(point);
 				}
 			}
@@ -55,7 +78,7 @@ namespace SmileProject.SpaceShooter
 
 		public bool IsActiveFormation(FormationType flag)
 		{
-			return flag.IsFlagSet(activeFormation);
+			return flag.IsFlagSet(activeFormations);
 		}
 	}
 }
