@@ -17,17 +17,13 @@ namespace SmileProject.SpaceShooter
 		/// </summary>
 		private float approximate = 0.01f;
 
-		public Coroutine MoveCoroutine;
+		private Coroutine MoveCoroutine;
+		private int destroyScore;
 
-		//TODO: implement setup enemy ship from enemy data
-		public void Setup()
+		public void SetDestroyScore(int destroyScore)
 		{
-			SetHP(2);
-			SetSpeed(5);
-			// SetWeapon(2);
-			// SetSprite()
+			this.destroyScore = destroyScore;
 		}
-
 
 		public void MoveToTarget(Vector3 targetPos)
 		{

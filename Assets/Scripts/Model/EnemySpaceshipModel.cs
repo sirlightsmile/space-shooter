@@ -8,6 +8,6 @@ namespace SmileProject.SpaceShooter
 		/// <summary>
 		/// Score player will get when destroyed
 		/// </summary>
-		public string Score { get; private set; }
+		public int Score { get; private set; }
 	}
 }

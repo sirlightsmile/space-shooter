@@ -14,7 +14,7 @@ namespace SmileProject.SpaceShooter
 			this.resourceLoader = resourceLoader;
 		}
 
-		public async Task<T> BuildSpaceship<T>(string templateKey, SpaceshipModel model) where T : MonoBehaviour, ISpaceship
+		public async virtual Task<T> BuildSpaceship<T, T2>(string templateKey, T2 model) where T : MonoBehaviour, ISpaceship where T2 : SpaceshipModel
 		{
 			string spriteName = model.AssetName;
 			T spaceship = await resourceLoader.InstantiateAsync<T>(templateKey);

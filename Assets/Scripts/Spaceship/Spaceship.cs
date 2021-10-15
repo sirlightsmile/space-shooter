@@ -24,7 +24,7 @@ namespace SmileProject.SpaceShooter
 
 		protected SpaceshipGun weapon;
 
-		public virtual void Setup(SpaceshipModel spaceshipModel)
+		public virtual void Setup<T>(T spaceshipModel) where T : SpaceshipModel
 		{
 			this.SetHP(spaceshipModel.HP);
 			this.SetSpeed(spaceshipModel.Speed);
