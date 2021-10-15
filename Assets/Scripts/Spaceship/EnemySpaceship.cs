@@ -3,16 +3,8 @@ using UnityEngine;
 
 namespace SmileProject.SpaceShooter
 {
-	public enum MovePattern
-	{
-		Straight,
-		Zigzag,
-		Curve
-	}
 	public class EnemySpaceship : Spaceship
 	{
-		public MovePattern pattern;
-
 		[SerializeField]
 		/// <summary>
 		/// Move smooth time
