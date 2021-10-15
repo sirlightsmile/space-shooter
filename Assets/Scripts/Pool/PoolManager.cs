@@ -18,6 +18,7 @@ namespace SmileProject.SpaceShooter
 		}
 	}
 
+	//TODO: remove singleton when manage bullet properly
 	public class PoolManager : MonoSingleton<PoolManager>
 	{
 		[SerializeField]
