@@ -22,6 +22,7 @@ namespace SmileProject.SpaceShooter
 
 		public void Update()
 		{
+			//TODO: move to input manager
 			if (!allowControl || player == null)
 			{
 				return;

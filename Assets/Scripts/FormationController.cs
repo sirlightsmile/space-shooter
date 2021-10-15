@@ -39,6 +39,7 @@ namespace SmileProject.SpaceShooter
 
 		private void Update()
 		{
+			//TODO: move enemy generator somewhere else
 			if (!trigger)
 			{
 				return;
