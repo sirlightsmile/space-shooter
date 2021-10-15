@@ -44,7 +44,7 @@ namespace SmileProject.SpaceShooter
 			}
 		}
 
-		private void OnPlayerDestroyed(System.Object sender, EventArgs args)
+		private void OnPlayerDestroyed(Spaceship spaceship)
 		{
 			SetAllowControl(false);
 		}

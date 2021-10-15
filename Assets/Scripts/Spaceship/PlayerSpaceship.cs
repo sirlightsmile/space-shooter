@@ -11,7 +11,6 @@ namespace SmileProject.SpaceShooter
 
 	public class PlayerSpaceship : Spaceship
 	{
-		public EventHandler Destroyed;
 		public int PlayerLevel { get; private set; } = playerInitialLevel;
 
 		private const int playerInitialLevel = 1;
@@ -34,11 +33,6 @@ namespace SmileProject.SpaceShooter
 			float posX = this.transform.position.x + (directionValue * (this.speed * Time.deltaTime));
 			posX = Mathf.Clamp(posX, -moveBorder, moveBorder);
 			this.transform.position = new Vector3(posX, this.transform.position.y, this.transform.position.z);
-		}
-
-		protected override void ShipDestroy()
-		{
-			Destroyed?.Invoke(this, new EventArgs());
 		}
 
 		/// <summary>

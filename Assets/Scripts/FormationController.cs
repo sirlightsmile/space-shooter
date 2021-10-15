@@ -7,8 +7,8 @@ namespace SmileProject.SpaceShooter
 	[System.Flags]
 	public enum FormationType
 	{
-		LinerOne = 1 << 0,
-		LinerTwo = 1 << 1,
+		LinearOne = 1 << 0,
+		LinearTwo = 1 << 1,
 		LinearThree = 1 << 2,
 		LinearFour = 1 << 3,
 		SideZigzag = 1 << 4,
@@ -51,8 +51,13 @@ namespace SmileProject.SpaceShooter
 				{
 					foreach (FormationPoint point in points)
 					{
+						if (point.HasLandedSpaceship())
+						{
+							continue;
+						}
 						EnemySpaceship enemy = Instantiate<EnemySpaceship>(enemyPrefab, spawnpoint);
 						enemy.MoveToTarget(point.GetPosition());
+						point.SetLandedSpaceship(enemy);
 					}
 				}
 			}

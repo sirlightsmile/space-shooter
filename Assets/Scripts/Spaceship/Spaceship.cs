@@ -1,9 +1,16 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 
 namespace SmileProject.SpaceShooter
 {
 	public abstract class Spaceship : MonoBehaviour
 	{
+		public event SpaceshipDestroyed Destroyed;
+		public delegate void SpaceshipDestroyed(Spaceship spaceship);
+
+		public UnityEvent unityEventTest;
+		public UnityAction unityActionTest;
+
 		public int HP { get { return hp; } }
 		protected float width { get { return shipImage.bounds.size.x * shipImage.sprite.pixelsPerUnit; } }
 		protected float height { get { return shipImage.bounds.size.y * shipImage.sprite.pixelsPerUnit; } }
@@ -59,6 +66,9 @@ namespace SmileProject.SpaceShooter
 			this.hp = Mathf.Clamp(result, 0, this.hp);
 		}
 
-		protected abstract void ShipDestroy();
+		protected virtual void ShipDestroy()
+		{
+			Destroyed?.Invoke(this);
+		}
 	}
 }
