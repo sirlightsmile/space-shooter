@@ -19,7 +19,7 @@ namespace SmileProject.SpaceShooter
 		CenterGroup = 1 << 7,
 	}
 
-	public class FormationController : MonoSingleton<FormationController>
+	public class FormationController : MonoBehaviour
 	{
 		[SerializeField, EnumFlag(EnumFlagAttribute.FlagLayout.List)]
 		private FormationType activeFormations;
