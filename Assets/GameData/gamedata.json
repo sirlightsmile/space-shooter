@@ -20,5 +20,37 @@
 			"speed_increment": 2,
 			"max_level": 3
 		}
+	],
+	"wave_data_model" : [
+		{
+			"wave_number": 1,
+			"formation" : ["CenterGroup"],
+			"spawn_interval" : 0
+		},
+		{
+			"wave_number": 2,
+			"formation" : ["LinearOne", "LinearTwo"],
+			"spawn_interval" : 1
+		},
+		{
+			"wave_number": 3,
+			"formation" : ["UpperZigZag", "BottomZigzag"],
+			"spawn_interval" : 1
+		},
+		{
+			"wave_number": 4,
+			"formation" : ["LinearTwo", "LinearFour", "SideZigzag"],
+			"spawn_interval" : 1
+		},
+		{
+			"wave_number": 5,
+			"formation" : ["LinearOne", "LinearTwo", "BottomZigzag"],
+			"spawn_interval" : 0
+		},
+		{
+			"wave_number": 6,
+			"formation" : ["LinearOne", "LinearTwo", "LinearThree", "LinearFour"],
+			"spawn_interval" : 0
+		}
 	]
 }
