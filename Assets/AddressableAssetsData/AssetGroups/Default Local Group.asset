@@ -17,8 +17,8 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: aadf56dbc3118b94e99bf9e2ac7c541a
   m_SerializeEntries:
-  - m_GUID: 791472ed991399d4d972afe8fce9e9ee
-    m_Address: Bullet_TypeB
+  - m_GUID: 9c94337c5f17050458b5999f93e2e68e
+    m_Address: EnemyPrefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - gameplay
@@ -27,8 +27,13 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - gameplay
-  - m_GUID: 5c4857d67d4f3c541b26e2134fc26a20
-    m_Address: Bullet_TypeA
+  - m_GUID: 42a6cd5af34c7f243b3b37a964c4dab7
+    m_Address: SpaceshipSprites
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - gameplay
+  - m_GUID: 87d560f5d72370e4094cc93a7741cf18
+    m_Address: BulletPrefabs
     m_ReadOnly: 0
     m_SerializedLabels:
     - gameplay
