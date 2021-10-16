@@ -7,6 +7,8 @@ namespace SmileProject.SpaceShooter
 {
 	public class GameplayController : MonoBehaviour
 	{
+		private const int firstWave = 1;
+
 		public event Action Start;
 		public event Action<bool> Pause;
 
@@ -27,8 +29,6 @@ namespace SmileProject.SpaceShooter
 		/// <value></value>
 		public float Timer { get; private set; }
 
-		private const int firstWaveNumber = 1;
-
 		[SerializeField]
 		private Vector2 playerSpawnPoint;
 
@@ -40,7 +40,7 @@ namespace SmileProject.SpaceShooter
 		private GameDataManager gameDataManager;
 		private EnemyManager enemyManager;
 
-		private int currentWave;
+		private int currentWave = firstWave;
 
 		/// <summary>
 		/// Initialize gameplay controller
@@ -49,8 +49,9 @@ namespace SmileProject.SpaceShooter
 		{
 			weaponFactory = new WeaponFactory(gameDataManager, poolManager);
 			playerController = new PlayerController();
-			FormationController formationController = await resourceLoader.InstantiateAsync<FormationController>("FormationController");
-			enemyManager = new EnemyManager(this, resourceLoader, gameDataManager, formationController);
+			FormationController enemyFormationController = await resourceLoader.InstantiateAsync<FormationController>("FormationController");
+			enemyManager = new EnemyManager(this, resourceLoader, gameDataManager, enemyFormationController);
+			enemyManager.AllSpaceshipDestroyed += NextWave;
 
 			Timer = 0;
 			IsPause = true;
@@ -58,11 +59,17 @@ namespace SmileProject.SpaceShooter
 			GameStart();
 		}
 
+		private void NextWave()
+		{
+			currentWave++;
+			WaveChange?.Invoke(currentWave);
+		}
+
 		private void GameStart()
 		{
 			IsPause = false;
-			Start.Invoke();
-			WaveChange?.Invoke(firstWaveNumber);
+			Start?.Invoke();
+			WaveChange?.Invoke(currentWave);
 		}
 
 		public void SetGamePause(bool isPause)

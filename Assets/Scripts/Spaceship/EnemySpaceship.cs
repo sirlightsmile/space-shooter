@@ -11,5 +11,12 @@ namespace SmileProject.SpaceShooter
 		{
 			this.destroyScore = destroyScore;
 		}
+
+		protected override void ShipDestroy()
+		{
+			base.ShipDestroy();
+			//TODO: make it pool
+			Destroy(this.gameObject);
+		}
 	}
 }

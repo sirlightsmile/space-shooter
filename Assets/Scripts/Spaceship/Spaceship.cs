@@ -81,6 +81,10 @@ namespace SmileProject.SpaceShooter
 		{
 			int result = this.hp - damage;
 			this.hp = Mathf.Clamp(result, 0, this.hp);
+			if (this.hp == 0)
+			{
+				ShipDestroy();
+			}
 		}
 
 		public virtual void SetPosition(Vector2 position)

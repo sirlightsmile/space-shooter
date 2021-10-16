@@ -1,4 +1,5 @@
 
+using System;
 using System.Threading.Tasks;
 using SmileProject.Generic;
 
@@ -6,6 +7,7 @@ namespace SmileProject.SpaceShooter
 {
 	public abstract class SpaceshipBuilder
 	{
+		public event Action<Spaceship> SpaceshipBuilded;
 		private IResourceLoader resourceLoader;
 
 		public SpaceshipBuilder(IResourceLoader resourceLoader)
@@ -21,6 +23,7 @@ namespace SmileProject.SpaceShooter
 			T spaceship = await resourceLoader.InstantiateAsync<T>(templateKey);
 			spaceship.Setup(model);
 			resourceLoader.SetSpriteAsync(spriteName, spaceship.SetSprite);
+			SpaceshipBuilded?.Invoke(spaceship);
 			return spaceship;
 		}
 
