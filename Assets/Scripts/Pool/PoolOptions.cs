@@ -4,9 +4,9 @@ namespace SmileProject.SpaceShooter
 	public class PoolOptions
 	{
 		/// <summary>
-		/// Pool object prefab
+		/// Asset key
 		/// </summary>
-		public PoolObject Prefab;
+		public string AssetKey;
 
 		/// <summary>
 		/// Pool name

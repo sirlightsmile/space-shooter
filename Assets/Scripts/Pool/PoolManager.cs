@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using SmileProject.Generic;
 using UnityEngine;
 
@@ -9,11 +10,13 @@ namespace SmileProject.SpaceShooter
 		public readonly PoolOptions Options;
 		public readonly Transform Container;
 		public readonly List<PoolObject> PoolList;
+		public readonly PoolObject Prefab;
 
-		public PoolInfo(PoolOptions options, Transform container)
+		public PoolInfo(PoolOptions options, Transform container, PoolObject prefab)
 		{
 			this.Options = options;
 			this.Container = container;
+			this.Prefab = prefab;
 			this.PoolList = new List<PoolObject>(options.InitialSize);
 		}
 	}
@@ -24,6 +27,12 @@ namespace SmileProject.SpaceShooter
 		[SerializeField]
 		private Transform poolContainer;
 		private Dictionary<string, PoolInfo> poolInfoDict = new Dictionary<string, PoolInfo>();
+		private IResourceLoader resourceLoader;
+
+		public void Initialize(IResourceLoader resourceLoader)
+		{
+			this.resourceLoader = resourceLoader;
+		}
 
 		/// <summary>
 		/// Get item from pool
@@ -44,7 +53,8 @@ namespace SmileProject.SpaceShooter
 			if (index == -1)
 			{
 				int newIndex = poolObjectList.Count;
-				if (Resize(poolInfo))
+				bool resizeSucceed = Resize(poolInfo);
+				if (resizeSucceed)
 				{
 					// index of first item which been added
 					index = newIndex;
@@ -79,7 +89,7 @@ namespace SmileProject.SpaceShooter
 		/// </summary>
 		/// <param name="options">Pool options</param>
 		/// <typeparam name="T">T inherited PoolObject</typeparam>
-		public void CreatePool(PoolOptions options)
+		public async Task CreatePool(PoolOptions options)
 		{
 			string poolName = options.PoolName;
 			if (GetPoolInfo(poolName) != null)
@@ -90,9 +100,11 @@ namespace SmileProject.SpaceShooter
 
 			GameObject container = new GameObject(poolName);
 			container.transform.SetParent(poolContainer);
-			PoolInfo poolInfo = new PoolInfo(options, container.transform);
+			string assetKey = options.AssetKey;
+			PoolObject poolObject = await resourceLoader.Load<PoolObject>(assetKey);
+			PoolInfo poolInfo = new PoolInfo(options, container.transform, poolObject);
 			poolInfoDict.Add(poolName, poolInfo);
-			AddObjectToPool(poolInfo, options.InitialSize);
+			AddObjectsToPool(poolInfo, options.InitialSize);
 		}
 
 		/// <summary>
@@ -122,23 +134,26 @@ namespace SmileProject.SpaceShooter
 			return poolInfoDict.ContainsKey(poolName);
 		}
 
-		private void AddObjectToPool(PoolInfo poolInfo, int extendAmount)
+		private void AddObjectsToPool(PoolInfo poolInfo, int extendAmount)
 		{
 			for (int i = 0; i < extendAmount; i++)
 			{
-				PoolOptions options = poolInfo.Options;
-				PoolObject prefab = options.Prefab;
-				PoolObject poolObj = Instantiate(prefab, poolContainer);
-
-				Transform container = poolInfo.Container;
-				if (container)
-				{
-					poolObj.SetParent(container);
-				}
-				poolObj.SetPoolName(options.PoolName);
-				poolObj.SetActive(false);
-				poolInfo.PoolList.Add(poolObj);
+				AddObjectToPoolAsync(poolInfo);
 			}
+		}
+
+		private void AddObjectToPoolAsync(PoolInfo poolInfo)
+		{
+			PoolOptions options = poolInfo.Options;
+			PoolObject poolObj = GameObject.Instantiate<PoolObject>(poolInfo.Prefab, poolContainer);
+			Transform container = poolInfo.Container;
+			if (container)
+			{
+				poolObj.SetParent(container);
+			}
+			poolObj.SetPoolName(options.PoolName);
+			poolObj.SetActive(false);
+			poolInfo.PoolList.Add(poolObj);
 		}
 
 		private bool Resize(PoolInfo poolInfo)
@@ -150,7 +165,7 @@ namespace SmileProject.SpaceShooter
 			}
 
 			int extendSize = options.ExtendAmount;
-			AddObjectToPool(poolInfo, extendSize);
+			AddObjectsToPool(poolInfo, extendSize);
 			return true;
 		}
 
