@@ -1,9 +1,10 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace SmileProject.SpaceShooter
 {
-	public abstract class Spaceship : MonoBehaviour, ISpaceship
+	public abstract class Spaceship : MonoBehaviour
 	{
 		public event SpaceshipDestroyed Destroyed;
 		public delegate void SpaceshipDestroyed(Spaceship spaceship);
@@ -23,6 +24,20 @@ namespace SmileProject.SpaceShooter
 		protected SpriteRenderer shipImage;
 
 		protected SpaceshipGun weapon;
+
+		[SerializeField]
+		/// <summary>
+		/// Move smooth time
+		/// </summary>
+		private float smoothTime = 0.5f;
+
+		[SerializeField]
+		/// <summary>
+		/// Reach target approximate distance
+		/// </summary>
+		private float approximate = 0.01f;
+
+		private Coroutine MoveCoroutine;
 
 		public virtual void Setup<T>(T spaceshipModel) where T : SpaceshipModel
 		{
@@ -67,9 +82,54 @@ namespace SmileProject.SpaceShooter
 			this.hp = Mathf.Clamp(result, 0, this.hp);
 		}
 
+		public virtual void SetPosition(Vector2 position)
+		{
+			this.transform.position = position;
+		}
+
+		public virtual void MoveToTarget(Vector2 targetPos)
+		{
+			if (MoveCoroutine != null)
+			{
+				StopCoroutine(MoveCoroutine);
+			}
+
+			MoveCoroutine = StartCoroutine(MoveToTargetCoroutine(targetPos));
+		}
+
 		protected virtual void ShipDestroy()
 		{
+			if (MoveCoroutine != null)
+			{
+				StopCoroutine(MoveCoroutine);
+				MoveCoroutine = null;
+			}
 			Destroyed?.Invoke(this);
+		}
+
+		protected virtual void OnTargetReached()
+		{
+			Debug.Log("On target reached");
+		}
+
+		private IEnumerator MoveToTargetCoroutine(Vector2 targetPos)
+		{
+			Vector2 currentPos = this.transform.position;
+			float distance = Vector2.Distance(currentPos, targetPos);
+			Vector2 velocity = Vector3.zero;
+
+			while (distance > approximate)
+			{
+				Vector2 dampPos = Vector2.SmoothDamp(transform.position, targetPos, ref velocity, smoothTime, speed);
+				SetPosition(dampPos);
+				currentPos = this.transform.position;
+				distance = (targetPos - currentPos).magnitude;
+				yield return null;
+			}
+			// snap
+			SetPosition(targetPos);
+			OnTargetReached();
+			MoveCoroutine = null;
 		}
 	}
 }
