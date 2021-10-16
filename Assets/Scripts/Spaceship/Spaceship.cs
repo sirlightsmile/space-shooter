@@ -1,6 +1,6 @@
 ﻿using System.Collections;
+using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace SmileProject.SpaceShooter
 {
@@ -70,9 +70,10 @@ namespace SmileProject.SpaceShooter
 			this.speed = speed;
 		}
 
-		public virtual void SetWeapon(SpaceshipGun weapon)
+		public virtual async Task SetWeapon(SpaceshipGun newWeapon)
 		{
-			this.weapon = weapon;
+			await newWeapon.Reload();
+			this.weapon = newWeapon;
 			this.weapon.SetAttackPointTransform(attackPointTransform);
 		}
 
