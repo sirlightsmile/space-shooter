@@ -7,7 +7,6 @@ namespace SmileProject.SpaceShooter
 	public abstract class SpaceshipBuilder
 	{
 		private IResourceLoader resourceLoader;
-		private string prefix = "";
 
 		public SpaceshipBuilder(IResourceLoader resourceLoader)
 		{
@@ -27,6 +26,7 @@ namespace SmileProject.SpaceShooter
 
 		protected virtual string GetAssetPrefix()
 		{
+			// default no prefix
 			return "";
 		}
 	}
