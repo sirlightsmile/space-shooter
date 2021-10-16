@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace SmileProject.SpaceShooter
@@ -20,7 +21,7 @@ namespace SmileProject.SpaceShooter
 			SetAttackSpeed(model.BaseSpeed);
 		}
 
-		public async void Reload()
+		public async Task Reload()
 		{
 			if (!poolManager.HasPool(model.BulletAsset))
 			{
@@ -33,7 +34,7 @@ namespace SmileProject.SpaceShooter
 					CanExtend = true,
 					ExtendAmount = 10
 				};
-				await poolManager.CreatePool(options);
+				await poolManager.CreatePool<Bullet>(options);
 			}
 		}
 
