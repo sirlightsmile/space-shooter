@@ -6,7 +6,7 @@ namespace SmileProject.SpaceShooter
 {
 	public class EnemySpaceshipBuilder : SpaceshipBuilder
 	{
-		private const string assetPrefix = "SpaceshipSprites";
+		private const string assetPrefix = "SpaceshipSprites/";
 		private const string enemyPrefabKey = "EnemyPrefab";
 		private GameDataManager gameDataManager;
 
@@ -30,7 +30,7 @@ namespace SmileProject.SpaceShooter
 
 		protected override string GetAssetPrefix()
 		{
-			return "SpaceshipSprites/";
+			return assetPrefix;
 		}
 	}
 }
