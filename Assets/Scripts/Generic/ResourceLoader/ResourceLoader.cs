@@ -27,7 +27,7 @@ namespace SmileProject.Generic
 			{
 				if (operation.Status == AsyncOperationStatus.Failed)
 				{
-					Debug.LogError($"Failed to load asset : [key]");
+					Debug.LogError($"Failed to load asset : [{key}]");
 				}
 			};
 			T loadedAsset = await loadAssetAsync.Task;
