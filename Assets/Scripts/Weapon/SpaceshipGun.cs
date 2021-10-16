@@ -35,7 +35,7 @@ namespace SmileProject.SpaceShooter
 					CanExtend = true,
 					ExtendAmount = 10
 				};
-				await PoolManager.GetInstance().CreatePool(options);
+				await poolManager.CreatePool(options);
 			}
 		}
 
