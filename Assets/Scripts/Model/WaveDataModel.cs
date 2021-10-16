@@ -10,20 +10,21 @@ namespace SmileProject.SpaceShooter
 		/// </summary>
 		public int WaveNumber { get; private set; }
 
-		[JsonProperty("enemy_spawn_data")]
+		[JsonProperty("wave_spawns_data")]
+
 		/// <summary>
-		/// Spaceship sprite asset id from addressable assets
+		/// Array of formation and spaceship spawn
 		/// </summary>
-		public string EnemySpawnData { get; private set; }
+		public WaveSpawnData[] WaveSpawnsData { get; private set; }
 
 		[JsonProperty("spawn_interval")]
 		/// <summary>
-		/// Time interval between each enemy spawn
+		/// Time interval for spawns each WaveSpawnData (second)
 		/// </summary>
 		public float SpawnInterval { get; private set; }
 	}
 
-	public class EnemySpawnData
+	public class WaveSpawnData
 	{
 		[JsonProperty("formation")]
 		/// <summary>
@@ -31,10 +32,10 @@ namespace SmileProject.SpaceShooter
 		/// </summary>
 		public FormationType Formation { get; private set; }
 
-		[JsonProperty("spawn_enemy_id")]
+		[JsonProperty("spawn_spaceship_id")]
 		/// <summary>
-		/// Enemy spawn to this formation
+		/// Spaceship id that will be spawn on this formation
 		/// </summary>
-		public string SpawnEnemyID { get; private set; }
+		public string SpawnSpaceshipID { get; private set; }
 	}
 }

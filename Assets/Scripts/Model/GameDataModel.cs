@@ -16,6 +16,6 @@ namespace SmileProject.SpaceShooter
 		public EnemySpaceshipModel[] enemySpaceships { get; private set; }
 
 		[JsonProperty("wave_data_model")]
-		public EnemySpaceshipModel[] waveData { get; private set; }
+		public WaveDataModel[] waveData { get; private set; }
 	}
 }
