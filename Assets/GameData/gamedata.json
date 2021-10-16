@@ -33,7 +33,7 @@
 	"enemy_spaceship_model": [
 		{
 			"id": "es01",
-			"asset_name": "enemyBlack1",
+			"asset_name": "enemyBlack1.png",
 			"hp" : 1,
 			"speed": 10,
 			"basic_weapon_id" :"sg02",
@@ -41,7 +41,7 @@
 		},
 		{
 			"id": "es02",
-			"asset_name": "enemyBlue1",
+			"asset_name": "enemyBlue1.png",
 			"hp" : 5,
 			"speed": 10,
 			"basic_weapon_id" :"sg02",
@@ -49,7 +49,7 @@
 		},
 		{
 			"id": "es03",
-			"asset_name": "enemyGreen1",
+			"asset_name": "enemyGreen1.png",
 			"hp" : 10,
 			"speed": 10,
 			"basic_weapon_id" :"sg02",
@@ -57,7 +57,7 @@
 		},
 		{
 			"id": "es04",
-			"asset_name": "enemyRed1",
+			"asset_name": "enemyRed1.png",
 			"hp" : 20,
 			"speed": 10,
 			"basic_weapon_id" :"sg02",
