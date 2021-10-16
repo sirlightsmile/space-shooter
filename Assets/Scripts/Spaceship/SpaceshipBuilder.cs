@@ -7,6 +7,7 @@ namespace SmileProject.SpaceShooter
 	public abstract class SpaceshipBuilder
 	{
 		private IResourceLoader resourceLoader;
+		private string prefix = "";
 
 		public SpaceshipBuilder(IResourceLoader resourceLoader)
 		{
@@ -17,11 +18,16 @@ namespace SmileProject.SpaceShooter
 
 		public async virtual Task<T> BuildSpaceship<T, T2>(string templateKey, T2 model) where T : Spaceship where T2 : SpaceshipModel
 		{
-			string spriteName = model.AssetName;
+			string spriteName = GetAssetPrefix() + model.AssetName;
 			T spaceship = await resourceLoader.InstantiateAsync<T>(templateKey);
 			spaceship.Setup(model);
 			resourceLoader.SetSpriteAsync(spriteName, spaceship.SetSprite);
 			return spaceship;
+		}
+
+		protected virtual string GetAssetPrefix()
+		{
+			return "";
 		}
 	}
 }
