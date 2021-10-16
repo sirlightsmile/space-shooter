@@ -47,13 +47,14 @@ namespace SmileProject.SpaceShooter
 			this.spaceshipBuilder = spaceshipBuilder;
 		}
 
-		public void SetupWaveChangedListener(WaveChangeEventHandler waveChange)
+		public void SetupWaveChangedListener(ref WaveChangeEventHandler waveChange)
 		{
 			waveChange += OnWaveChanged;
 		}
 
 		public void OnWaveChanged(int waveNumber)
 		{
+			Debug.Log("On wave changed");
 			// clear all active flags
 			activeFormations.ClearFlags<Formation>(activeFormations);
 			UpdateActiveFormation(waveNumber);
@@ -107,36 +108,6 @@ namespace SmileProject.SpaceShooter
 			spaceship.SetPosition(spawnPoint);
 			point.SetLandedSpaceship(spaceship);
 		}
-
-
-		// private void Update()
-		// {
-		// 	//TODO: move enemy generator somewhere else
-		// 	if (!trigger)
-		// 	{
-		// 		return;
-		// 	}
-
-		// 	trigger = false;
-
-		// 	IEnumerable<FormationType> formations = activeFormations.GetFlags<FormationType>();
-		// 	foreach (FormationType formation in formations)
-		// 	{
-		// 		if (formationMap.TryGetValue(formation, out var points))
-		// 		{
-		// 			foreach (FormationPoint point in points)
-		// 			{
-		// 				if (point.HasLandedSpaceship())
-		// 				{
-		// 					continue;
-		// 				}
-		// 				EnemySpaceship enemy = Instantiate<EnemySpaceship>(enemyPrefab, spawnpoint);
-		// 				enemy.MoveToTarget(point.GetPosition());
-		// 				point.SetLandedSpaceship(enemy);
-		// 			}
-		// 		}
-		// 	}
-		// }
 
 		public void SetupFormationMap()
 		{

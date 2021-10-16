@@ -30,7 +30,7 @@ namespace SmileProject.SpaceShooter
 		/// <summary>
 		/// Spawn formation
 		/// </summary>
-		public FormationType Formation { get; private set; }
+		public Formation Formation { get; private set; }
 
 		[JsonProperty("spawn_spaceship_id")]
 		/// <summary>
