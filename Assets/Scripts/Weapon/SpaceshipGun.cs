@@ -27,18 +27,15 @@ namespace SmileProject.SpaceShooter
 		{
 			if (!PoolManager.GetInstance().HasPool(model.BulletAsset))
 			{
-				Debug.Log($"asset name : {model.BulletAsset}");
-				GameObject obj = await Addressables.LoadAssetAsync<GameObject>(model.BulletAsset).Task;
-				Bullet bullet = obj.GetComponent<Bullet>();
 				PoolOptions options = new PoolOptions
 				{
-					Prefab = bullet,
+					AssetKey = model.BulletAsset,
 					PoolName = model.BulletType.ToString(),
 					InitialSize = 8,
 					CanExtend = true,
 					ExtendAmount = 8
 				};
-				PoolManager.GetInstance().CreatePool(options);
+				await PoolManager.GetInstance().CreatePool(options);
 			}
 		}
 
