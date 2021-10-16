@@ -9,6 +9,7 @@ namespace SmileProject.Generic
 	{
 		Task InitializeAsync();
 		Task<T> Load<T>(string key);
+		Task<T> LoadPrefab<T>(string key);
 		Task<T> LoadJsonAsModel<T>(string key);
 		Task<T> InstantiateAsync<T>(object key, Transform parent = null, bool instantiateInWorldSpace = false, bool trackHandle = true) where T : MonoBehaviour;
 		void SetSpriteAsync(string key, SetSpriteHandler eventHandler);

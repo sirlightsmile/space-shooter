@@ -34,6 +34,13 @@ namespace SmileProject.Generic
 			return loadedAsset;
 		}
 
+		public async Task<T> LoadPrefab<T>(string key)
+		{
+			GameObject loadedPrefab = await Load<GameObject>(key);
+			T component = loadedPrefab.GetComponent<T>();
+			return component;
+		}
+
 		public async Task<T> InstantiateAsync<T>(object key, Transform parent = null, bool instantiateInWorldSpace = false, bool trackHandle = true) where T : MonoBehaviour
 		{
 			AsyncOperationHandle<GameObject> loadAssetAsync = Addressables.InstantiateAsync(key, parent);
