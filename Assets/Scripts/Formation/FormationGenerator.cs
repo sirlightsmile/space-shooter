@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace SmileProject.SpaceShooter
@@ -35,12 +36,31 @@ namespace SmileProject.SpaceShooter
 					Vector2 startPos = Vector2.zero;
 					GameObject obj = new GameObject($"FormationPoint_{x}_{y}");
 					obj.transform.SetParent(container);
-					obj.AddComponent<FormationPoint>();
+					FormationPoint point = obj.AddComponent<FormationPoint>();
 					obj.transform.localPosition = new Vector2(startPos.x + (x * widthInterval), -(startPos.y + (y * heightInterval)));
 
+					Formation[] startFormation = new Formation[] { Formation.LinearOne, Formation.LinearTwo, Formation.LinearThree, Formation.LinearFour };
+					List<Formation> formations = new List<Formation>() { startFormation[y] };
 					// even or odd number
-					// FormationType linerFormation = (FormationType)Enum.ToObject(typeof(FormationType), 1 << y);
-					// formation |= linerFormation;
+					if ((y == 0 && (x % 2 == 0)) || (y == 1 && (x % 2 != 0)))
+					{
+						formations.Add(Formation.UpperZigZag);
+					}
+					if ((y == 2 && (x % 2 == 0)) || (y == 3 && (x % 2 != 0)))
+					{
+						formations.Add(Formation.BottomZigzag);
+					}
+					if (((x == 0 || x == (width - 2)) && (y % 2 == 0)) || ((x == 1 || x == (width - 1)) && (y % 2 != 0)))
+					{
+						formations.Add(Formation.SideZigzag);
+					}
+					if ((x > 2 && x < 7) && (y > 0 && y < 3))
+					{
+						formations.Add(Formation.CenterGroup);
+					}
+
+					Formation result = formations.CombineFlags();
+					point.SetFormation(result);
 				}
 			}
 		}
