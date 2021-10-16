@@ -90,7 +90,7 @@ namespace SmileProject.SpaceShooter
 		/// </summary>
 		/// <param name="options">Pool options</param>
 		/// <typeparam name="T">T inherited PoolObject</typeparam>
-		public async Task CreatePool(PoolOptions options)
+		public async Task CreatePool<T>(PoolOptions options) where T : PoolObject
 		{
 			string poolName = options.PoolName;
 			if (GetPoolInfo(poolName) != null)
@@ -102,7 +102,7 @@ namespace SmileProject.SpaceShooter
 			GameObject container = new GameObject(poolName);
 			container.transform.SetParent(poolContainer);
 			string assetKey = options.AssetKey;
-			PoolObject poolObject = await resourceLoader.Load<PoolObject>(assetKey);
+			T poolObject = await resourceLoader.LoadPrefab<T>(assetKey);
 			PoolInfo poolInfo = new PoolInfo(options, container.transform, poolObject);
 			poolInfoDict.Add(poolName, poolInfo);
 			AddObjectsToPool(poolInfo, options.InitialSize);
