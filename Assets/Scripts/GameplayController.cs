@@ -54,7 +54,8 @@ namespace SmileProject.SpaceShooter
 
 			Timer = 0;
 			IsPause = true;
-			InitPlayer();
+			await InitPlayer();
+			GameStart();
 		}
 
 		private void GameStart()
@@ -78,12 +79,12 @@ namespace SmileProject.SpaceShooter
 			IsPause = true;
 		}
 
-		public void InitPlayer()
+		public async Task InitPlayer()
 		{
 			Vector2 spawnPoint = playerSpawnPoint;
 			PlayerSpaceship player = Instantiate<PlayerSpaceship>(playerPrefab, spawnPoint, Quaternion.identity);
 			SpaceshipGun startGun = weaponFactory.CreateRandomSpaceshipGun();
-			player.SetWeapon(startGun);
+			await player.SetWeapon(startGun);
 			playerController.SetPlayer(player);
 		}
 
