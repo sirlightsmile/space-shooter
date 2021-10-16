@@ -36,129 +36,133 @@
 			"asset_name": "enemyBlack1",
 			"hp" : 1,
 			"speed": 10,
-			"basic_weapon_id" :"sg02"
+			"basic_weapon_id" :"sg02",
+			"score": 100
 		},
 		{
 			"id": "es02",
 			"asset_name": "enemyBlue1",
 			"hp" : 5,
 			"speed": 10,
-			"basic_weapon_id" :"sg02"
+			"basic_weapon_id" :"sg02",
+			"score": 200
 		},
 		{
 			"id": "es03",
 			"asset_name": "enemyGreen1",
 			"hp" : 10,
 			"speed": 10,
-			"basic_weapon_id" :"sg02"
+			"basic_weapon_id" :"sg02",
+			"score": 500
 		},
 		{
 			"id": "es04",
 			"asset_name": "enemyRed1",
 			"hp" : 20,
 			"speed": 10,
-			"basic_weapon_id" :"sg02"
+			"basic_weapon_id" :"sg02",
+			"score": 1000
 		}
 	],
 	"wave_data_model" : [
 		{
 			"wave_number": 1,
-			"enemy_spawn_data" :
+			"wave_spawns_data" :
 			[
 				{
 					"formation": ["CenterGroup"],
-					"spawn_enemy_id" : "es01"
+					"spawn_spaceship_id" : "es01"
 				}
 			],
 			"spawn_interval" : 0
 		},
 		{
 			"wave_number": 2,
-			"enemy_spawn_data" :
+			"wave_spawns_data" :
 			[
 				{
 					"formation": ["LinearOne"],
-					"spawn_enemy_id" : "es01"
+					"spawn_spaceship_id" : "es01"
 				},
 				{
 					"formation": ["LinearTwo"],
-					"spawn_enemy_id" : "es01"
+					"spawn_spaceship_id" : "es01"
 				}
 			],
 			"spawn_interval" : 1
 		},
 		{
 			"wave_number": 3,
-			"enemy_spawn_data" :
+			"wave_spawns_data" :
 			[
 				{
 					"formation": ["UpperZigZag"],
-					"spawn_enemy_id" : "es02"
+					"spawn_spaceship_id" : "es02"
 				},
 				{
 					"formation": ["BottomZigzag"],
-					"spawn_enemy_id" : "es01"
+					"spawn_spaceship_id" : "es01"
 				}
 			],
 			"spawn_interval" : 1
 		},
 		{
 			"wave_number": 4,
-			"enemy_spawn_data" :
+			"wave_spawns_data" :
 			[
 				{
 					"formation": ["SideZigzag"],
-					"spawn_enemy_id" : "es03"
+					"spawn_spaceship_id" : "es03"
 				},
 				{
 					"formation": ["LinearTwo"],
-					"spawn_enemy_id" : "es02"
+					"spawn_spaceship_id" : "es02"
 				},
 				{
 					"formation": ["LinearFour"],
-					"spawn_enemy_id" : "es01"
+					"spawn_spaceship_id" : "es01"
 				}
 			],
 			"spawn_interval" : 1
 		},
 		{
 			"wave_number": 5,
-			"enemy_spawn_data" :
+			"wave_spawns_data" :
 			[
 				{
 					"formation": ["BottomZigzag"],
-					"spawn_enemy_id" : "es02"
+					"spawn_spaceship_id" : "es02"
 				},
 				{
 					"formation": ["LinearOne"],
-					"spawn_enemy_id" : "es03"
+					"spawn_spaceship_id" : "es03"
 				},
 				{
 					"formation": ["LinearTwo"],
-					"spawn_enemy_id" : "es03"
+					"spawn_spaceship_id" : "es03"
 				}
 			],
 			"spawn_interval" : 0
 		},
 		{
 			"wave_number": 6,
-			"enemy_spawn_data" :
+			"wave_spawns_data" :
 			[
 				{
 					"formation": ["LinearOne"],
-					"spawn_enemy_id" : "es02"
+					"spawn_spaceship_id" : "es02"
 				},
 				{
 					"formation": ["LinearTwo"],
-					"spawn_enemy_id" : "es03"
+					"spawn_spaceship_id" : "es03"
 				},
 				{
 					"formation": ["LinearThree"],
-					"spawn_enemy_id" : "es03"
+					"spawn_spaceship_id" : "es03"
 				},
 				{
 					"formation": ["LinearFour"],
-					"spawn_enemy_id" : "es04"
+					"spawn_spaceship_id" : "es04"
 				}
 			],
 			"spawn_interval" : 0

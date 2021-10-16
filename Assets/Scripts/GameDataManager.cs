@@ -32,5 +32,31 @@ namespace SmileProject.SpaceShooter
 			Debug.Assert(gameData.spaceshipGameData != null, "SpaceShipGun game data should not be null.");
 			return gameData.spaceshipGameData;
 		}
+
+		public WaveDataModel[] GetWaveDataModels()
+		{
+			Debug.Assert(gameData.waveData != null, "Wave game data should not be null.");
+			return gameData.waveData;
+		}
+
+		public WaveDataModel GetWaveDataModelByWaveNumber(int number)
+		{
+			WaveDataModel model = Array.Find(GetWaveDataModels(), (obj) => obj.WaveNumber == number);
+			Debug.Assert(model != null, $"WaveDataModel game data number : [{number}] not found.");
+			return model;
+		}
+
+		public EnemySpaceshipModel[] GetEnemySpaceshipModels()
+		{
+			Debug.Assert(gameData.enemySpaceships != null, "Enemy spaceship game data should not be null.");
+			return gameData.enemySpaceships;
+		}
+
+		public EnemySpaceshipModel GetEnemySpaceshipModelById(string id)
+		{
+			EnemySpaceshipModel model = Array.Find(GetEnemySpaceshipModels(), (obj) => obj.ID == id);
+			Debug.Assert(model != null, $"EnemySpaceshipModel game data number : [{id}] not found.");
+			return model;
+		}
 	}
 }
