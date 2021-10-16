@@ -152,7 +152,7 @@ namespace SmileProject.SpaceShooter
 			{
 				poolObj.SetParent(container);
 			}
-			poolObj.SetPoolName(options.PoolName);
+			poolObj.SetPool(options.PoolName, this);
 			poolObj.SetActive(false);
 			poolInfo.PoolList.Add(poolObj);
 		}
