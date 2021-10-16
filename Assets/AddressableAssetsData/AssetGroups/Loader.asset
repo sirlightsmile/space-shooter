@@ -20,15 +20,18 @@ MonoBehaviour:
   - m_GUID: c49eafa8d73d8fa4bbdd2cd86f5195f1
     m_Address: PoolManager
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - manager
   - m_GUID: 529c255c72073e8449e440f9a8e9ffe0
-    m_Address: EnemyFormation
+    m_Address: FormationController
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - manager
   - m_GUID: 08e9395bdb50dcd4aa5f65f51ead74b4
     m_Address: GameplayController
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - manager
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: e7da8c064d2834f458c2bcf8af1f6581, type: 2}
   m_SchemaSet:

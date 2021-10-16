@@ -82,6 +82,7 @@ MonoBehaviour:
     m_LabelNames:
     - default
     - gameplay
+    - manager
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 9bce2f6a91d82044a8a82f3c60be3351, type: 2}
