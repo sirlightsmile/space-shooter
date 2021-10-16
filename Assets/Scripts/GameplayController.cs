@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using SmileProject.Generic;
 using UnityEngine;
 
@@ -6,12 +7,13 @@ namespace SmileProject.SpaceShooter
 {
 	public class GameplayController : MonoBehaviour
 	{
-		public event EventHandler Start;
-		public event EventHandler Pause;
-		public event EventHandler Resume;
+		public event Action Start;
+		public event Action<bool> Pause;
 
-		public event WaveChangeEventHandler WaveChange;
-		public delegate void WaveChangeEventHandler(int newWave);
+		/// <summary>
+		/// Event invoke when wave changed
+		/// </summary>
+		public event Action<int> WaveChange;
 
 		/// <summary>
 		/// Is Game pause
@@ -25,6 +27,8 @@ namespace SmileProject.SpaceShooter
 		/// <value></value>
 		public float Timer { get; private set; }
 
+		private const int firstWaveNumber = 1;
+
 		[SerializeField]
 		private Vector2 playerSpawnPoint;
 
@@ -34,7 +38,6 @@ namespace SmileProject.SpaceShooter
 		private PlayerController playerController;
 		private WeaponFactory weaponFactory;
 		private GameDataManager gameDataManager;
-		private SpaceshipBuilder enemySpaceshipBuilder;
 		private EnemyManager enemyManager;
 
 		private int currentWave;
@@ -42,12 +45,12 @@ namespace SmileProject.SpaceShooter
 		/// <summary>
 		/// Initialize gameplay controller
 		/// </summary>
-		public void Initialize(GameDataManager gameDataManager, IResourceLoader resourceLoader)
+		public async Task Initialize(GameDataManager gameDataManager, IResourceLoader resourceLoader)
 		{
 			weaponFactory = new WeaponFactory(gameDataManager);
 			playerController = new PlayerController();
-			enemySpaceshipBuilder = new EnemySpaceshipBuilder(resourceLoader, gameDataManager);
-			enemyManager = new EnemyManager(this, resourceLoader);
+			FormationController formationController = await resourceLoader.InstantiateAsync<FormationController>("FormationController");
+			enemyManager = new EnemyManager(this, resourceLoader, gameDataManager, formationController);
 
 			Timer = 0;
 			IsPause = true;
@@ -57,7 +60,8 @@ namespace SmileProject.SpaceShooter
 		private void GameStart()
 		{
 			IsPause = false;
-			Start?.Invoke(this, new EventArgs());
+			Start.Invoke();
+			WaveChange?.Invoke(firstWaveNumber);
 		}
 
 		public void SetGamePause(bool isPause)
@@ -65,11 +69,7 @@ namespace SmileProject.SpaceShooter
 			IsPause = isPause;
 			if (isPause)
 			{
-				Pause?.Invoke(this, new EventArgs());
-			}
-			else
-			{
-				Resume?.Invoke(this, new EventArgs());
+				Pause?.Invoke(isPause);
 			}
 		}
 
