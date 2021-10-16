@@ -32,13 +32,11 @@ namespace SmileProject.SpaceShooter
 		[SerializeField]
 		private Vector2 playerSpawnPoint;
 
-		[SerializeField]
-		private PlayerSpaceship playerPrefab;
-
 		private PlayerController playerController;
 		private WeaponFactory weaponFactory;
-		private GameDataManager gameDataManager;
 		private EnemyManager enemyManager;
+		private GameDataManager gameDataManager;
+		private IResourceLoader resourceLoader;
 
 		private int currentWave = firstWave;
 
@@ -47,6 +45,8 @@ namespace SmileProject.SpaceShooter
 		/// </summary>
 		public async Task Initialize(GameDataManager gameDataManager, IResourceLoader resourceLoader, PoolManager poolManager)
 		{
+			this.resourceLoader = resourceLoader;
+			this.gameDataManager = gameDataManager;
 			weaponFactory = new WeaponFactory(gameDataManager, poolManager);
 			playerController = new PlayerController();
 			FormationController enemyFormationController = await resourceLoader.InstantiateAsync<FormationController>("FormationController");
@@ -89,9 +89,9 @@ namespace SmileProject.SpaceShooter
 		public async Task InitPlayer()
 		{
 			Vector2 spawnPoint = playerSpawnPoint;
-			PlayerSpaceship player = Instantiate<PlayerSpaceship>(playerPrefab, spawnPoint, Quaternion.identity);
-			SpaceshipGun startGun = weaponFactory.CreateRandomSpaceshipGun();
-			await player.SetWeapon(startGun);
+			PlayerSpaceshipBuilder builder = new PlayerSpaceshipBuilder(resourceLoader, gameDataManager, weaponFactory);
+			PlayerSpaceship player = await builder.BuildRandomSpaceship();
+			player.SetPosition(spawnPoint);
 			playerController.SetPlayer(player);
 		}
 

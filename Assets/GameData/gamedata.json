@@ -24,7 +24,7 @@
 	"player_spaceship_model": [
 		{
 			"id": "ps01",
-			"asset_name": "PlayerShip01",
+			"asset_name": "PlayerShip01.png",
 			"hp" : 5,
 			"speed": 10,
 			"basic_weapon_id" :"sg02"

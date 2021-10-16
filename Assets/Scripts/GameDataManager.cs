@@ -58,5 +58,18 @@ namespace SmileProject.SpaceShooter
 			Debug.Assert(model != null, $"EnemySpaceshipModel game data number : [{id}] not found.");
 			return model;
 		}
+
+		public SpaceshipModel[] GetPlayerSpaceshipModels()
+		{
+			Debug.Assert(gameData.playerSpaceships != null, "Enemy spaceship game data should not be null.");
+			return gameData.playerSpaceships;
+		}
+
+		public SpaceshipModel GetPlayerSpaceshipModelById(string id)
+		{
+			SpaceshipModel model = Array.Find(GetPlayerSpaceshipModels(), (obj) => obj.ID == id);
+			Debug.Assert(model != null, $"PlayerSpaceshipModel game data number : [{id}] not found.");
+			return model;
+		}
 	}
 }

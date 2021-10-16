@@ -27,5 +27,12 @@ namespace SmileProject.SpaceShooter
 			SpaceshipGun randomGun = CreateSpaceshipGun(randomModel);
 			return randomGun;
 		}
+
+		public SpaceshipGun CreateSpaceshipGunById(string id)
+		{
+			SpaceshipGunModel model = this.gameDataManager.GetSpaceshipGunModelById(id);
+			SpaceshipGun spaceshipGun = CreateSpaceshipGun(model);
+			return spaceshipGun;
+		}
 	}
 }
