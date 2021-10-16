@@ -43,6 +43,7 @@ namespace SmileProject.SpaceShooter
 			Bullet bullet = poolManager.GetItem<Bullet>(model.BulletType.ToString());
 			bullet.transform.position = attackPointTransform.transform.position;
 			bullet.transform.rotation = attackPointTransform.transform.rotation;
+			bullet.SetDamage(damage);
 			bullet.SetActive(true);
 		}
 

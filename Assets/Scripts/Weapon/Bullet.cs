@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace SmileProject.SpaceShooter
 {
@@ -7,11 +6,16 @@ namespace SmileProject.SpaceShooter
 	{
 		[SerializeField]
 		private SpriteRenderer bulletRenderer;
-		private PoolManager poolManager;
+		private int damage;
 
 		public override void OnSpawn() { }
 
 		public override void OnDespawn() { }
+
+		public void SetDamage(int damage)
+		{
+			this.damage = damage;
+		}
 
 		private void FixedUpdate()
 		{
@@ -22,10 +26,13 @@ namespace SmileProject.SpaceShooter
 			}
 		}
 
-		private void OnCollisionEnter(Collision other)
+		void OnTriggerEnter2D(Collider2D other)
 		{
-			string tag = other.transform.tag;
-			//TODO: implement get hit
+			Spaceship spaceship = other.transform.GetComponent<Spaceship>();
+			if (spaceship != null)
+			{
+				spaceship.GetHit(damage);
+			}
 			ReturnToPool();
 		}
 	}
