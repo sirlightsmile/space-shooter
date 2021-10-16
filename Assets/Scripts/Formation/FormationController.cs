@@ -47,14 +47,10 @@ namespace SmileProject.SpaceShooter
 			this.spaceshipBuilder = spaceshipBuilder;
 		}
 
-		public void SetupWaveChangedListener(ref WaveChangeEventHandler waveChange)
-		{
-			waveChange += OnWaveChanged;
-		}
-
 		public void OnWaveChanged(int waveNumber)
 		{
 			Debug.Log("On wave changed");
+
 			// clear all active flags
 			activeFormations.ClearFlags<Formation>(activeFormations);
 			UpdateActiveFormation(waveNumber);
