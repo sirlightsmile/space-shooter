@@ -50,7 +50,7 @@ namespace SmileProject.SpaceShooter
 					{
 						formations.Add(Formation.BottomZigzag);
 					}
-					if (((x == 0 || x == (width - 2)) && (y % 2 == 0)) || ((x == 1 || x == (width - 1)) && (y % 2 != 0)))
+					if (((x == 1 || x == (width - 2)) && (y % 2 == 0)) || ((x == 0 || x == (width - 1)) && (y % 2 != 0)))
 					{
 						formations.Add(Formation.SideZigzag);
 					}
