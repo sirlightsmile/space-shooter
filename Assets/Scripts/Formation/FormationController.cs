@@ -1,13 +1,13 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
-using SmileProject.Generic;
 using UnityEngine;
 
 namespace SmileProject.SpaceShooter
 {
 	[System.Flags]
 	[JsonConverter(typeof(FlagConverter))]
-	public enum FormationType
+	public enum Formation
 	{
 		LinearOne = 1 << 0,
 		LinearTwo = 1 << 1,
@@ -19,61 +19,133 @@ namespace SmileProject.SpaceShooter
 		CenterGroup = 1 << 7,
 	}
 
+	public delegate void WaveChangeEventHandler(int newWave);
+
 	public class FormationController : MonoBehaviour
 	{
 		[SerializeField, EnumFlag(EnumFlagAttribute.FlagLayout.List)]
-		private FormationType activeFormations;
+		private Formation activeFormations;
 
 		[SerializeField]
 		private Transform formationContainer;
-		private Dictionary<FormationType, List<FormationPoint>> formationMap = new Dictionary<FormationType, List<FormationPoint>>();
 
-		public bool trigger = false;
-		public EnemySpaceship enemyPrefab;
-		public Transform spawnpoint;
+		[SerializeField]
+		private Vector3 spawnPoint = Vector3.zero;
+
+		private Dictionary<Formation, List<FormationPoint>> formationMap = new Dictionary<Formation, List<FormationPoint>>();
+		private GameDataManager gameDataManager;
+		private SpaceshipBuilder spaceshipBuilder;
 
 		private void Start()
 		{
-			Initialize();
+			SetupFormationMap();
 		}
 
-		private void Update()
+		public void Initialize(GameDataManager gameDataManager, SpaceshipBuilder spaceshipBuilder)
 		{
-			//TODO: move enemy generator somewhere else
-			if (!trigger)
-			{
-				return;
-			}
+			this.gameDataManager = gameDataManager;
+			this.spaceshipBuilder = spaceshipBuilder;
+		}
 
-			trigger = false;
+		public void SetupWaveChangedListener(WaveChangeEventHandler waveChange)
+		{
+			waveChange += OnWaveChanged;
+		}
 
-			IEnumerable<FormationType> formations = activeFormations.GetFlags<FormationType>();
-			foreach (FormationType formation in formations)
+		public void OnWaveChanged(int waveNumber)
+		{
+			// clear all active flags
+			activeFormations.ClearFlags<Formation>(activeFormations);
+			UpdateActiveFormation(waveNumber);
+		}
+
+		private void UpdateActiveFormation(int waveNumber)
+		{
+			WaveDataModel waveData = gameDataManager.GetWaveDataModelByWaveNumber(waveNumber);
+			GenerateSpaceshipFromWaveData(waveData);
+		}
+
+		private async void GenerateSpaceshipFromWaveData(WaveDataModel waveData)
+		{
+			WaveSpawnData[] spawnsData = waveData.WaveSpawnsData;
+			float interval = waveData.SpawnInterval;
+			foreach (WaveSpawnData data in spawnsData)
 			{
-				if (formationMap.TryGetValue(formation, out var points))
+				string spaceshipId = data.SpawnSpaceshipID;
+				Formation formationData = data.Formation;
+
+				IEnumerable<Formation> formations = formationData.GetFlags<Formation>();
+				List<Task> spawnTasks = new List<Task>();
+				foreach (Formation formation in formations)
 				{
-					foreach (FormationPoint point in points)
+					if (formationMap.TryGetValue(formation, out var points))
 					{
-						if (point.HasLandedSpaceship())
+						foreach (FormationPoint point in points)
 						{
-							continue;
+							if (point.HasLandedSpaceship())
+							{
+								continue;
+							}
+							spawnTasks.Add(SendSpaceshipToPoint(spaceshipId, point));
 						}
-						EnemySpaceship enemy = Instantiate<EnemySpaceship>(enemyPrefab, spawnpoint);
-						enemy.MoveToTarget(point.GetPosition());
-						point.SetLandedSpaceship(enemy);
 					}
+				}
+				await Task.WhenAll(spawnTasks);
+				if (interval > 0)
+				{
+					// convert second to millisecond
+					int waitTime = (int)(interval * 1000);
+					await Task.Delay(waitTime);
 				}
 			}
 		}
 
-		public void Initialize()
+		private async Task SendSpaceshipToPoint(string spaceshipId, FormationPoint point)
+		{
+			Spaceship spaceship = await this.spaceshipBuilder.BuildSpaceshipById(spaceshipId);
+			spaceship.MoveToTarget(point.GetPosition());
+			spaceship.SetPosition(spawnPoint);
+			point.SetLandedSpaceship(spaceship);
+		}
+
+
+		// private void Update()
+		// {
+		// 	//TODO: move enemy generator somewhere else
+		// 	if (!trigger)
+		// 	{
+		// 		return;
+		// 	}
+
+		// 	trigger = false;
+
+		// 	IEnumerable<FormationType> formations = activeFormations.GetFlags<FormationType>();
+		// 	foreach (FormationType formation in formations)
+		// 	{
+		// 		if (formationMap.TryGetValue(formation, out var points))
+		// 		{
+		// 			foreach (FormationPoint point in points)
+		// 			{
+		// 				if (point.HasLandedSpaceship())
+		// 				{
+		// 					continue;
+		// 				}
+		// 				EnemySpaceship enemy = Instantiate<EnemySpaceship>(enemyPrefab, spawnpoint);
+		// 				enemy.MoveToTarget(point.GetPosition());
+		// 				point.SetLandedSpaceship(enemy);
+		// 			}
+		// 		}
+		// 	}
+		// }
+
+		public void SetupFormationMap()
 		{
 			FormationPoint[] formationPoints = formationContainer.GetComponentsInChildren<FormationPoint>();
 			foreach (FormationPoint point in formationPoints)
 			{
-				FormationType pointFormation = point.GetFormations();
-				IEnumerable<FormationType> flags = pointFormation.GetFlags<FormationType>();
-				foreach (FormationType formation in flags)
+				Formation pointFormation = point.GetFormations();
+				IEnumerable<Formation> flags = pointFormation.GetFlags<Formation>();
+				foreach (Formation formation in flags)
 				{
 					if (!formationMap.ContainsKey(formation))
 					{
@@ -84,7 +156,7 @@ namespace SmileProject.SpaceShooter
 			}
 		}
 
-		public bool IsActiveFormation(FormationType flag)
+		public bool IsActiveFormation(Formation flag)
 		{
 			return flag.IsFlagSet(activeFormations);
 		}

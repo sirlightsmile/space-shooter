@@ -10,7 +10,7 @@ namespace SmileProject.SpaceShooter
 		/// <summary>
 		/// Formation type included this point
 		/// </summary>
-		private FormationType formationTypes;
+		private Formation formationTypes;
 
 		/// <summary>
 		/// Spaceship took this position
@@ -19,7 +19,7 @@ namespace SmileProject.SpaceShooter
 
 		private void Start()
 		{
-			Debug.Assert(formationTypes.GetFlags<FormationType>().Count() > 0, "Formation point should have at least one formation");
+			Debug.Assert(formationTypes.GetFlags<Formation>().Count() > 0, "Formation point should have at least one formation");
 		}
 
 		/// <summary>
@@ -49,10 +49,19 @@ namespace SmileProject.SpaceShooter
 		/// <summary>
 		/// Get current formation assigned to the formation point
 		/// </summary>
-		/// <returns>formation type</returns>
-		public FormationType GetFormations()
+		/// <returns>formation flag</returns>
+		public Formation GetFormations()
 		{
 			return this.formationTypes;
+		}
+
+		/// <summary>
+		/// Set current formation assigned to the formation point
+		/// </summary>
+		/// <param name="formation">formation flag</param>
+		public void SetFormation(Formation formation)
+		{
+			this.formationTypes = formation;
 		}
 
 		/// <summary>
