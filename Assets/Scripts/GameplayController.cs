@@ -6,8 +6,8 @@ namespace SmileProject.SpaceShooter
 {
 	public class GameplayController : MonoBehaviour
 	{
+		public event EventHandler Start;
 		public event EventHandler Pause;
-
 		public event EventHandler Resume;
 
 		public event WaveChangeEventHandler WaveChange;
@@ -34,7 +34,7 @@ namespace SmileProject.SpaceShooter
 		private PlayerController playerController;
 		private WeaponFactory weaponFactory;
 		private GameDataManager gameDataManager;
-		private SpaceshipBuilder spaceshipBuilder;
+		private SpaceshipBuilder enemySpaceshipBuilder;
 		private EnemyManager enemyManager;
 
 		private int currentWave;
@@ -46,17 +46,18 @@ namespace SmileProject.SpaceShooter
 		{
 			weaponFactory = new WeaponFactory(gameDataManager);
 			playerController = new PlayerController();
-			spaceshipBuilder = new SpaceshipBuilder(resourceLoader);
-			enemyManager = new EnemyManager();
+			enemySpaceshipBuilder = new EnemySpaceshipBuilder(resourceLoader, gameDataManager);
+			enemyManager = new EnemyManager(this, resourceLoader);
 
 			Timer = 0;
 			IsPause = true;
 			InitPlayer();
 		}
 
-		public void GameStart()
+		private void GameStart()
 		{
 			IsPause = false;
+			Start?.Invoke(this, new EventArgs());
 		}
 
 		public void SetGamePause(bool isPause)
