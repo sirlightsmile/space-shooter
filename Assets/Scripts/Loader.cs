@@ -1,7 +1,6 @@
 using System;
 using System.Threading.Tasks;
 using SmileProject.Generic;
-using UnityEngine;
 
 namespace SmileProject.SpaceShooter
 {
@@ -31,22 +30,22 @@ namespace SmileProject.SpaceShooter
 			gameDataManager = new GameDataManager();
 
 			await resourceLoader.InitializeAsync();
-			await gameDataManager.Initialize(resourceLoader);
 			await Task.WhenAll(new Task[]
 			{
-				InitGameplayController(resourceLoader, gameDataManager),
+				gameDataManager.Initialize(resourceLoader),
 				InitPoolManager(resourceLoader)
 			});
+			await InitGameplayController(resourceLoader, gameDataManager, poolManager);
 
 			IsInitialized = true;
 			Initialized?.Invoke(this, new EventArgs());
 		}
 
-		private async Task InitGameplayController(ResourceLoader resourceLoader, GameDataManager gameDataManager)
+		private async Task InitGameplayController(ResourceLoader resourceLoader, GameDataManager gameDataManager, PoolManager poolManager)
 		{
 			GameplayController gameplayController = await resourceLoader.InstantiateAsync<GameplayController>("GameplayController");
 			this.gameplayController = gameplayController;
-			await this.gameplayController.Initialize(gameDataManager, resourceLoader);
+			await this.gameplayController.Initialize(gameDataManager, resourceLoader, poolManager);
 		}
 
 		private async Task InitPoolManager(ResourceLoader resourceLoader)

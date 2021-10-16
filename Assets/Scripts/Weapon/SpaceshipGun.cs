@@ -10,30 +10,30 @@ namespace SmileProject.SpaceShooter
 	public class SpaceshipGun : Weapon
 	{
 		private SpaceshipGunModel model;
+		private PoolManager poolManager;
 
-		public SpaceshipGun(SpaceshipGunModel model)
+		public SpaceshipGun(SpaceshipGunModel model, PoolManager poolManager)
 		{
 			this.model = model;
+			this.poolManager = poolManager;
 			SetLevel(WeaponInitialLevel);
 			SetMaxLevel(model.MaxLevel);
 			SetDamage(model.BaseDamage);
 			SetAttackSpeed(model.BaseSpeed);
-
-			InitBulletPool();
 		}
 
-		//TODO: move this to bullet manager or something.
-		private async void InitBulletPool()
+		public async void Reload()
 		{
-			if (!PoolManager.GetInstance().HasPool(model.BulletAsset))
+			if (!poolManager.HasPool(model.BulletAsset))
 			{
 				PoolOptions options = new PoolOptions
 				{
+					//TODO: adjust size
 					AssetKey = model.BulletAsset,
 					PoolName = model.BulletType.ToString(),
-					InitialSize = 8,
+					InitialSize = 10,
 					CanExtend = true,
-					ExtendAmount = 8
+					ExtendAmount = 10
 				};
 				await PoolManager.GetInstance().CreatePool(options);
 			}
@@ -41,8 +41,7 @@ namespace SmileProject.SpaceShooter
 
 		public void Shoot()
 		{
-			Bullet bullet = PoolManager.GetInstance().GetItem<Bullet>(model.BulletType.ToString());
-			bullet.transform.SetParent(null);
+			Bullet bullet = poolManager.GetItem<Bullet>(model.BulletType.ToString());
 			bullet.transform.position = attackPointTransform.transform.position;
 			bullet.transform.rotation = attackPointTransform.transform.rotation;
 			bullet.SetActive(true);

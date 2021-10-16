@@ -60,7 +60,9 @@ namespace SmileProject.SpaceShooter
 					index = newIndex;
 				}
 			}
-			return poolObjectList[index] as T;
+			PoolObject poolObject = poolObjectList[index];
+			poolObject.SetParent(null);
+			return poolObject as T;
 		}
 
 		/// <summary>

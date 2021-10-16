@@ -45,9 +45,9 @@ namespace SmileProject.SpaceShooter
 		/// <summary>
 		/// Initialize gameplay controller
 		/// </summary>
-		public async Task Initialize(GameDataManager gameDataManager, IResourceLoader resourceLoader)
+		public async Task Initialize(GameDataManager gameDataManager, IResourceLoader resourceLoader, PoolManager poolManager)
 		{
-			weaponFactory = new WeaponFactory(gameDataManager);
+			weaponFactory = new WeaponFactory(gameDataManager, poolManager);
 			playerController = new PlayerController();
 			FormationController formationController = await resourceLoader.InstantiateAsync<FormationController>("FormationController");
 			enemyManager = new EnemyManager(this, resourceLoader, gameDataManager, formationController);
