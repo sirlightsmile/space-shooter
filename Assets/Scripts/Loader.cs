@@ -11,7 +11,7 @@ namespace SmileProject.SpaceShooter
 		public bool IsInitialized { get; private set; }
 
 		private GameDataManager gameDataManager;
-		private ResourceLoader resourceLoader;
+		private AddressableResourceLoader resourceLoader;
 		private GameplayController gameplayController;
 		private PoolManager poolManager;
 
@@ -26,7 +26,7 @@ namespace SmileProject.SpaceShooter
 		/// <returns></returns>
 		private async void Initialize()
 		{
-			resourceLoader = new ResourceLoader();
+			resourceLoader = new AddressableResourceLoader();
 			gameDataManager = new GameDataManager();
 
 			await resourceLoader.InitializeAsync();
@@ -41,14 +41,14 @@ namespace SmileProject.SpaceShooter
 			Initialized?.Invoke(this, new EventArgs());
 		}
 
-		private async Task InitGameplayController(ResourceLoader resourceLoader, GameDataManager gameDataManager, PoolManager poolManager)
+		private async Task InitGameplayController(IResourceLoader resourceLoader, GameDataManager gameDataManager, PoolManager poolManager)
 		{
 			GameplayController gameplayController = await resourceLoader.InstantiateAsync<GameplayController>("GameplayController");
 			this.gameplayController = gameplayController;
 			await this.gameplayController.Initialize(gameDataManager, resourceLoader, poolManager);
 		}
 
-		private async Task InitPoolManager(ResourceLoader resourceLoader)
+		private async Task InitPoolManager(IResourceLoader resourceLoader)
 		{
 			PoolManager poolManager = await resourceLoader.InstantiateAsync<PoolManager>("PoolManager");
 			this.poolManager = poolManager;
