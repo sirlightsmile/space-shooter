@@ -16,9 +16,13 @@ namespace SmileProject.SpaceShooter
 			inputManager.HorizontalInput += PlayerMove;
 		}
 
-		public async Task<PlayerSpaceship> CreatePlayer(Vector2 spawnPoint, IResourceLoader resourceLoader, WeaponFactory weaponFactory, GameDataManager gameDataManager)
+		public PlayerSpaceshipBuilder CreatePlayerBuilder(IResourceLoader resourceLoader, WeaponFactory weaponFactory, GameDataManager gameDataManager)
 		{
-			PlayerSpaceshipBuilder builder = new PlayerSpaceshipBuilder(resourceLoader, gameDataManager, weaponFactory);
+			return new PlayerSpaceshipBuilder(resourceLoader, gameDataManager, weaponFactory);
+		}
+
+		public async Task<PlayerSpaceship> CreatePlayer(Vector2 spawnPoint, PlayerSpaceshipBuilder builder)
+		{
 			PlayerSpaceship player = await builder.BuildRandomSpaceship();
 			player.SetPosition(spawnPoint);
 			SetPlayer(player);

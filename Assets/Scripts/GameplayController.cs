@@ -111,7 +111,8 @@ namespace SmileProject.SpaceShooter
 
 		public async Task InitPlayer()
 		{
-			await playerController.CreatePlayer(playerSpawnPoint, resourceLoader, weaponFactory, gameDataManager);
+			PlayerSpaceshipBuilder builder = playerController.CreatePlayerBuilder(resourceLoader, weaponFactory, gameDataManager);
+			await playerController.CreatePlayer(playerSpawnPoint, builder);
 			playerController.PlayerDestroyed += GameOver;
 		}
 
