@@ -4,20 +4,35 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.AddressableAssets.ResourceLocators;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using Newtonsoft.Json;
-using System;
+using System.Collections.Generic;
 
 namespace SmileProject.Generic
 {
 	/// <summary>
-	/// Addressable resource loader manager
+	/// Addressable assets resource loader
 	/// </summary>
-	public class ResourceLoader : IResourceLoader
+	public class AddressableResourceLoader : IResourceLoader
 	{
 		public async Task InitializeAsync()
 		{
 			AsyncOperationHandle<IResourceLocator> initialize = Addressables.InitializeAsync();
 			await initialize.Task;
 			Debug.Log("ResourceLoader initialized");
+		}
+
+		/// <summary>
+		/// Preload assets to memories
+		/// </summary>
+		/// <param name="assetKeys"></param>
+		/// <returns></returns>
+		public async Task Preload(string[] assetKeys)
+		{
+			List<Task> tasks = new List<Task>();
+			foreach (string key in assetKeys)
+			{
+				tasks.Add(Load<System.Object>(key));
+			}
+			await Task.WhenAll(tasks);
 		}
 
 		public async Task<T> Load<T>(string key)
@@ -71,6 +86,24 @@ namespace SmileProject.Generic
 		{
 			Sprite sprite = await Load<Sprite>(key);
 			spriteHandler?.Invoke(sprite);
+		}
+
+		/// <summary>
+		/// Release assets from reference
+		/// </summary>
+		/// <param name="key"></param>
+		public void Release(System.Object obj)
+		{
+			Addressables.Release(obj);
+		}
+
+		/// <summary>
+		/// Release instance which created from InstantiateAsync
+		/// </summary>
+		/// <param name="key"></param>
+		public void ReleaseInstance(GameObject obj)
+		{
+			Addressables.ReleaseInstance(obj);
 		}
 	}
 }

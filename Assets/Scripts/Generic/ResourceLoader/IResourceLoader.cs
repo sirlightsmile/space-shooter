@@ -8,10 +8,13 @@ namespace SmileProject.Generic
 	public interface IResourceLoader
 	{
 		Task InitializeAsync();
+		Task Preload(string[] assetKeys);
 		Task<T> Load<T>(string key);
 		Task<T> LoadPrefab<T>(string key);
 		Task<T> LoadJsonAsModel<T>(string key);
 		Task<T> InstantiateAsync<T>(object key, Transform parent = null, bool instantiateInWorldSpace = false, bool trackHandle = true) where T : MonoBehaviour;
+		void Release(System.Object key);
+		void ReleaseInstance(GameObject obj);
 		void SetSpriteAsync(string key, SetSpriteHandler eventHandler);
 	}
 }
