@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace SmileProject.Generic
 {
@@ -101,6 +102,7 @@ namespace SmileProject.Generic
 			container.transform.SetParent(poolContainer);
 			string assetKey = options.AssetKey;
 			T poolObject = await resourceLoader.LoadPrefab<T>(assetKey);
+			resourceLoader.Release(poolObject.gameObject);
 			PoolInfo poolInfo = new PoolInfo(options, container.transform, poolObject);
 			poolInfoDict.Add(poolName, poolInfo);
 			AddObjectsToPool(poolInfo, options.InitialSize);
