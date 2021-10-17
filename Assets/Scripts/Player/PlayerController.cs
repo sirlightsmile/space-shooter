@@ -1,13 +1,29 @@
 using System;
+using System.Threading.Tasks;
+using SmileProject.Generic;
 using UnityEngine;
 
 namespace SmileProject.SpaceShooter
 {
 	public class PlayerController
 	{
+		public Action PlayerDestroyed;
 		private PlayerSpaceship player;
 
-		private bool allowControl = true;
+		public PlayerController(ISpaceShooterInput inputManager)
+		{
+			inputManager.AttackInput += PlayerShoot;
+			inputManager.HorizontalInput += PlayerMove;
+		}
+
+		public async Task<PlayerSpaceship> CreatePlayer(Vector2 spawnPoint, IResourceLoader resourceLoader, WeaponFactory weaponFactory, GameDataManager gameDataManager)
+		{
+			PlayerSpaceshipBuilder builder = new PlayerSpaceshipBuilder(resourceLoader, gameDataManager, weaponFactory);
+			PlayerSpaceship player = await builder.BuildRandomSpaceship();
+			player.SetPosition(spawnPoint);
+			SetPlayer(player);
+			return player;
+		}
 
 		public void SetPlayer(PlayerSpaceship player)
 		{
@@ -15,39 +31,20 @@ namespace SmileProject.SpaceShooter
 			player.Destroyed += OnPlayerDestroyed;
 		}
 
-		public void SetAllowControl(bool allowControl)
+		private void PlayerShoot()
 		{
-			this.allowControl = allowControl;
+			player?.Shoot();
 		}
 
-		public void Update()
+
+		private void PlayerMove(MoveDirection moveDirection)
 		{
-			//TODO: move to input manager
-			if (!allowControl || player == null)
-			{
-				return;
-			}
-
-			MoveDirection direction;
-			float axis = Input.GetAxisRaw("Horizontal");
-			if (Enum.TryParse<MoveDirection>(axis.ToString(), out direction))
-			{
-				player.MoveToDirection(direction);
-			}
-
-			if (Input.GetButtonDown("Fire1"))
-			{
-				player.Shoot();
-			}
-			else if (Input.GetButtonUp("Fire1"))
-			{
-				//TODO: stop fire
-			}
+			player?.MoveToDirection(moveDirection);
 		}
 
 		private void OnPlayerDestroyed(Spaceship spaceship)
 		{
-			SetAllowControl(false);
+			PlayerDestroyed?.Invoke();
 		}
 	}
 }

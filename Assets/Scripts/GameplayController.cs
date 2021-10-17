@@ -8,6 +8,7 @@ namespace SmileProject.SpaceShooter
 	public class GameplayController : MonoBehaviour
 	{
 		private const int firstWave = 1;
+		private const int waveInterval = 5000;
 
 		public event Action Start;
 		public event Action<bool> Pause;
@@ -37,8 +38,10 @@ namespace SmileProject.SpaceShooter
 		private EnemyManager enemyManager;
 		private GameDataManager gameDataManager;
 		private IResourceLoader resourceLoader;
+		private InputManager inputManager;
 
 		private int currentWave = firstWave;
+		private int waveCount;
 
 		/// <summary>
 		/// Initialize gameplay controller
@@ -47,20 +50,35 @@ namespace SmileProject.SpaceShooter
 		{
 			this.resourceLoader = resourceLoader;
 			this.gameDataManager = gameDataManager;
+			this.inputManager = new InputManager();
+			playerController = new PlayerController(inputManager);
 			weaponFactory = new WeaponFactory(gameDataManager, poolManager);
-			playerController = new PlayerController();
 			FormationController enemyFormationController = await resourceLoader.InstantiateAsync<FormationController>("FormationController");
 			enemyManager = new EnemyManager(this, resourceLoader, gameDataManager, enemyFormationController);
-			enemyManager.AllSpaceshipDestroyed += NextWave;
+			enemyManager.AllSpaceshipDestroyed += WaveClear;
 
+			int waveCount = gameDataManager.GetWaveDataModels().Length;
 			Timer = 0;
 			IsPause = true;
 			await InitPlayer();
 			GameStart();
 		}
 
-		private void NextWave()
+		private void WaveClear()
 		{
+			if (waveCount > currentWave)
+			{
+				NextWave();
+			}
+			else
+			{
+				ClearGame();
+			}
+		}
+
+		private async void NextWave()
+		{
+			await Task.Delay(waveInterval);
 			currentWave++;
 			WaveChange?.Invoke(currentWave);
 		}
@@ -86,13 +104,15 @@ namespace SmileProject.SpaceShooter
 			IsPause = true;
 		}
 
+		public void ClearGame()
+		{
+			Debug.Log("Clear game !");
+		}
+
 		public async Task InitPlayer()
 		{
-			Vector2 spawnPoint = playerSpawnPoint;
-			PlayerSpaceshipBuilder builder = new PlayerSpaceshipBuilder(resourceLoader, gameDataManager, weaponFactory);
-			PlayerSpaceship player = await builder.BuildRandomSpaceship();
-			player.SetPosition(spawnPoint);
-			playerController.SetPlayer(player);
+			await playerController.CreatePlayer(playerSpawnPoint, resourceLoader, weaponFactory, gameDataManager);
+			playerController.PlayerDestroyed += GameOver;
 		}
 
 		private void Update()
@@ -102,7 +122,7 @@ namespace SmileProject.SpaceShooter
 				return;
 			}
 
-			playerController.Update();
+			inputManager.Update();
 			Timer += Time.time;
 		}
 	}
