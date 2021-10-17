@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using SmileProject.Generic;
 using UnityEngine;
 
-namespace SmileProject.SpaceShooter
+namespace SmileProject.Generic
 {
 	public class PoolInfo
 	{
@@ -60,7 +59,6 @@ namespace SmileProject.SpaceShooter
 				}
 			}
 			PoolObject poolObject = poolObjectList[index];
-			poolObject.SetParent(null);
 			return poolObject as T;
 		}
 

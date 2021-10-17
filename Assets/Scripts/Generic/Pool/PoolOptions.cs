@@ -1,4 +1,4 @@
-namespace SmileProject.SpaceShooter
+namespace SmileProject.Generic
 {
 	[System.Serializable]
 	public class PoolOptions

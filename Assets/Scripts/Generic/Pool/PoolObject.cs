@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace SmileProject.SpaceShooter
+namespace SmileProject.Generic
 {
 	public abstract class PoolObject : MonoBehaviour
 	{

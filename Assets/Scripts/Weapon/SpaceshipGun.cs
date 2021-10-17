@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using SmileProject.Generic;
 using UnityEngine;
 
 namespace SmileProject.SpaceShooter
@@ -41,6 +42,7 @@ namespace SmileProject.SpaceShooter
 		public void Shoot()
 		{
 			Bullet bullet = poolManager.GetItem<Bullet>(model.BulletType.ToString());
+			bullet.SetParent(null);
 			bullet.transform.position = attackPointTransform.transform.position;
 			bullet.transform.rotation = attackPointTransform.transform.rotation;
 			bullet.SetDamage(damage);
