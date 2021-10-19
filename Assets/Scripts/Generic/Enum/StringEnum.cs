@@ -18,7 +18,7 @@ namespace SmileProject.Generic
 			return Value;
 		}
 
-		public static IEnumerable<StringEnum<T>> GetAll()
+		public IEnumerable<StringEnum<T>> GetAll()
 		{
 			return enums;
 		}

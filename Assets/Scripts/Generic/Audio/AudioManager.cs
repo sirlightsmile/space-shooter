@@ -2,19 +2,9 @@ using System.Threading.Tasks;
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.Audio;
-using System;
 
 namespace SmileProject.Generic
 {
-	[Serializable]
-	public class AudioInfo
-	{
-		public string PlayKey;
-		public string AssetKey;
-		public string MixerKey;
-		public bool ShouldPreload;
-	}
-
 	/// <summary>
 	/// Addressable resource loader manager
 	/// </summary>
@@ -25,7 +15,6 @@ namespace SmileProject.Generic
 		private IResourceLoader resourceLoader;
 		private Dictionary<int, AudioSource> playingSource;
 		private Dictionary<string, AudioMixerGroup> mixerMap;
-		private Dictionary<string, AudioInfo> audioInfoMap;
 		private int playId = 0;
 
 		private void Start()
@@ -33,33 +22,33 @@ namespace SmileProject.Generic
 			audioSources = new List<AudioSource>(audioSourcesContainer.GetComponentsInChildren<AudioSource>());
 			playingSource = new Dictionary<int, AudioSource>();
 			mixerMap = new Dictionary<string, AudioMixerGroup>();
-			audioInfoMap = new Dictionary<string, AudioInfo>();
 		}
 
 		/// <summary>
 		/// Initialize audio manager
 		/// </summary>
 		/// <param name="resourceLoader">resource loader</param>
-		/// <param name="mixerKey">mixer asset key</param>
+		/// <param name="mainMixerKey">mixer asset key</param>
 		/// <returns></returns>
-		public async Task Initialize(IResourceLoader resourceLoader, string mixerKey, AudioInfo[] audioInfos)
+		public async Task Initialize(IResourceLoader resourceLoader, string mainMixerKey, SoundKeys soundKeys)
 		{
 			this.resourceLoader = resourceLoader;
-			await Task.WhenAll(new Task[] { InitMixer(mixerKey), SetupAudioInfos(audioInfos) });
+			await Task.WhenAll(new Task[] { InitMixer(mainMixerKey), PreloadSounds(soundKeys) });
 		}
 
 		/// <summary>
 		/// Load clip then play sound through selected mixer if that mixer is exist when initialize
 		/// </summary>
-		/// <param name="audioClipKey">asset key of audio clip</param>
+		/// <param name="soundKey">asset key of audio clip</param>
 		/// <param name="loop">is loop sound</param>
 		/// <param name="mixer">selected mixer</param>
 		/// <returns>play id</returns>
-		public async Task<int> PlaySound(string audioClipKey, bool loop = false, string mixer = null)
+		public async Task<int> PlaySound(SoundKeys soundKey, bool loop = false)
 		{
-			AudioClip clip = await resourceLoader.Load<AudioClip>(audioClipKey);
+			AudioClip clip = await resourceLoader.Load<AudioClip>(soundKey.GetAssetKey());
 			AudioSource source = GetAvaliableAudioSource();
-			if (mixer != null && mixerMap.TryGetValue(mixer, out AudioMixerGroup mixerGroup))
+			string mixerKey = soundKey.GetMixerKey();
+			if (mixerKey != null && mixerMap.TryGetValue(mixerKey, out AudioMixerGroup mixerGroup))
 			{
 				source.outputAudioMixerGroup = mixerGroup;
 			}
@@ -86,6 +75,7 @@ namespace SmileProject.Generic
 				{
 					source.Stop();
 				}
+				playingSource.Remove(playId);
 			}
 		}
 
@@ -117,26 +107,18 @@ namespace SmileProject.Generic
 			}
 		}
 
-		private async Task SetupAudioInfos(AudioInfo[] infoList)
+		private async Task PreloadSounds(SoundKeys soundKeys)
 		{
 			List<string> preloadList = new List<string>();
-			foreach (AudioInfo info in infoList)
+			var allSoundKeys = soundKeys.GetAll();
+			foreach (SoundKeys soundKey in allSoundKeys)
 			{
-				string key = info.PlayKey;
-				if (audioInfoMap.ContainsKey(key))
-				{
-					Debug.LogAssertion($"Duplicated audio key [{key}]");
-					continue;
-				}
-				bool shouldPreload = info.ShouldPreload;
-
+				bool shouldPreload = soundKey.ShouldPreload();
 				if (shouldPreload)
 				{
-					string assetKey = info.AssetKey;
+					string assetKey = soundKey.GetAssetKey();
 					preloadList.Add(assetKey);
 				}
-
-				audioInfoMap.Add(key, info);
 			}
 			await resourceLoader.Preload(preloadList);
 		}
