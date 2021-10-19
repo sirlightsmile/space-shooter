@@ -1,12 +1,21 @@
 using System.Threading.Tasks;
 using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine.AddressableAssets;
-using System;
 using UnityEngine.Audio;
+using System;
 
 namespace SmileProject.Generic
 {
+	[Serializable]
+	public class AudioInfo
+	{
+		public string PlayKey;
+		public string AssetKey;
+		public string MixerKey;
+		public AudioClip Clip;
+		public bool ShouldPreload;
+	}
+
 	/// <summary>
 	/// Addressable resource loader manager
 	/// </summary>
@@ -17,6 +26,7 @@ namespace SmileProject.Generic
 		private IResourceLoader resourceLoader;
 		private Dictionary<int, AudioSource> playingSource;
 		private Dictionary<string, AudioMixerGroup> mixerMap;
+		private Dictionary<string, AudioInfo> audioInfoMap;
 		private int playId = 0;
 
 		private void Start()
@@ -24,6 +34,7 @@ namespace SmileProject.Generic
 			audioSources = new List<AudioSource>(audioSourcesContainer.GetComponentsInChildren<AudioSource>());
 			playingSource = new Dictionary<int, AudioSource>();
 			mixerMap = new Dictionary<string, AudioMixerGroup>();
+			audioInfoMap = new Dictionary<string, AudioInfo>();
 		}
 
 		/// <summary>
@@ -32,10 +43,10 @@ namespace SmileProject.Generic
 		/// <param name="resourceLoader">resource loader</param>
 		/// <param name="mixerKey">mixer asset key</param>
 		/// <returns></returns>
-		public async Task Initialize(IResourceLoader resourceLoader, string mixerKey)
+		public async Task Initialize(IResourceLoader resourceLoader, string mixerKey, AudioInfo[] audioInfos)
 		{
 			this.resourceLoader = resourceLoader;
-			await InitMixer(mixerKey);
+			await Task.WhenAll(new Task[] { InitMixer(mixerKey), SetupAudioInfos(audioInfos) });
 		}
 
 		/// <summary>
@@ -105,6 +116,30 @@ namespace SmileProject.Generic
 					}
 				}
 			}
+		}
+
+		private async Task SetupAudioInfos(AudioInfo[] infoList)
+		{
+			List<string> preloadList = new List<string>();
+			foreach (AudioInfo info in infoList)
+			{
+				string key = info.PlayKey;
+				if (audioInfoMap.ContainsKey(key))
+				{
+					Debug.LogAssertion($"Duplicated audio key [{key}]");
+					continue;
+				}
+				bool shouldPreload = info.ShouldPreload;
+
+				if (shouldPreload)
+				{
+					string assetKey = info.AssetKey;
+					preloadList.Add(assetKey);
+				}
+
+				audioInfoMap.Add(key, info);
+			}
+			await resourceLoader.Preload(preloadList);
 		}
 	}
 }

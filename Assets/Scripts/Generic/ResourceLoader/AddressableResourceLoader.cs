@@ -25,7 +25,7 @@ namespace SmileProject.Generic
 		/// </summary>
 		/// <param name="assetKeys"></param>
 		/// <returns></returns>
-		public async Task Preload(string[] assetKeys)
+		public async Task Preload(IEnumerable<string> assetKeys)
 		{
 			List<Task> tasks = new List<Task>();
 			foreach (string key in assetKeys)

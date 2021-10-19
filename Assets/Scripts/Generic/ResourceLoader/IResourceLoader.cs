@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ namespace SmileProject.Generic
 	public interface IResourceLoader
 	{
 		Task InitializeAsync();
-		Task Preload(string[] assetKeys);
+		Task Preload(IEnumerable<string> assetKeys);
 		Task<T> Load<T>(string key);
 		Task<T> LoadPrefab<T>(string key);
 		Task<T> LoadJsonAsModel<T>(string key);
