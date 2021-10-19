@@ -1,15 +1,17 @@
+using System.Collections.Generic;
+
 namespace SmileProject.Generic
 {
 	public abstract class SoundKeys : StringEnum<SoundKeys>
 	{
+		private static List<SoundKeys> soundList = new List<SoundKeys>();
 		private readonly string assetKey;
 		private readonly string mixerKey;
-		private readonly bool shouldPreload;
-		protected SoundKeys(string value, string assetKey, string mixerKey, bool shouldPreload) : base(value)
+		protected SoundKeys(string value, string assetKey, string mixerKey) : base(value)
 		{
 			this.assetKey = assetKey;
 			this.mixerKey = mixerKey;
-			this.shouldPreload = shouldPreload;
+			soundList.Add(this);
 		}
 
 		public string GetAssetKey()
@@ -22,9 +24,9 @@ namespace SmileProject.Generic
 			return mixerKey;
 		}
 
-		public bool ShouldPreload()
+		public IEnumerable<SoundKeys> GetAll()
 		{
-			return shouldPreload;
+			return soundList;
 		}
 	}
 }

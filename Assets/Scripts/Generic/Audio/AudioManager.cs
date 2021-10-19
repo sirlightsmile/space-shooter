@@ -30,10 +30,25 @@ namespace SmileProject.Generic
 		/// <param name="resourceLoader">resource loader</param>
 		/// <param name="mainMixerKey">mixer asset key</param>
 		/// <returns></returns>
-		public async Task Initialize(IResourceLoader resourceLoader, string mainMixerKey, SoundKeys soundKeys)
+		public async Task Initialize(IResourceLoader resourceLoader, string mainMixerKey)
 		{
 			this.resourceLoader = resourceLoader;
-			await Task.WhenAll(new Task[] { InitMixer(mainMixerKey), PreloadSounds(soundKeys) });
+			await Task.WhenAll(new Task[] { InitMixer(mainMixerKey) });
+		}
+
+		/// <summary>
+		/// Preload sound from sound key
+		/// </summary>
+		/// <param name="soundKeys"></param>
+		/// <returns></returns>
+		public async Task PreloadSounds(SoundKeys[] soundKeys)
+		{
+			List<string> preloadList = new List<string>();
+			foreach (SoundKeys soundKey in soundKeys)
+			{
+				preloadList.Add(soundKey.GetAssetKey());
+			}
+			await resourceLoader.Preload(preloadList);
 		}
 
 		/// <summary>
@@ -105,22 +120,6 @@ namespace SmileProject.Generic
 					}
 				}
 			}
-		}
-
-		private async Task PreloadSounds(SoundKeys soundKeys)
-		{
-			List<string> preloadList = new List<string>();
-			var allSoundKeys = soundKeys.GetAll();
-			foreach (SoundKeys soundKey in allSoundKeys)
-			{
-				bool shouldPreload = soundKey.ShouldPreload();
-				if (shouldPreload)
-				{
-					string assetKey = soundKey.GetAssetKey();
-					preloadList.Add(assetKey);
-				}
-			}
-			await resourceLoader.Preload(preloadList);
 		}
 	}
 }
