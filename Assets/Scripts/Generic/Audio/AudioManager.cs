@@ -12,7 +12,6 @@ namespace SmileProject.Generic
 		public string PlayKey;
 		public string AssetKey;
 		public string MixerKey;
-		public AudioClip Clip;
 		public bool ShouldPreload;
 	}
 
