@@ -37,6 +37,16 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - gameplay
+  - m_GUID: 0bfb2fa3244c62640af852a423b25fad
+    m_Address: MenuSounds
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+  - m_GUID: eaeada1e3b937844ea8ed8cf9a48ad01
+    m_Address: GameplaySounds
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - gameplay
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: e7da8c064d2834f458c2bcf8af1f6581, type: 2}
   m_SchemaSet:
