@@ -3,28 +3,20 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.AddressableAssets;
 using System;
+using UnityEngine.Audio;
 
 namespace SmileProject.Generic
 {
-	[Serializable]
-	public class AudioInfo
-	{
-		public string Key;
-
-		public AssetReference AudioReferences;
-	}
-
 	/// <summary>
 	/// Addressable resource loader manager
 	/// </summary>
 	public class AudioManager : MonoBehaviour
 	{
-		[SerializeField]
-		private List<AudioInfo> audioReferences = new List<AudioInfo>();
 		private GameObject audioSourcesContainer;
 		private List<AudioSource> audioSources;
-		private Dictionary<int, AudioSource> playingSource;
 		private IResourceLoader resourceLoader;
+		private Dictionary<int, AudioSource> playingSource;
+		private Dictionary<string, AudioMixerGroup> mixerMap;
 		private int playId = 0;
 
 
@@ -32,18 +24,27 @@ namespace SmileProject.Generic
 		{
 			audioSources = new List<AudioSource>(audioSourcesContainer.GetComponentsInChildren<AudioSource>());
 			playingSource = new Dictionary<int, AudioSource>();
+			mixerMap = new Dictionary<string, AudioMixerGroup>();
 		}
 
-		public async void Initialize(IResourceLoader resourceLoader)
+		public async void Initialize(IResourceLoader resourceLoader, string mixerKey)
 		{
 			this.resourceLoader = resourceLoader;
-			// await audioReferences[0]
+			await InitMixer(mixerKey);
 		}
 
-		public async Task<int> PlaySound(string soundKey, bool loop = false)
+		public async Task<int> PlaySound(string soundKey, bool loop = false, string mixer = null)
 		{
 			AudioClip clip = await resourceLoader.Load<AudioClip>(soundKey);
 			AudioSource source = GetAvaliableAudioSource();
+			if (mixer != null && mixerMap.TryGetValue(mixer, out AudioMixerGroup mixerGroup))
+			{
+				source.outputAudioMixerGroup = mixerGroup;
+			}
+			else
+			{
+				source.outputAudioMixerGroup = null;
+			}
 			source.clip = clip;
 			source.loop = loop;
 			source.Play();
@@ -71,6 +72,23 @@ namespace SmileProject.Generic
 				audioSources.Add(audioSource);
 			}
 			return audioSource;
+		}
+
+		private async Task InitMixer(string mixerKey)
+		{
+			if (!string.IsNullOrEmpty(mixerKey))
+			{
+				AudioMixer mixer = await resourceLoader.Load<AudioMixer>(mixerKey);
+				if (mixer != null)
+				{
+					// find all mixer group
+					AudioMixerGroup[] groups = mixer.FindMatchingGroups(string.Empty);
+					foreach (var group in groups)
+					{
+						mixerMap.Add(group.name, group);
+					}
+				}
+			}
 		}
 	}
 }
