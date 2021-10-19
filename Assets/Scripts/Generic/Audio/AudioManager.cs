@@ -19,7 +19,6 @@ namespace SmileProject.Generic
 		private Dictionary<string, AudioMixerGroup> mixerMap;
 		private int playId = 0;
 
-
 		private void Start()
 		{
 			audioSources = new List<AudioSource>(audioSourcesContainer.GetComponentsInChildren<AudioSource>());
@@ -27,15 +26,28 @@ namespace SmileProject.Generic
 			mixerMap = new Dictionary<string, AudioMixerGroup>();
 		}
 
-		public async void Initialize(IResourceLoader resourceLoader, string mixerKey)
+		/// <summary>
+		/// Initialize audio manager
+		/// </summary>
+		/// <param name="resourceLoader">resource loader</param>
+		/// <param name="mixerKey">mixer asset key</param>
+		/// <returns></returns>
+		public async Task Initialize(IResourceLoader resourceLoader, string mixerKey)
 		{
 			this.resourceLoader = resourceLoader;
 			await InitMixer(mixerKey);
 		}
 
-		public async Task<int> PlaySound(string soundKey, bool loop = false, string mixer = null)
+		/// <summary>
+		/// Load clip then play sound through selected mixer if that mixer is exist when initialize
+		/// </summary>
+		/// <param name="audioClipKey">asset key of audio clip</param>
+		/// <param name="loop">is loop sound</param>
+		/// <param name="mixer">selected mixer</param>
+		/// <returns>play id</returns>
+		public async Task<int> PlaySound(string audioClipKey, bool loop = false, string mixer = null)
 		{
-			AudioClip clip = await resourceLoader.Load<AudioClip>(soundKey);
+			AudioClip clip = await resourceLoader.Load<AudioClip>(audioClipKey);
 			AudioSource source = GetAvaliableAudioSource();
 			if (mixer != null && mixerMap.TryGetValue(mixer, out AudioMixerGroup mixerGroup))
 			{
@@ -52,6 +64,10 @@ namespace SmileProject.Generic
 			return playId++;
 		}
 
+		/// <summary>
+		/// Stop sound that already play
+		/// </summary>
+		/// <param name="playId">play id</param>
 		public void StopSound(int playId)
 		{
 			if (playingSource.TryGetValue(playId, out AudioSource source))
