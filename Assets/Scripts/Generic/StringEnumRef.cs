@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
+/// =====================================================
+/// NOTE : Use for reference.
+/// =====================================================
+
 namespace StringEnum
 {
 	/// <remarks>Version with Newtonsoft.Json support.</remarks>
