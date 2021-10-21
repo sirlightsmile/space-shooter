@@ -4,9 +4,9 @@ namespace SmileProject.Generic
 {
 	public abstract class SoundKeys : StringEnum<SoundKeys>
 	{
-		private static List<SoundKeys> soundList = new List<SoundKeys>();
-		private readonly string assetKey;
-		private readonly string mixerKey;
+		protected static List<SoundKeys> soundList = new List<SoundKeys>();
+		protected readonly string assetKey;
+		protected readonly string mixerKey;
 		protected SoundKeys(string value, string assetKey, string mixerKey) : base(value)
 		{
 			this.assetKey = assetKey;
@@ -14,17 +14,17 @@ namespace SmileProject.Generic
 			soundList.Add(this);
 		}
 
-		public string GetAssetKey()
+		public virtual string GetAssetKey()
 		{
 			return assetKey;
 		}
 
-		public string GetMixerKey()
+		public virtual string GetMixerKey()
 		{
 			return mixerKey;
 		}
 
-		public IEnumerable<SoundKeys> GetAll()
+		public virtual IEnumerable<SoundKeys> GetAll()
 		{
 			return soundList;
 		}

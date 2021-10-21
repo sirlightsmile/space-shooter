@@ -1,3 +1,5 @@
+using System;
+
 namespace SmileProject.Generic
 {
 	public abstract class StringEnum<T> where T : StringEnum<T>
@@ -12,6 +14,22 @@ namespace SmileProject.Generic
 		public override string ToString()
 		{
 			return Value;
+		}
+
+		public override bool Equals(object other)
+		{
+			if (other is not StringEnum<T> otherValue)
+			{
+				return false;
+			}
+			var typeMatches = GetType().Equals(other.GetType());
+			var valueMatches = Value.Equals(otherValue.Value);
+			return typeMatches && valueMatches;
+		}
+
+		public override int GetHashCode()
+		{
+			return base.GetHashCode();
 		}
 	}
 }
