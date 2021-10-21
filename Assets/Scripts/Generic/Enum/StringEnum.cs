@@ -18,13 +18,13 @@ namespace SmileProject.Generic
 
 		public override bool Equals(object other)
 		{
-			if (other is not StringEnum<T> otherValue)
+			if (other is StringEnum<T> otherValue)
 			{
-				return false;
+				var typeMatches = GetType().Equals(other.GetType());
+				var valueMatches = Value.Equals(otherValue.Value);
+				return typeMatches && valueMatches;
 			}
-			var typeMatches = GetType().Equals(other.GetType());
-			var valueMatches = Value.Equals(otherValue.Value);
-			return typeMatches && valueMatches;
+			return false;
 		}
 
 		public override int GetHashCode()
