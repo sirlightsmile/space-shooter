@@ -33,7 +33,7 @@ namespace SmileProject.Generic
 		public async Task Initialize(IResourceLoader resourceLoader, string mainMixerKey)
 		{
 			this.resourceLoader = resourceLoader;
-			await Task.WhenAll(new Task[] { InitMixer(mainMixerKey) });
+			await InitMixer(mainMixerKey);
 		}
 
 		/// <summary>
