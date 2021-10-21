@@ -51,7 +51,7 @@ namespace SmileProject.SpaceShooter
 		{
 			this.gameDataManager = gameDataManager;
 			this.spaceshipBuilder = spaceshipBuilder;
-			spaceshipBuilder.SpaceshipBuilded += SpaceshipAdded;
+			spaceshipBuilder.SpaceshipBuilded += OnSpaceshipBuilded;
 		}
 
 		public void OnWaveChanged(int waveNumber)
@@ -133,6 +133,11 @@ namespace SmileProject.SpaceShooter
 		public bool IsActiveFormation(Formation flag)
 		{
 			return flag.IsFlagSet(activeFormations);
+		}
+
+		private void OnSpaceshipBuilded(Spaceship spaceship)
+		{
+			SpaceshipAdded?.Invoke(spaceship);
 		}
 	}
 }
