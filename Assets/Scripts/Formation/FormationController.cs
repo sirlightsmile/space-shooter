@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -23,6 +24,11 @@ namespace SmileProject.SpaceShooter
 
 	public class FormationController : MonoBehaviour
 	{
+		/// <summary>
+		/// Invoke when add new spaceship to formation
+		/// </summary>
+		public event Action<Spaceship> SpaceshipAdded;
+
 		[SerializeField, EnumFlag(EnumFlagAttribute.FlagLayout.List)]
 		private Formation activeFormations;
 
@@ -45,6 +51,7 @@ namespace SmileProject.SpaceShooter
 		{
 			this.gameDataManager = gameDataManager;
 			this.spaceshipBuilder = spaceshipBuilder;
+			spaceshipBuilder.SpaceshipBuilded += SpaceshipAdded;
 		}
 
 		public void OnWaveChanged(int waveNumber)

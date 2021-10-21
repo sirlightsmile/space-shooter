@@ -10,16 +10,14 @@ namespace SmileProject.SpaceShooter
 		private FormationController formationController;
 		private List<Spaceship> enemySpaceships = new List<Spaceship>();
 
-		public EnemyManager(GameplayController gameplayController, IResourceLoader resourceLoader, GameDataManager gameDataManager, FormationController formationController)
+		public EnemyManager(GameplayController gameplayController, FormationController formationController)
 		{
-			SpaceshipBuilder enemySpaceshipBuilder = new EnemySpaceshipBuilder(resourceLoader, gameDataManager);
-			enemySpaceshipBuilder.SpaceshipBuilded += OnEnemyAdded;
 			this.formationController = formationController;
-			formationController.Initialize(gameDataManager, enemySpaceshipBuilder);
+			formationController.SpaceshipAdded += OnEnemySpaceshipAdded;
 			gameplayController.WaveChange += formationController.OnWaveChanged;
 		}
 
-		private void OnEnemyAdded(Spaceship spaceship)
+		private void OnEnemySpaceshipAdded(Spaceship spaceship)
 		{
 			spaceship.Destroyed += OnEnemyDestroyed;
 			enemySpaceships.Add(spaceship);

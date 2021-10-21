@@ -45,13 +45,19 @@ namespace SmileProject.SpaceShooter
 
 		public async Task InitGameplayController(IResourceLoader resourceLoader, GameDataManager gameDataManager, PoolManager poolManager, AudioManager audioManager)
 		{
+			FormationController enemyFormationController = await resourceLoader.InstantiateAsync<FormationController>("FormationController");
+			GameplayController gameplayController = await resourceLoader.InstantiateAsync<GameplayController>("GameplayController");
+
+			// inject player controller
 			InputManager inputManager = new InputManager();
 			WeaponFactory weaponFactory = new WeaponFactory(gameDataManager, poolManager, audioManager);
 			PlayerSpaceshipBuilder playerBuilder = new PlayerSpaceshipBuilder(resourceLoader, gameDataManager, weaponFactory);
 			PlayerController playerController = new PlayerController(inputManager, playerBuilder);
-			FormationController enemyFormationController = await resourceLoader.InstantiateAsync<FormationController>("FormationController");
-			GameplayController gameplayController = await resourceLoader.InstantiateAsync<GameplayController>("GameplayController");
-			EnemyManager enemyManager = new EnemyManager(gameplayController, resourceLoader, gameDataManager, enemyFormationController);
+
+			// inject enemy manager
+			EnemySpaceshipBuilder enemiesBuilder = new EnemySpaceshipBuilder(resourceLoader, gameDataManager);
+			enemyFormationController.Initialize(gameDataManager, enemiesBuilder);
+			EnemyManager enemyManager = new EnemyManager(gameplayController, enemyFormationController);
 
 
 			int waveCount = gameDataManager.GetWaveDataModels().Length;
