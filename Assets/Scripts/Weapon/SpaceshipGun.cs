@@ -12,7 +12,7 @@ namespace SmileProject.SpaceShooter
 		private SpaceshipGunModel model;
 		private PoolManager poolManager;
 		private AudioManager audioManager;
-		private GameSoundKeys shootSound;
+		private SoundKeys shootSound;
 
 		public SpaceshipGun(SpaceshipGunModel model, PoolManager poolManager)
 		{
@@ -63,7 +63,7 @@ namespace SmileProject.SpaceShooter
 			}
 		}
 
-		public void SetSound(AudioManager audioManager, GameSoundKeys shootSound)
+		public void SetSounds(AudioManager audioManager, SoundKeys shootSound)
 		{
 			this.audioManager = audioManager;
 			this.shootSound = shootSound;
@@ -71,10 +71,7 @@ namespace SmileProject.SpaceShooter
 
 		private async void PlayShootSound()
 		{
-			if (audioManager != null && shootSound != null)
-			{
-				await audioManager.PlaySound(shootSound);
-			}
+			await audioManager?.PlaySound(shootSound);
 		}
 
 		private void UpdateStatus()

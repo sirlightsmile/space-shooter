@@ -19,7 +19,7 @@ namespace SmileProject.SpaceShooter
 		public SpaceshipGun CreateSpaceshipGun(SpaceshipGunModel model)
 		{
 			SpaceshipGun gun = new SpaceshipGun(model, poolManager);
-			gun.SetSound(audioManager, GameSoundKeys.Shoot);
+			gun.SetSounds(audioManager, GameSoundKeys.Shoot);
 			return gun;
 		}
 

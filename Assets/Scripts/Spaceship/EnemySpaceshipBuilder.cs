@@ -9,8 +9,9 @@ namespace SmileProject.SpaceShooter
 		private const string assetPrefix = "SpaceshipSprites/";
 		private const string enemyPrefabKey = "EnemyPrefab";
 		private GameDataManager gameDataManager;
+		private AudioManager audioManager;
 
-		public EnemySpaceshipBuilder(IResourceLoader resourceLoader, GameDataManager gameDataManager) : base(resourceLoader)
+		public EnemySpaceshipBuilder(IResourceLoader resourceLoader, GameDataManager gameDataManager, AudioManager audioManager) : base(resourceLoader)
 		{
 			this.gameDataManager = gameDataManager;
 		}
@@ -19,6 +20,7 @@ namespace SmileProject.SpaceShooter
 		{
 			var spaceship = await BuildSpaceship<EnemySpaceship, EnemySpaceshipModel>(enemyPrefabKey, model);
 			spaceship.SetDestroyScore(model.Score);
+			spaceship.SetSounds(audioManager, GameSoundKeys.Explosion);
 			return spaceship;
 		}
 

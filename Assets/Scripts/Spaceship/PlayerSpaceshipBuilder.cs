@@ -12,11 +12,13 @@ namespace SmileProject.SpaceShooter
 		private const string prefabKey = "PlayerPrefab";
 		private GameDataManager gameDataManager;
 		private WeaponFactory weaponFactory;
+		private AudioManager audioManager;
 
-		public PlayerSpaceshipBuilder(IResourceLoader resourceLoader, GameDataManager gameDataManager, WeaponFactory weaponFactory) : base(resourceLoader)
+		public PlayerSpaceshipBuilder(IResourceLoader resourceLoader, GameDataManager gameDataManager, WeaponFactory weaponFactory, AudioManager audioManager) : base(resourceLoader)
 		{
 			this.gameDataManager = gameDataManager;
 			this.weaponFactory = weaponFactory;
+			this.audioManager = audioManager;
 		}
 
 		public async Task<PlayerSpaceship> BuildPlayerSpaceship(SpaceshipModel model)
@@ -25,6 +27,7 @@ namespace SmileProject.SpaceShooter
 			string weaponId = model.BasicWeaponId;
 			SpaceshipGun weapon = !String.IsNullOrEmpty(weaponId) ? weaponFactory.CreateSpaceshipGunById(weaponId) : weaponFactory.CreateRandomSpaceshipGun();
 			await spaceship.SetWeapon(weapon);
+			spaceship.SetSounds(audioManager, GameSoundKeys.PlayerExplosion);
 			return spaceship;
 		}
 
