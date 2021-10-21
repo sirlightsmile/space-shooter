@@ -71,7 +71,10 @@ namespace SmileProject.SpaceShooter
 
 		private async void PlayShootSound()
 		{
-			await audioManager?.PlaySound(shootSound);
+			if (audioManager != null)
+			{
+				await audioManager.PlaySound(shootSound);
+			}
 		}
 
 		private void UpdateStatus()

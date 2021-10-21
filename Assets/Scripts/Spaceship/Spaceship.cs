@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Threading.Tasks;
+using SmileProject.Generic;
 using UnityEngine;
 
 namespace SmileProject.SpaceShooter
@@ -24,6 +25,7 @@ namespace SmileProject.SpaceShooter
 		protected SpriteRenderer shipImage;
 
 		protected SpaceshipGun weapon;
+		protected AudioManager audioManager;
 
 		[SerializeField]
 		/// <summary>
@@ -100,6 +102,14 @@ namespace SmileProject.SpaceShooter
 			}
 
 			MoveCoroutine = StartCoroutine(MoveToTargetCoroutine(targetPos));
+		}
+
+		protected async void PlaySound(SoundKeys soundKey)
+		{
+			if (audioManager != null && soundKey != null)
+			{
+				await audioManager.PlaySound(soundKey);
+			}
 		}
 
 		protected virtual void ShipDestroy()

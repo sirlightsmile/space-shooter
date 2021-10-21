@@ -15,7 +15,6 @@ namespace SmileProject.SpaceShooter
 
 		private const int playerInitialLevel = 1;
 		private float moveBorder = 0;
-		private AudioManager audioManager;
 		private SoundKeys destroyedSound;
 
 		private void Start()
@@ -32,11 +31,7 @@ namespace SmileProject.SpaceShooter
 		public void SetSounds(AudioManager audioManager, SoundKeys destroyedSound)
 		{
 			this.audioManager = audioManager;
-		}
-
-		private async void PlayDestroyedSound()
-		{
-			await this.audioManager?.PlaySound(destroyedSound);
+			this.destroyedSound = destroyedSound;
 		}
 
 		public void MoveToDirection(MoveDirection direction)
@@ -56,6 +51,12 @@ namespace SmileProject.SpaceShooter
 			float borderRight = Screen.width - halfSize;
 			float borderWorldPoint = Camera.main.ScreenToWorldPoint(new Vector3(borderRight, 0, 0)).x;
 			this.moveBorder = borderWorldPoint;
+		}
+
+		protected override void ShipDestroy()
+		{
+			base.ShipDestroy();
+			PlaySound(destroyedSound);
 		}
 	}
 }

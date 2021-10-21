@@ -14,6 +14,7 @@ namespace SmileProject.SpaceShooter
 		public EnemySpaceshipBuilder(IResourceLoader resourceLoader, GameDataManager gameDataManager, AudioManager audioManager) : base(resourceLoader)
 		{
 			this.gameDataManager = gameDataManager;
+			this.audioManager = audioManager;
 		}
 
 		public async Task<EnemySpaceship> BuildEnemySpaceship(EnemySpaceshipModel model)
