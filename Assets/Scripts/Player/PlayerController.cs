@@ -9,19 +9,16 @@ namespace SmileProject.SpaceShooter
 	{
 		public Action PlayerDestroyed;
 		private PlayerSpaceship player;
+		private PlayerSpaceshipBuilder builder;
 
-		public PlayerController(ISpaceShooterInput inputManager)
+		public PlayerController(ISpaceShooterInput inputManager, PlayerSpaceshipBuilder builder)
 		{
+			this.builder = builder;
 			inputManager.AttackInput += PlayerShoot;
 			inputManager.HorizontalInput += PlayerMove;
 		}
 
-		public PlayerSpaceshipBuilder CreatePlayerBuilder(IResourceLoader resourceLoader, WeaponFactory weaponFactory, GameDataManager gameDataManager)
-		{
-			return new PlayerSpaceshipBuilder(resourceLoader, gameDataManager, weaponFactory);
-		}
-
-		public async Task<PlayerSpaceship> CreatePlayer(Vector2 spawnPoint, PlayerSpaceshipBuilder builder)
+		public async Task<PlayerSpaceship> CreatePlayer(Vector2 spawnPoint)
 		{
 			PlayerSpaceship player = await builder.BuildRandomSpaceship();
 			player.SetPosition(spawnPoint);
@@ -29,7 +26,7 @@ namespace SmileProject.SpaceShooter
 			return player;
 		}
 
-		public void SetPlayer(PlayerSpaceship player)
+		private void SetPlayer(PlayerSpaceship player)
 		{
 			this.player = player;
 			player.Destroyed += OnPlayerDestroyed;

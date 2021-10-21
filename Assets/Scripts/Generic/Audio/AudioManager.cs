@@ -10,8 +10,12 @@ namespace SmileProject.Generic
 	/// </summary>
 	public class AudioManager : MonoBehaviour
 	{
+		[SerializeField]
 		private GameObject audioSourcesContainer;
+
+		[SerializeField]
 		private List<AudioSource> audioSources;
+
 		private IResourceLoader resourceLoader;
 		private Dictionary<int, AudioSource> playingSource;
 		private Dictionary<string, AudioMixerGroup> mixerMap;
@@ -100,6 +104,7 @@ namespace SmileProject.Generic
 			if (audioSource == null)
 			{
 				audioSource = audioSourcesContainer.AddComponent<AudioSource>();
+				audioSource.playOnAwake = false;
 				audioSources.Add(audioSource);
 			}
 			return audioSource;

@@ -34,10 +34,7 @@ namespace SmileProject.SpaceShooter
 		private Vector2 playerSpawnPoint;
 
 		private PlayerController playerController;
-		private WeaponFactory weaponFactory;
 		private EnemyManager enemyManager;
-		private GameDataManager gameDataManager;
-		private IResourceLoader resourceLoader;
 		private InputManager inputManager;
 		private AudioManager audioManager;
 
@@ -47,54 +44,35 @@ namespace SmileProject.SpaceShooter
 		/// <summary>
 		/// Initialize gameplay controller
 		/// </summary>
-		public async Task Initialize(GameDataManager gameDataManager, IResourceLoader resourceLoader, PoolManager poolManager, AudioManager audioManager)
+		public async Task Initialize(PlayerController playerController, EnemyManager enemyManager, InputManager inputManager, AudioManager audioManager)
 		{
-			this.resourceLoader = resourceLoader;
-			this.gameDataManager = gameDataManager;
-			this.inputManager = new InputManager();
-			playerController = new PlayerController(inputManager);
-			weaponFactory = new WeaponFactory(gameDataManager, poolManager, audioManager);
-			FormationController enemyFormationController = await resourceLoader.InstantiateAsync<FormationController>("FormationController");
-			enemyManager = new EnemyManager(this, resourceLoader, gameDataManager, enemyFormationController);
-			enemyManager.AllSpaceshipDestroyed += WaveClear;
+			this.playerController = playerController;
+			this.inputManager = inputManager;
+			this.audioManager = audioManager;
+			this.enemyManager = enemyManager;
+			enemyManager.AllSpaceshipDestroyed += OnWaveClear;
+			playerController.PlayerDestroyed += OnGameOver;
 
-			int waveCount = gameDataManager.GetWaveDataModels().Length;
-			Timer = 0;
 			IsPause = true;
-			await InitPlayer();
-			GameStart();
+			await playerController.CreatePlayer(playerSpawnPoint);
 		}
 
-		private void WaveClear()
+		/// <summary>
+		/// Set total wave that enemies will spawn
+		/// </summary>
+		/// <param name="wave">total wave</param>
+		public void SetWaveCount(int wave)
 		{
-			if (waveCount > currentWave)
-			{
-				NextWave();
-			}
-			else
-			{
-				ClearGame();
-			}
+			this.waveCount = wave;
 		}
 
-		private async void NextWave()
+		public void GameStart()
 		{
-			await Task.Delay(waveInterval);
-			currentWave++;
-			WaveChange?.Invoke(currentWave);
-		}
-
-		private void GameStart()
-		{
+			Timer = 0;
 			IsPause = false;
 			PlayGameplayBGM();
 			Start?.Invoke();
 			WaveChange?.Invoke(currentWave);
-		}
-
-		private async void PlayGameplayBGM()
-		{
-			await audioManager.PlaySound(GameSoundKeys.GameplayBGM);
 		}
 
 		public void SetGamePause(bool isPause)
@@ -106,21 +84,38 @@ namespace SmileProject.SpaceShooter
 			}
 		}
 
-		public void GameOver()
-		{
-			IsPause = true;
-		}
-
 		public void ClearGame()
 		{
 			Debug.Log("Clear game !");
 		}
 
-		public async Task InitPlayer()
+		private async void PlayGameplayBGM()
 		{
-			PlayerSpaceshipBuilder builder = playerController.CreatePlayerBuilder(resourceLoader, weaponFactory, gameDataManager);
-			await playerController.CreatePlayer(playerSpawnPoint, builder);
-			playerController.PlayerDestroyed += GameOver;
+			await audioManager.PlaySound(GameSoundKeys.GameplayBGM, true);
+		}
+
+		private async void NextWave()
+		{
+			await Task.Delay(waveInterval);
+			currentWave++;
+			WaveChange?.Invoke(currentWave);
+		}
+
+		private void OnWaveClear()
+		{
+			if (waveCount > currentWave)
+			{
+				NextWave();
+			}
+			else
+			{
+				ClearGame();
+			}
+		}
+
+		private void OnGameOver()
+		{
+			IsPause = true;
 		}
 
 		private void Update()
