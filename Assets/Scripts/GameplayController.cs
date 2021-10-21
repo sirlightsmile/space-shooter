@@ -39,6 +39,7 @@ namespace SmileProject.SpaceShooter
 		private GameDataManager gameDataManager;
 		private IResourceLoader resourceLoader;
 		private InputManager inputManager;
+		private AudioManager audioManager;
 
 		private int currentWave = firstWave;
 		private int waveCount;
@@ -46,13 +47,13 @@ namespace SmileProject.SpaceShooter
 		/// <summary>
 		/// Initialize gameplay controller
 		/// </summary>
-		public async Task Initialize(GameDataManager gameDataManager, IResourceLoader resourceLoader, PoolManager poolManager)
+		public async Task Initialize(GameDataManager gameDataManager, IResourceLoader resourceLoader, PoolManager poolManager, AudioManager audioManager)
 		{
 			this.resourceLoader = resourceLoader;
 			this.gameDataManager = gameDataManager;
 			this.inputManager = new InputManager();
 			playerController = new PlayerController(inputManager);
-			weaponFactory = new WeaponFactory(gameDataManager, poolManager);
+			weaponFactory = new WeaponFactory(gameDataManager, poolManager, audioManager);
 			FormationController enemyFormationController = await resourceLoader.InstantiateAsync<FormationController>("FormationController");
 			enemyManager = new EnemyManager(this, resourceLoader, gameDataManager, enemyFormationController);
 			enemyManager.AllSpaceshipDestroyed += WaveClear;
@@ -86,8 +87,14 @@ namespace SmileProject.SpaceShooter
 		private void GameStart()
 		{
 			IsPause = false;
+			PlayGameplayBGM();
 			Start?.Invoke();
 			WaveChange?.Invoke(currentWave);
+		}
+
+		private async void PlayGameplayBGM()
+		{
+			await audioManager.PlaySound(GameSoundKeys.GameplayBGM);
 		}
 
 		public void SetGamePause(bool isPause)

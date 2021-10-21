@@ -5,6 +5,7 @@ namespace SmileProject.SpaceShooter
 {
 	public class MixerGroup : StringEnum<MixerGroup>
 	{
+		public const string MainMixerKey = "SoundMixer";
 		public MixerGroup(string value) : base(value)
 		{
 		}

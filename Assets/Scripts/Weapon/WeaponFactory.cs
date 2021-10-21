@@ -7,16 +7,19 @@ namespace SmileProject.SpaceShooter
 	{
 		private GameDataManager gameDataManager;
 		private PoolManager poolManager;
+		private AudioManager audioManager;
 
-		public WeaponFactory(GameDataManager gameDataManager, PoolManager poolManager)
+		public WeaponFactory(GameDataManager gameDataManager, PoolManager poolManager, AudioManager audioManager)
 		{
 			this.gameDataManager = gameDataManager;
 			this.poolManager = poolManager;
+			this.audioManager = audioManager;
 		}
 
 		public SpaceshipGun CreateSpaceshipGun(SpaceshipGunModel model)
 		{
 			SpaceshipGun gun = new SpaceshipGun(model, poolManager);
+			gun.SetSound(audioManager, GameSoundKeys.Shoot);
 			return gun;
 		}
 

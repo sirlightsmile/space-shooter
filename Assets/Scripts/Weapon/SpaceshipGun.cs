@@ -11,6 +11,8 @@ namespace SmileProject.SpaceShooter
 	{
 		private SpaceshipGunModel model;
 		private PoolManager poolManager;
+		private AudioManager audioManager;
+		private GameSoundKeys shootSound;
 
 		public SpaceshipGun(SpaceshipGunModel model, PoolManager poolManager)
 		{
@@ -47,6 +49,7 @@ namespace SmileProject.SpaceShooter
 			bullet.transform.rotation = attackPointTransform.transform.rotation;
 			bullet.SetDamage(damage);
 			bullet.SetActive(true);
+			PlayShootSound();
 		}
 
 		public void LevelUp(int addLevel = 1)
@@ -57,6 +60,20 @@ namespace SmileProject.SpaceShooter
 			{
 				SetLevel(targetLevel);
 				UpdateStatus();
+			}
+		}
+
+		public void SetSound(AudioManager audioManager, GameSoundKeys shootSound)
+		{
+			this.audioManager = audioManager;
+			this.shootSound = shootSound;
+		}
+
+		private async void PlayShootSound()
+		{
+			if (audioManager != null && shootSound != null)
+			{
+				await audioManager.PlaySound(shootSound);
 			}
 		}
 
