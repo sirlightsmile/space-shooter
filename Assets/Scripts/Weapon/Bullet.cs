@@ -1,13 +1,16 @@
-﻿using SmileProject.Generic;
+﻿using System;
+using SmileProject.Generic;
 using UnityEngine;
 
 namespace SmileProject.SpaceShooter
 {
 	public class Bullet : PoolObject
 	{
-		private int damage;
+		public event Action<Spaceship> Hit;
 
+		private int damage;
 		private float yBorder;
+		private SpaceshipTag ownerTag;
 
 		public override void OnSpawn() { }
 
@@ -21,6 +24,11 @@ namespace SmileProject.SpaceShooter
 		public void SetDamage(int damage)
 		{
 			this.damage = damage;
+		}
+
+		public void SetOwnerTag(SpaceshipTag tag)
+		{
+			ownerTag = tag;
 		}
 
 		private void FixedUpdate()
@@ -57,11 +65,12 @@ namespace SmileProject.SpaceShooter
 		private void OnTriggerEnter2D(Collider2D other)
 		{
 			Spaceship spaceship = other.transform.GetComponent<Spaceship>();
-			if (spaceship != null)
+			if (spaceship != null && spaceship.SpaceshipTag != ownerTag)
 			{
-				spaceship.GetHit(damage);
+				Hit?.Invoke(spaceship);
+				Hit = null;
+				ReturnToPool();
 			}
-			ReturnToPool();
 		}
 	}
 }
