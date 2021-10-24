@@ -41,6 +41,7 @@ namespace SmileProject.SpaceShooter
 
 		private int currentWave = firstWave;
 		private int waveCount;
+		private int playerScore = 0;
 
 		/// <summary>
 		/// Initialize gameplay controller
@@ -53,8 +54,13 @@ namespace SmileProject.SpaceShooter
 			this.enemyManager = enemyManager;
 			this.uiManager = uiManager;
 
+
 			enemyManager.AllSpaceshipDestroyed += OnWaveClear;
 			playerController.PlayerDestroyed += OnGameOver;
+
+			// ui
+			playerController.PlayerGetHit += OnPlayerGetHit;
+			enemyManager.EnemyDestroyed += OnEnemyDestroyed;
 
 			IsPause = true;
 			await playerController.CreatePlayer(playerSpawnPoint);
@@ -71,6 +77,7 @@ namespace SmileProject.SpaceShooter
 
 		public void GameStart()
 		{
+			playerScore = 0;
 			Timer = 0;
 			IsPause = false;
 			PlayGameplayBGM();
@@ -93,6 +100,17 @@ namespace SmileProject.SpaceShooter
 		private async void PlayGameplayBGM()
 		{
 			await audioManager.PlaySound(GameSoundKeys.GameplayBGM, true);
+		}
+
+		private void OnEnemyDestroyed(int score)
+		{
+			playerController.AddScore(score);
+			uiManager.SetPlayerScore(playerController.PlayerScore);
+		}
+
+		private void OnPlayerGetHit(int hp)
+		{
+			uiManager.SetPlayerHp(hp);
 		}
 
 		private async void NextWave()

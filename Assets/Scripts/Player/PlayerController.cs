@@ -35,6 +35,11 @@ namespace SmileProject.SpaceShooter
 			return player;
 		}
 
+		public void AddScore(int score)
+		{
+			PlayerScore += score;
+		}
+
 		private void SetPlayer(PlayerSpaceship player)
 		{
 			this.player = player;
