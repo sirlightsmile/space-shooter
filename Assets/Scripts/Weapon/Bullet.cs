@@ -67,6 +67,7 @@ namespace SmileProject.SpaceShooter
 			Spaceship spaceship = other.transform.GetComponent<Spaceship>();
 			if (spaceship != null && spaceship.SpaceshipTag != ownerTag)
 			{
+				spaceship.GetHit(damage);
 				Hit?.Invoke(spaceship);
 				Hit = null;
 				ReturnToPool();

@@ -9,9 +9,9 @@ namespace SmileProject.SpaceShooter
 	public abstract class Spaceship : MonoBehaviour
 	{
 		/// <summary>
-		/// Invoke when attack other spaceship
+		/// Invoke when success attack other spaceship <Attacker, Defender>
 		/// </summary>
-		public event Action<Spaceship> Attack;
+		public event Action<Spaceship, Spaceship> AttackSuccess;
 		public event SpaceshipDestroyed Destroyed;
 		public delegate void SpaceshipDestroyed(Spaceship spaceship);
 		protected float width { get { return shipImage.bounds.size.x * shipImage.sprite.pixelsPerUnit; } }
@@ -76,6 +76,11 @@ namespace SmileProject.SpaceShooter
 			this.hp = hp;
 		}
 
+		public virtual bool IsBroken()
+		{
+			return hp <= 0;
+		}
+
 		public virtual void SetSpeed(float speed)
 		{
 			this.speed = speed;
@@ -90,9 +95,9 @@ namespace SmileProject.SpaceShooter
 
 		public virtual void GetHit(int damage)
 		{
-			int result = this.hp - damage;
-			this.hp = Mathf.Clamp(result, 0, this.hp);
-			if (this.hp == 0)
+			int result = hp - damage;
+			hp = Mathf.Clamp(result, 0, this.hp);
+			if (IsBroken())
 			{
 				ShipDestroy();
 			}
@@ -141,9 +146,9 @@ namespace SmileProject.SpaceShooter
 			Debug.Log("On target reached");
 		}
 
-		private void OnAttackSuccess(Spaceship spaceship)
+		private void OnAttackSuccess(Spaceship other)
 		{
-			Attack?.Invoke(spaceship);
+			AttackSuccess?.Invoke(this, other);
 		}
 
 		private IEnumerator MoveToTargetCoroutine(Vector2 targetPos, Action reachedCallback)

@@ -6,14 +6,14 @@ namespace SmileProject.SpaceShooter
 	public class EnemySpaceship : Spaceship
 	{
 		public override SpaceshipTag SpaceshipTag { get { return SpaceshipTag.Enemy; } }
-		private int destroyScore;
+		public int DestroyScore { get; private set; }
 		private SoundKeys destroyedSound;
 
 		//TODO: implement enemy spaceship attack formation
 
 		public void SetDestroyScore(int destroyScore)
 		{
-			this.destroyScore = destroyScore;
+			this.DestroyScore = destroyScore;
 		}
 
 		//TODO: on hit sound
