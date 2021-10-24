@@ -92,11 +92,14 @@ namespace SmileProject.Generic
 		public async Task CreatePool<T>(PoolOptions options) where T : PoolObject
 		{
 			string poolName = options.PoolName;
-			if (GetPoolInfo(poolName) != null)
+			if (HasPool(poolName))
 			{
 				Debug.LogAssertion($"Pool name [{poolName}] already exist.");
 				return;
 			}
+
+			// prevent duplicate while creating
+			poolInfoDict.Add(poolName, null);
 
 			GameObject container = new GameObject(poolName);
 			container.transform.SetParent(poolContainer);
@@ -104,7 +107,7 @@ namespace SmileProject.Generic
 			T poolObject = await resourceLoader.LoadPrefab<T>(assetKey);
 			resourceLoader.Release(poolObject.gameObject);
 			PoolInfo poolInfo = new PoolInfo(options, container.transform, poolObject);
-			poolInfoDict.Add(poolName, poolInfo);
+			poolInfoDict[poolName] = poolInfo;
 			AddObjectsToPool(poolInfo, options.InitialSize);
 		}
 
