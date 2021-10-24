@@ -5,13 +5,18 @@ namespace SmileProject.SpaceShooter
 {
 	public class Bullet : PoolObject
 	{
-		[SerializeField]
-		private SpriteRenderer bulletRenderer;
 		private int damage;
+
+		private float yBorder;
 
 		public override void OnSpawn() { }
 
 		public override void OnDespawn() { }
+
+		private void Start()
+		{
+			SetBorder();
+		}
 
 		public void SetDamage(int damage)
 		{
@@ -20,14 +25,36 @@ namespace SmileProject.SpaceShooter
 
 		private void FixedUpdate()
 		{
-			this.transform.Translate(this.transform.up * Time.fixedDeltaTime * 5f);
-			if (!bulletRenderer.isVisible)
+			if (Vector2.Dot(transform.up, Vector2.down) > 0)
+			{
+				transform.Translate(-transform.up * Time.fixedDeltaTime * 5f);
+			}
+			else
+			{
+				transform.Translate(transform.up * Time.fixedDeltaTime * 5f);
+			}
+			if (IsVisible())
 			{
 				ReturnToPool();
 			}
 		}
 
-		void OnTriggerEnter2D(Collider2D other)
+		private bool IsVisible()
+		{
+			return transform.position.y > yBorder || transform.position.y < -yBorder;
+		}
+
+		/// <summary>
+		/// Setup world y border for check visible
+		/// </summary>
+		private void SetBorder()
+		{
+			float borderY = Screen.height;
+			float borderWorldPoint = Camera.main.ScreenToWorldPoint(new Vector3(0, borderY, 0)).y;
+			yBorder = borderWorldPoint;
+		}
+
+		private void OnTriggerEnter2D(Collider2D other)
 		{
 			Spaceship spaceship = other.transform.GetComponent<Spaceship>();
 			if (spaceship != null)
