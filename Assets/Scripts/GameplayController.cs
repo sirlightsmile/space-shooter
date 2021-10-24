@@ -78,10 +78,8 @@ namespace SmileProject.SpaceShooter
 		public void SetGamePause(bool isPause)
 		{
 			IsPause = isPause;
-			if (isPause)
-			{
-				Pause?.Invoke(isPause);
-			}
+			Pause?.Invoke(isPause);
+			Time.timeScale = isPause ? 0f : 1f;
 		}
 
 		public void ClearGame()
