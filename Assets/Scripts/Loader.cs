@@ -55,7 +55,7 @@ namespace SmileProject.SpaceShooter
 			PlayerController playerController = new PlayerController(inputManager, playerBuilder);
 
 			// inject enemy manager
-			EnemySpaceshipBuilder enemiesBuilder = new EnemySpaceshipBuilder(resourceLoader, gameDataManager, audioManager);
+			EnemySpaceshipBuilder enemiesBuilder = new EnemySpaceshipBuilder(resourceLoader, gameDataManager, weaponFactory, audioManager);
 			enemyFormationController.Initialize(gameDataManager, enemiesBuilder);
 			EnemyManager enemyManager = new EnemyManager(gameplayController, enemyFormationController);
 
