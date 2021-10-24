@@ -82,7 +82,10 @@ namespace SmileProject.SpaceShooter
 			// from second to millisecond
 			int delayTimeMillisecond = (int)(randomDelay * 1000);
 			await Task.Delay(delayTimeMillisecond);
-			spaceship?.Shoot();
+			if (spaceship != null && spaceship.transform != null)
+			{
+				spaceship?.Shoot();
+			}
 		}
 
 		private void OnFormationChanged()
