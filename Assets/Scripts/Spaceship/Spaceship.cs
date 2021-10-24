@@ -141,6 +141,7 @@ namespace SmileProject.SpaceShooter
 			Destroyed?.Invoke(this);
 		}
 
+		//TODO: check for removal
 		protected virtual void OnTargetReached()
 		{
 			Debug.Log("On target reached");
