@@ -54,16 +54,14 @@ namespace SmileProject.SpaceShooter
 			this.enemyManager = enemyManager;
 			this.uiManager = uiManager;
 
-
 			enemyManager.AllSpaceshipDestroyed += OnWaveClear;
 			playerController.PlayerDestroyed += OnGameOver;
-
-			// ui
 			playerController.PlayerGetHit += OnPlayerGetHit;
 			enemyManager.EnemyDestroyed += OnEnemyDestroyed;
 
 			IsPause = true;
 			await playerController.CreatePlayer(playerSpawnPoint);
+			uiManager.SetPlayerHp(playerController.PlayerSpaceship.HP);
 		}
 
 		/// <summary>

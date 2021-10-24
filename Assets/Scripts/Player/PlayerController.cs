@@ -17,7 +17,7 @@ namespace SmileProject.SpaceShooter
 		public Action PlayerDestroyed;
 
 		public int PlayerScore { get; private set; } = 0;
-		private PlayerSpaceship player;
+		public PlayerSpaceship PlayerSpaceship { get; private set; }
 		private PlayerSpaceshipBuilder builder;
 
 		public PlayerController(ISpaceShooterInput inputManager, PlayerSpaceshipBuilder builder)
@@ -42,20 +42,20 @@ namespace SmileProject.SpaceShooter
 
 		private void SetPlayer(PlayerSpaceship player)
 		{
-			this.player = player;
+			this.PlayerSpaceship = player;
 			player.GotHit += OnPlayerGotHit;
 			player.Destroyed += OnPlayerDestroyed;
 		}
 
 		private void PlayerShoot()
 		{
-			player?.Shoot();
+			PlayerSpaceship?.Shoot();
 		}
 
 
 		private void PlayerMove(MoveDirection moveDirection)
 		{
-			player?.MoveToDirection(moveDirection);
+			PlayerSpaceship?.MoveToDirection(moveDirection);
 		}
 
 		private void OnPlayerGotHit(Spaceship other, Spaceship player)
