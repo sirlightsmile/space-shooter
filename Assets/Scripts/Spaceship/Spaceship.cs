@@ -8,7 +8,10 @@ namespace SmileProject.SpaceShooter
 {
 	public abstract class Spaceship : MonoBehaviour
 	{
-		public event Action<Spaceship> AttackOpponent;
+		/// <summary>
+		/// Invoke when attack other spaceship
+		/// </summary>
+		public event Action<Spaceship> Attack;
 		public event SpaceshipDestroyed Destroyed;
 		public delegate void SpaceshipDestroyed(Spaceship spaceship);
 		protected float width { get { return shipImage.bounds.size.x * shipImage.sprite.pixelsPerUnit; } }
@@ -135,7 +138,7 @@ namespace SmileProject.SpaceShooter
 
 		private void OnAttackSuccess(Spaceship spaceship)
 		{
-			AttackOpponent?.Invoke(spaceship);
+			Attack?.Invoke(spaceship);
 		}
 
 		private IEnumerator MoveToTargetCoroutine(Vector2 targetPos)

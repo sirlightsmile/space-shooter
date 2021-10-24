@@ -126,6 +126,7 @@ namespace SmileProject.SpaceShooter
 			}
 
 			inputManager.Update();
+			enemyManager.Update();
 			Timer += Time.time;
 		}
 	}
