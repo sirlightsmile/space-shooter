@@ -29,6 +29,16 @@ namespace SmileProject.SpaceShooter
 		/// </summary>
 		public event Action<Spaceship> SpaceshipAdded;
 
+		/// <summary>
+		/// Invoke when formation is changeing
+		/// </summary>
+		public event Action FormationChange;
+
+		/// <summary>
+		/// Invoke when all spaceship reached all formation point
+		/// </summary>
+		public event Action FormationReady;
+
 		[SerializeField, EnumFlag(EnumFlagAttribute.FlagLayout.List)]
 		private Formation activeFormations;
 
@@ -65,6 +75,8 @@ namespace SmileProject.SpaceShooter
 
 		private void UpdateActiveFormation(int waveNumber)
 		{
+			FormationChange?.Invoke();
+			Debug.Log("Invoke Formation Change");
 			WaveDataModel waveData = gameDataManager.GetWaveDataModelByWaveNumber(waveNumber);
 			GenerateSpaceshipFromWaveData(waveData);
 		}
@@ -77,7 +89,6 @@ namespace SmileProject.SpaceShooter
 			{
 				string spaceshipId = data.SpawnSpaceshipID;
 				Formation formationData = data.Formation;
-
 				IEnumerable<Formation> formations = formationData.GetFlags<Formation>();
 				List<Task> spawnTasks = new List<Task>();
 				foreach (Formation formation in formations)
@@ -102,14 +113,19 @@ namespace SmileProject.SpaceShooter
 					await Task.Delay(waitTime);
 				}
 			}
+
+			FormationReady?.Invoke();
+			Debug.Log("Invoke Formation Ready");
 		}
 
 		private async Task SendSpaceshipToPoint(string spaceshipId, FormationPoint point)
 		{
 			Spaceship spaceship = await this.spaceshipBuilder.BuildSpaceshipById(spaceshipId);
-			spaceship.MoveToTarget(point.GetPosition());
+			bool isArrived = false;
+			spaceship.MoveToTarget(point.GetPosition(), () => { isArrived = true; });
 			spaceship.SetPosition(spawnPoint);
 			point.SetLandedSpaceship(spaceship);
+			await TaskExtensions.WaitUntil(() => isArrived);
 		}
 
 		public void SetupFormationMap()

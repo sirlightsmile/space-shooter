@@ -103,14 +103,19 @@ namespace SmileProject.SpaceShooter
 			this.transform.position = position;
 		}
 
-		public virtual void MoveToTarget(Vector2 targetPos)
+		/// <summary>
+		/// Start coroutine for move to target position (2d)
+		/// </summary>
+		/// <param name="targetPos">Target position</param>
+		/// <param name="reachedCallback">Callback when reached target position</param>
+		public virtual void MoveToTarget(Vector2 targetPos, Action reachedCallback = null)
 		{
 			if (MoveCoroutine != null)
 			{
 				StopCoroutine(MoveCoroutine);
 			}
 
-			MoveCoroutine = StartCoroutine(MoveToTargetCoroutine(targetPos));
+			MoveCoroutine = StartCoroutine(MoveToTargetCoroutine(targetPos, reachedCallback));
 		}
 
 		protected async void PlaySound(SoundKeys soundKey)
@@ -141,7 +146,7 @@ namespace SmileProject.SpaceShooter
 			Attack?.Invoke(spaceship);
 		}
 
-		private IEnumerator MoveToTargetCoroutine(Vector2 targetPos)
+		private IEnumerator MoveToTargetCoroutine(Vector2 targetPos, Action reachedCallback)
 		{
 			Vector2 currentPos = this.transform.position;
 			float distance = Vector2.Distance(currentPos, targetPos);
@@ -157,6 +162,7 @@ namespace SmileProject.SpaceShooter
 			}
 			// snap
 			SetPosition(targetPos);
+			reachedCallback?.Invoke();
 			OnTargetReached();
 			MoveCoroutine = null;
 		}

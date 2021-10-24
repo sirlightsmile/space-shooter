@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using SmileProject.Generic;
 using UnityEngine;
 
 namespace SmileProject.SpaceShooter
@@ -8,6 +7,7 @@ namespace SmileProject.SpaceShooter
 	public class EnemyManager
 	{
 		public event Action AllSpaceshipDestroyed;
+		public bool IsEnemiesReady { get; private set; }
 		private FormationController formationController;
 		private List<EnemySpaceship> enemySpaceships = new List<EnemySpaceship>();
 
@@ -20,7 +20,10 @@ namespace SmileProject.SpaceShooter
 		{
 			this.formationController = formationController;
 			formationController.SpaceshipAdded += OnEnemySpaceshipAdded;
+			formationController.FormationChange += OnFormationChanged;
+			formationController.FormationReady += OnFormationReady;
 			gameplayController.WaveChange += formationController.OnWaveChanged;
+
 		}
 
 		public void Update()
@@ -41,6 +44,16 @@ namespace SmileProject.SpaceShooter
 					spaceship.Shoot();
 				}
 			}
+		}
+
+		private void OnFormationChanged()
+		{
+			IsEnemiesReady = false;
+		}
+
+		private void OnFormationReady()
+		{
+			IsEnemiesReady = true;
 		}
 
 		private void OnEnemySpaceshipAdded(Spaceship spaceship)
