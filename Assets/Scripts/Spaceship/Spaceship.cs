@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Threading.Tasks;
 using SmileProject.Generic;
 using UnityEngine;
@@ -7,10 +8,15 @@ namespace SmileProject.SpaceShooter
 {
 	public abstract class Spaceship : MonoBehaviour
 	{
+		public event Action<Spaceship> AttackOpponent;
 		public event SpaceshipDestroyed Destroyed;
 		public delegate void SpaceshipDestroyed(Spaceship spaceship);
 		protected float width { get { return shipImage.bounds.size.x * shipImage.sprite.pixelsPerUnit; } }
 		protected float height { get { return shipImage.bounds.size.y * shipImage.sprite.pixelsPerUnit; } }
+		public abstract SpaceshipTag SpaceshipTag
+		{
+			get;
+		}
 
 		[SerializeField]
 		protected int hp;
@@ -54,7 +60,7 @@ namespace SmileProject.SpaceShooter
 				Debug.LogAssertion("Spaceship weapon should not be null.");
 				return;
 			}
-			weapon.Shoot();
+			weapon.Shoot(SpaceshipTag, OnAttackSuccess);
 		}
 
 		public virtual void SetSprite(Sprite sprite)
@@ -125,6 +131,11 @@ namespace SmileProject.SpaceShooter
 		protected virtual void OnTargetReached()
 		{
 			Debug.Log("On target reached");
+		}
+
+		private void OnAttackSuccess(Spaceship spaceship)
+		{
+			AttackOpponent?.Invoke(spaceship);
 		}
 
 		private IEnumerator MoveToTargetCoroutine(Vector2 targetPos)

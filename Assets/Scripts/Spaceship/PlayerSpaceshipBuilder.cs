@@ -2,7 +2,6 @@
 using System;
 using System.Threading.Tasks;
 using SmileProject.Generic;
-using UnityEngine;
 
 namespace SmileProject.SpaceShooter
 {

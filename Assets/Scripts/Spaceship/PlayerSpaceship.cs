@@ -11,8 +11,8 @@ namespace SmileProject.SpaceShooter
 
 	public class PlayerSpaceship : Spaceship
 	{
+		public override SpaceshipTag SpaceshipTag { get { return SpaceshipTag.Player; } }
 		public int PlayerLevel { get; private set; } = playerInitialLevel;
-
 		private const int playerInitialLevel = 1;
 		private float moveBorder = 0;
 		private SoundKeys destroyedSound;

@@ -1,9 +1,11 @@
 ﻿using SmileProject.Generic;
+using UnityEngine;
 
 namespace SmileProject.SpaceShooter
 {
 	public class EnemySpaceship : Spaceship
 	{
+		public override SpaceshipTag SpaceshipTag { get { return SpaceshipTag.Enemy; } }
 		private int destroyScore;
 		private SoundKeys destroyedSound;
 

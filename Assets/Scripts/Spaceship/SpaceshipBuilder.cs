@@ -20,7 +20,7 @@ namespace SmileProject.SpaceShooter
 		public async virtual Task<T> BuildSpaceship<T, T2>(string templateKey, T2 model) where T : Spaceship where T2 : SpaceshipModel
 		{
 			string spriteName = GetAssetPrefix() + model.AssetName;
-			T spaceship = await resourceLoader.InstantiateAsync<T>(templateKey);
+			T spaceship = await resourceLoader.InstantiateAsync<T>(templateKey, null, true);
 			spaceship.Setup(model);
 			resourceLoader.SetSpriteAsync(spriteName, spaceship.SetSprite);
 			SpaceshipBuilded?.Invoke(spaceship);
