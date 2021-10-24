@@ -26,13 +26,14 @@ namespace SmileProject.SpaceShooter
 
 		public async Task Reload()
 		{
-			if (!poolManager.HasPool(model.BulletAsset))
+			string poolName = model.BulletType.ToString();
+			if (!poolManager.HasPool(poolName))
 			{
 				PoolOptions options = new PoolOptions
 				{
 					//TODO: adjust size
 					AssetKey = model.BulletAsset,
-					PoolName = model.BulletType.ToString(),
+					PoolName = poolName,
 					InitialSize = 10,
 					CanExtend = true,
 					ExtendAmount = 10
