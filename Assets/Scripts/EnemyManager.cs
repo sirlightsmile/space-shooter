@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace SmileProject.SpaceShooter
@@ -11,10 +12,21 @@ namespace SmileProject.SpaceShooter
 		private FormationController formationController;
 		private List<EnemySpaceship> enemySpaceships = new List<EnemySpaceship>();
 
+		/// <summary>
+		/// Shoot chance in percent (max is 1)
+		/// </summary>
 		private float randomShootChance = 0.3f;
-		private float shootInterval = 2f;
 		private float lastShootTimestamp = 0;
 
+		/// <summary>
+		/// Shoot interval in second
+		/// </summary>
+		private float shootInterval = 2f;
+
+		/// <summary>
+		/// Max random shoot async in second
+		/// </summary>
+		private float shootAsyncInterval = 1f;
 
 		public EnemyManager(GameplayController gameplayController, FormationController formationController)
 		{
@@ -37,13 +49,23 @@ namespace SmileProject.SpaceShooter
 			lastShootTimestamp = currentTime;
 			foreach (var spaceship in enemySpaceships)
 			{
+				// random for percent
 				float random = UnityEngine.Random.Range(0f, 1f);
 				bool isShoot = random <= randomShootChance;
 				if (isShoot)
 				{
-					spaceship.Shoot();
+					ShootAsync(spaceship);
 				}
 			}
+		}
+
+		private async void ShootAsync(EnemySpaceship spaceship)
+		{
+			float randomDelay = UnityEngine.Random.Range(0f, shootAsyncInterval);
+			// from second to millisecond
+			int delayTimeMillisecond = (int)(randomDelay * 1000);
+			await Task.Delay(delayTimeMillisecond);
+			spaceship?.Shoot();
 		}
 
 		private void OnFormationChanged()
