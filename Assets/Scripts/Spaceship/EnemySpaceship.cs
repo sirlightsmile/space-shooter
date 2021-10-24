@@ -9,8 +9,6 @@ namespace SmileProject.SpaceShooter
 		public int DestroyScore { get; private set; }
 		private SoundKeys destroyedSound;
 
-		//TODO: implement enemy spaceship attack formation
-
 		public void SetDestroyScore(int destroyScore)
 		{
 			this.DestroyScore = destroyScore;
