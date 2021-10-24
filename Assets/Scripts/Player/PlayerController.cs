@@ -6,6 +6,14 @@ namespace SmileProject.SpaceShooter
 {
 	public class PlayerController
 	{
+		/// <summary>
+		/// Invoke when player get hit with current hp
+		/// </summary>
+		public Action<int> PlayerGetHit;
+
+		/// <summary>
+		/// Invoke when player destroyed
+		/// </summary>
 		public Action PlayerDestroyed;
 
 		public int PlayerScore { get; private set; } = 0;
@@ -30,7 +38,7 @@ namespace SmileProject.SpaceShooter
 		private void SetPlayer(PlayerSpaceship player)
 		{
 			this.player = player;
-			player.AttackSuccess += OnPlayerAttackSuccess;
+			player.GotHit += OnPlayerGotHit;
 			player.Destroyed += OnPlayerDestroyed;
 		}
 
@@ -45,16 +53,10 @@ namespace SmileProject.SpaceShooter
 			player?.MoveToDirection(moveDirection);
 		}
 
-		private void OnPlayerAttackSuccess(Spaceship player, Spaceship other)
+		private void OnPlayerGotHit(Spaceship other, Spaceship player)
 		{
-			if (other == null || other.IsBroken())
-			{
-				if (other.SpaceshipTag == SpaceshipTag.Enemy)
-				{
-					EnemySpaceship enemy = other.GetComponent<EnemySpaceship>();
-					PlayerScore += enemy.DestroyScore;
-				}
-			}
+			int currentHp = player != null ? player.HP : 0;
+			PlayerGetHit?.Invoke(currentHp);
 		}
 
 		private void OnPlayerDestroyed(Spaceship spaceship)

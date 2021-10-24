@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using SmileProject.Generic;
 using UnityEngine;
@@ -43,18 +42,14 @@ namespace SmileProject.SpaceShooter
 			}
 		}
 
-		public void Shoot(SpaceshipTag ownerTag, Action<Spaceship> hitCallback)
+		public void Shoot(Spaceship owner)
 		{
 			Bullet bullet = poolManager.GetItem<Bullet>(model.BulletType.ToString());
 			bullet.SetParent(null);
 			bullet.transform.position = attackPointTransform.transform.position;
 			bullet.transform.rotation = attackPointTransform.transform.rotation;
 			bullet.SetDamage(damage);
-			bullet.SetOwnerTag(ownerTag);
-			if (hitCallback != null)
-			{
-				bullet.Hit += hitCallback;
-			}
+			bullet.SetOwner(owner);
 			bullet.SetActive(true);
 			PlayShootSound();
 		}

@@ -9,9 +9,9 @@ namespace SmileProject.SpaceShooter
 	public abstract class Spaceship : MonoBehaviour
 	{
 		/// <summary>
-		/// Invoke when success attack other spaceship <Attacker, Defender>
+		/// Invoke when got hit <Attacker, Defender>
 		/// </summary>
-		public event Action<Spaceship, Spaceship> AttackSuccess;
+		public event Action<Spaceship, Spaceship> GotHit;
 		public event SpaceshipDestroyed Destroyed;
 		public delegate void SpaceshipDestroyed(Spaceship spaceship);
 		protected float width { get { return shipImage.bounds.size.x * shipImage.sprite.pixelsPerUnit; } }
@@ -21,8 +21,7 @@ namespace SmileProject.SpaceShooter
 			get;
 		}
 
-		[SerializeField]
-		protected int hp;
+		public int HP { get; protected set; }
 
 		[SerializeField]
 		protected float speed;
@@ -63,7 +62,7 @@ namespace SmileProject.SpaceShooter
 				Debug.LogAssertion("Spaceship weapon should not be null.");
 				return;
 			}
-			weapon.Shoot(SpaceshipTag, OnAttackSuccess);
+			weapon.Shoot(this);
 		}
 
 		public virtual void SetSprite(Sprite sprite)
@@ -73,12 +72,12 @@ namespace SmileProject.SpaceShooter
 
 		public virtual void SetHP(int hp)
 		{
-			this.hp = hp;
+			this.HP = hp;
 		}
 
 		public virtual bool IsBroken()
 		{
-			return hp <= 0;
+			return HP <= 0;
 		}
 
 		public virtual void SetSpeed(float speed)
@@ -93,10 +92,16 @@ namespace SmileProject.SpaceShooter
 			this.weapon.SetAttackPointTransform(attackPointTransform);
 		}
 
-		public virtual void GetHit(int damage)
+		/// <summary>
+		/// Get hit by bullet
+		/// </summary>
+		/// <param name="damage">damage or weapon shot that bullet</param>
+		/// <param name="attacker">attacker</param>
+		public virtual void GetHit(int damage, Spaceship attacker)
 		{
-			int result = hp - damage;
-			hp = Mathf.Clamp(result, 0, this.hp);
+			int result = HP - damage;
+			HP = Mathf.Clamp(result, 0, this.HP);
+			GotHit?.Invoke(attacker, this);
 			if (IsBroken())
 			{
 				ShipDestroy();
@@ -145,11 +150,6 @@ namespace SmileProject.SpaceShooter
 		protected virtual void OnTargetReached()
 		{
 			Debug.Log("On target reached");
-		}
-
-		private void OnAttackSuccess(Spaceship other)
-		{
-			AttackSuccess?.Invoke(this, other);
 		}
 
 		private IEnumerator MoveToTargetCoroutine(Vector2 targetPos, Action reachedCallback)

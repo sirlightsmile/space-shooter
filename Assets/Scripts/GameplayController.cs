@@ -37,6 +37,7 @@ namespace SmileProject.SpaceShooter
 		private EnemyManager enemyManager;
 		private InputManager inputManager;
 		private AudioManager audioManager;
+		private GameplayUIManager uiManager;
 
 		private int currentWave = firstWave;
 		private int waveCount;
@@ -44,12 +45,14 @@ namespace SmileProject.SpaceShooter
 		/// <summary>
 		/// Initialize gameplay controller
 		/// </summary>
-		public async Task Initialize(PlayerController playerController, EnemyManager enemyManager, InputManager inputManager, AudioManager audioManager)
+		public async Task Initialize(PlayerController playerController, EnemyManager enemyManager, InputManager inputManager, AudioManager audioManager, GameplayUIManager uiManager)
 		{
 			this.playerController = playerController;
 			this.inputManager = inputManager;
 			this.audioManager = audioManager;
 			this.enemyManager = enemyManager;
+			this.uiManager = uiManager;
+
 			enemyManager.AllSpaceshipDestroyed += OnWaveClear;
 			playerController.PlayerDestroyed += OnGameOver;
 

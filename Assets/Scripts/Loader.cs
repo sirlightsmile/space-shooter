@@ -47,6 +47,7 @@ namespace SmileProject.SpaceShooter
 		{
 			FormationController enemyFormationController = await resourceLoader.InstantiateAsync<FormationController>("FormationController");
 			GameplayController gameplayController = await resourceLoader.InstantiateAsync<GameplayController>("GameplayController");
+			GameplayUIManager uiManager = await resourceLoader.InstantiateAsync<GameplayUIManager>("GameplayUIManager");
 
 			// inject player controller
 			InputManager inputManager = new InputManager();
@@ -62,7 +63,7 @@ namespace SmileProject.SpaceShooter
 
 			int waveCount = gameDataManager.GetWaveDataModels().Length;
 			gameplayController.SetWaveCount(waveCount);
-			await gameplayController.Initialize(playerController, enemyManager, inputManager, audioManager);
+			await gameplayController.Initialize(playerController, enemyManager, inputManager, audioManager, uiManager);
 
 			this.gameplayController = gameplayController;
 			this.gameplayController.GameStart();

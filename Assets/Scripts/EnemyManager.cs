@@ -7,8 +7,22 @@ namespace SmileProject.SpaceShooter
 {
 	public class EnemyManager
 	{
+		/// <summary>
+		/// Invoke when enemy destroyed with enemy destroy score
+		/// </summary>
+		public event Action<int> EnemyDestroyed;
+
+		/// <summary>
+		/// Invoke when all enemies spaceship in wave had destroyed
+		/// </summary>
 		public event Action AllSpaceshipDestroyed;
+
+		/// <summary>
+		/// Whather enemy ready to fight or not
+		/// </summary>
+		/// <value></value>
 		public bool IsEnemiesReady { get; private set; }
+
 		private FormationController formationController;
 		private List<EnemySpaceship> enemySpaceships = new List<EnemySpaceship>();
 
@@ -35,9 +49,12 @@ namespace SmileProject.SpaceShooter
 			formationController.FormationChange += OnFormationChanged;
 			formationController.FormationReady += OnFormationReady;
 			gameplayController.WaveChange += formationController.OnWaveChanged;
-
 		}
 
+		/// <summary>
+		/// Enemy manager update loop
+		/// Should manual update by gameplay controller
+		/// </summary>
 		public void Update()
 		{
 			float currentTime = Time.time;
@@ -87,7 +104,9 @@ namespace SmileProject.SpaceShooter
 		private void OnEnemyDestroyed(Spaceship spaceship)
 		{
 			spaceship.Destroyed -= OnEnemyDestroyed;
-			enemySpaceships.Remove(spaceship.GetComponent<EnemySpaceship>());
+			EnemySpaceship enemy = spaceship.GetComponent<EnemySpaceship>();
+			enemySpaceships.Remove(enemy);
+			EnemyDestroyed?.Invoke(enemy.DestroyScore);
 			if (enemySpaceships.Count == 0)
 			{
 				AllSpaceshipDestroyed?.Invoke();

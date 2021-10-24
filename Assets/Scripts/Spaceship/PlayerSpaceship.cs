@@ -22,12 +22,6 @@ namespace SmileProject.SpaceShooter
 			SetBorder();
 		}
 
-		public override void GetHit(int damage)
-		{
-			base.GetHit(damage);
-			//TODO: invoke dead
-		}
-
 		public void SetSounds(AudioManager audioManager, SoundKeys destroyedSound)
 		{
 			this.audioManager = audioManager;
