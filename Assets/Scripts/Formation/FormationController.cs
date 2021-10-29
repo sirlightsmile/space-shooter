@@ -39,11 +39,16 @@ namespace SmileProject.SpaceShooter
 		/// </summary>
 		public event Action FormationReady;
 
+		private const string moveAnimatorParameter = "isMove";
+
 		[SerializeField, EnumFlag(EnumFlagAttribute.FlagLayout.List)]
 		private Formation activeFormations;
 
 		[SerializeField]
 		private Transform formationContainer;
+
+		[SerializeField]
+		private Animator animator;
 
 		[SerializeField]
 		private Vector3 spawnPoint = Vector3.zero;
@@ -77,6 +82,7 @@ namespace SmileProject.SpaceShooter
 		{
 			FormationChange?.Invoke();
 			Debug.Log("Invoke Formation Change");
+			SetMoveAnimation(false);
 			WaveDataModel waveData = gameDataManager.GetWaveDataModelByWaveNumber(waveNumber);
 			GenerateSpaceshipFromWaveData(waveData);
 		}
@@ -115,7 +121,13 @@ namespace SmileProject.SpaceShooter
 			}
 
 			FormationReady?.Invoke();
+			SetMoveAnimation(true);
 			Debug.Log("Invoke Formation Ready");
+		}
+
+		private void SetMoveAnimation(bool isMove)
+		{
+			animator.SetBool(moveAnimatorParameter, isMove);
 		}
 
 		private async Task SendSpaceshipToPoint(string spaceshipId, FormationPoint point)

@@ -34,6 +34,7 @@ namespace SmileProject.SpaceShooter
 				return;
 			}
 			this.spaceship = spaceship;
+			this.spaceship.transform.SetParent(this.transform);
 			this.spaceship.Destroyed += OnLandedShipDestroyed;
 		}
 
