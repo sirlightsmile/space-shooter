@@ -30,7 +30,7 @@ namespace SmileProject.SpaceShooter
 				await spaceship.SetWeapon(weapon);
 			}
 			spaceship.SetDestroyScore(model.Score);
-			spaceship.SetSounds(audioManager, GameSoundKeys.Explosion);
+			spaceship.SetSounds(audioManager, GameSoundKeys.Hit, GameSoundKeys.Explosion);
 			return spaceship;
 		}
 

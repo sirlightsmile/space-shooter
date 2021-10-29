@@ -34,6 +34,8 @@ namespace SmileProject.SpaceShooter
 
 		protected SpaceshipGun weapon;
 		protected AudioManager audioManager;
+		protected SoundKeys getHitSound;
+		protected SoundKeys destroyedSound;
 
 		[SerializeField]
 		/// <summary>
@@ -126,6 +128,13 @@ namespace SmileProject.SpaceShooter
 			}
 
 			MoveCoroutine = StartCoroutine(MoveToTargetCoroutine(targetPos, reachedCallback));
+		}
+
+		public virtual void SetSounds(AudioManager audioManager, SoundKeys getHitSound, SoundKeys destroyedSound)
+		{
+			this.audioManager = audioManager;
+			this.getHitSound = getHitSound;
+			this.destroyedSound = destroyedSound;
 		}
 
 		protected async void PlaySound(SoundKeys soundKey)

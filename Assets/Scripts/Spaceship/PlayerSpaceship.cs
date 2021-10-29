@@ -15,17 +15,10 @@ namespace SmileProject.SpaceShooter
 		public int PlayerLevel { get; private set; } = playerInitialLevel;
 		private const int playerInitialLevel = 1;
 		private float moveBorder = 0;
-		private SoundKeys destroyedSound;
 
 		private void Start()
 		{
 			SetBorder();
-		}
-
-		public void SetSounds(AudioManager audioManager, SoundKeys destroyedSound)
-		{
-			this.audioManager = audioManager;
-			this.destroyedSound = destroyedSound;
 		}
 
 		public void MoveToDirection(MoveDirection direction)
