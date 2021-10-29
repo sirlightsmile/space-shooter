@@ -9,16 +9,30 @@ namespace SmileProject.SpaceShooter
 
 		public event Action AttackInput;
 
-		private bool allowControl = true;
+		private bool allowInput = true;
+		private bool allowAttack = true;
 
-		public void SetAllowControl(bool allowControl)
+		/// <summary>
+		/// Set permission for every input.
+		/// </summary>
+		/// <param name="allowInput">whether allow input or not</param>
+		public void SetAllowInput(bool allowInput)
 		{
-			this.allowControl = allowControl;
+			this.allowInput = allowInput;
+		}
+
+		/// <summary>
+		/// Set permission for attack input
+		/// </summary>
+		/// <param name="allowAttack">whether allow attack input or not</param>
+		public void SetAllowAttack(bool allowAttack)
+		{
+			this.allowAttack = allowAttack;
 		}
 
 		public void Update()
 		{
-			if (!allowControl)
+			if (!allowInput)
 			{
 				return;
 			}
@@ -30,7 +44,7 @@ namespace SmileProject.SpaceShooter
 				HorizontalInput?.Invoke(direction);
 			}
 
-			if (Input.GetButtonDown("Fire1"))
+			if (allowAttack && Input.GetButtonDown("Fire1"))
 			{
 				AttackInput?.Invoke();
 			}

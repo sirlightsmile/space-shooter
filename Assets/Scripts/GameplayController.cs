@@ -58,6 +58,7 @@ namespace SmileProject.SpaceShooter
 			playerController.PlayerDestroyed += OnGameOver;
 			playerController.PlayerGetHit += OnPlayerGetHit;
 			enemyManager.EnemyDestroyed += OnEnemyDestroyed;
+			enemyManager.EnemyReadyStatusChanged += OnEnemyReadyStatusChanged;
 
 			IsPause = true;
 			await playerController.CreatePlayer(playerSpawnPoint);
@@ -92,6 +93,7 @@ namespace SmileProject.SpaceShooter
 
 		public void ClearGame()
 		{
+			//TODO: show clear game with retry UI
 			Debug.Log("Clear game !");
 		}
 
@@ -106,6 +108,18 @@ namespace SmileProject.SpaceShooter
 			uiManager.SetPlayerScore(playerController.PlayerScore);
 		}
 
+		private void OnEnemyReadyStatusChanged(bool isReady)
+		{
+			if (isReady)
+			{
+				inputManager.SetAllowAttack(true);
+			}
+			else
+			{
+				//TODO: show prepare UI
+			}
+		}
+
 		private void OnPlayerGetHit(int hp)
 		{
 			uiManager.SetPlayerHp(hp);
@@ -113,6 +127,7 @@ namespace SmileProject.SpaceShooter
 
 		private async void NextWave()
 		{
+			//TODO: UI for wave clear
 			await Task.Delay(waveInterval);
 			currentWave++;
 			WaveChange?.Invoke(currentWave);
@@ -120,6 +135,8 @@ namespace SmileProject.SpaceShooter
 
 		private void OnWaveClear()
 		{
+			// wait for next wave generate
+			inputManager.SetAllowAttack(false);
 			if (waveCount > currentWave)
 			{
 				NextWave();
@@ -133,6 +150,7 @@ namespace SmileProject.SpaceShooter
 		private void OnGameOver()
 		{
 			IsPause = true;
+			//TODO: show retry UI
 		}
 
 		private void Update()

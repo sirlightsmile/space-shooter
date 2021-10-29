@@ -5,11 +5,13 @@ namespace SmileProject.SpaceShooter
 {
 	public interface ISpaceShooterInput
 	{
-	    event Action<MoveDirection> HorizontalInput;
+		event Action<MoveDirection> HorizontalInput;
 
-	    event Action AttackInput;
+		event Action AttackInput;
 
-		void SetAllowControl(bool allowControl);
+		void SetAllowInput(bool isAllowInput);
+
+		void SetAllowAttack(bool isAllowAttack);
 
 		void Update();
 	}

@@ -18,6 +18,11 @@ namespace SmileProject.SpaceShooter
 		public event Action AllSpaceshipDestroyed;
 
 		/// <summary>
+		/// Invoke when is enemy ready status changed
+		/// </summary>
+		public event Action<bool> EnemyReadyStatusChanged;
+
+		/// <summary>
 		/// Whather enemy ready to fight or not
 		/// </summary>
 		/// <value></value>
@@ -58,7 +63,7 @@ namespace SmileProject.SpaceShooter
 		public void Update()
 		{
 			float currentTime = Time.time;
-			if (currentTime - lastShootTimestamp < shootInterval)
+			if (currentTime - lastShootTimestamp < shootInterval || !IsEnemiesReady)
 			{
 				return;
 			}
@@ -91,11 +96,13 @@ namespace SmileProject.SpaceShooter
 		private void OnFormationChanged()
 		{
 			IsEnemiesReady = false;
+			EnemyReadyStatusChanged?.Invoke(IsEnemiesReady);
 		}
 
 		private void OnFormationReady()
 		{
 			IsEnemiesReady = true;
+			EnemyReadyStatusChanged?.Invoke(IsEnemiesReady);
 		}
 
 		private void OnEnemySpaceshipAdded(Spaceship spaceship)
