@@ -63,7 +63,11 @@ namespace SmileProject.SpaceShooter
 			this.SetSpeed(spaceshipModel.Speed);
 		}
 
-		public virtual void Shoot()
+		/// <summary>
+		/// Shoot from spaceship weapon
+		/// </summary>
+		/// <param name="customWeapon">Custom weapon to shoot. If 'null' will use weapon attached to spaceship</param>
+		public virtual void Shoot(SpaceshipGun customWeapon = null)
 		{
 			if (weapon == null)
 			{

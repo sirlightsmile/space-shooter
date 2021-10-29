@@ -29,6 +29,9 @@ namespace SmileProject.SpaceShooter
 				SpaceshipGun weapon = weaponFactory.CreateSpaceshipGunById(weaponId);
 				await spaceship.SetWeapon(weapon);
 			}
+			//TODO: change how to get weapon id later
+			SpaceshipGun pointBlankWeapon = weaponFactory.CreateSpaceshipGunById("sg02");
+			await spaceship.SetPointBlankWeapon(pointBlankWeapon);
 			spaceship.SetDestroyScore(model.Score);
 			spaceship.SetSounds(audioManager, GameSoundKeys.Hit, GameSoundKeys.Explosion);
 			return spaceship;
