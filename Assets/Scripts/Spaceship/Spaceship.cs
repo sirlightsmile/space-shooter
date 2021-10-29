@@ -12,10 +12,13 @@ namespace SmileProject.SpaceShooter
 		/// Invoke when got hit <Attacker, Defender>
 		/// </summary>
 		public event Action<Spaceship, Spaceship> GotHit;
+
+		/// <summary>
+		/// Invoke when spaceship destroyed
+		/// </summary>
 		public event SpaceshipDestroyed Destroyed;
 		public delegate void SpaceshipDestroyed(Spaceship spaceship);
-		protected float width { get { return shipImage.bounds.size.x * shipImage.sprite.pixelsPerUnit; } }
-		protected float height { get { return shipImage.bounds.size.y * shipImage.sprite.pixelsPerUnit; } }
+
 		public abstract SpaceshipTag SpaceshipTag
 		{
 			get;
@@ -31,6 +34,9 @@ namespace SmileProject.SpaceShooter
 
 		[SerializeField]
 		protected SpriteRenderer shipImage;
+
+		protected float width { get { return shipImage.bounds.size.x * shipImage.sprite.pixelsPerUnit; } }
+		protected float height { get { return shipImage.bounds.size.y * shipImage.sprite.pixelsPerUnit; } }
 
 		protected SpaceshipGun weapon;
 		protected AudioManager audioManager;
