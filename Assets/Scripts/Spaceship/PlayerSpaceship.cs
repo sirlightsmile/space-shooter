@@ -1,4 +1,3 @@
-using SmileProject.Generic;
 using UnityEngine;
 
 namespace SmileProject.SpaceShooter
@@ -38,12 +37,6 @@ namespace SmileProject.SpaceShooter
 			float borderRight = Screen.width - halfSize;
 			float borderWorldPoint = Camera.main.ScreenToWorldPoint(new Vector3(borderRight, 0, 0)).x;
 			this.moveBorder = borderWorldPoint;
-		}
-
-		protected override void ShipDestroy()
-		{
-			base.ShipDestroy();
-			PlaySound(destroyedSound);
 		}
 	}
 }

@@ -89,7 +89,11 @@ namespace SmileProject.SpaceShooter
 		protected override void ShipDestroy()
 		{
 			base.ShipDestroy();
-			PlaySound(destroyedSound);
+			if (pointBlankCoroutine != null)
+			{
+				StopCoroutine(pointBlankCoroutine);
+				pointBlankCoroutine = null;
+			}
 			//TODO: make it pool
 			Destroy(this.gameObject);
 		}

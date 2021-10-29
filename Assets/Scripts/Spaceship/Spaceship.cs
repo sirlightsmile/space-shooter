@@ -163,6 +163,7 @@ namespace SmileProject.SpaceShooter
 				StopCoroutine(MoveCoroutine);
 				MoveCoroutine = null;
 			}
+			PlaySound(destroyedSound);
 			Destroyed?.Invoke(this);
 		}
 
