@@ -156,12 +156,6 @@ namespace SmileProject.SpaceShooter
 			Destroyed?.Invoke(this);
 		}
 
-		//TODO: check for removal
-		protected virtual void OnTargetReached()
-		{
-			Debug.Log("On target reached");
-		}
-
 		private IEnumerator MoveToTargetCoroutine(Vector2 targetPos, Action reachedCallback)
 		{
 			Vector2 currentPos = this.transform.position;
@@ -174,12 +168,11 @@ namespace SmileProject.SpaceShooter
 				SetPosition(dampPos);
 				currentPos = this.transform.position;
 				distance = (targetPos - currentPos).magnitude;
-				yield return null;
+				yield return new WaitForFixedUpdate();
 			}
 			// snap
 			SetPosition(targetPos);
 			reachedCallback?.Invoke();
-			OnTargetReached();
 			MoveCoroutine = null;
 		}
 	}
