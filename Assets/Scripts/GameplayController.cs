@@ -7,10 +7,14 @@ namespace SmileProject.SpaceShooter
 {
 	public class GameplayController : MonoBehaviour
 	{
-		private const int firstWave = 1;
-		private const int waveInterval = 5000;
-
+		/// <summary>
+		/// Invoke when game started
+		/// </summary>
 		public event Action Start;
+
+		/// <summary>
+		/// Invoke when game pause or resume
+		/// </summary>
 		public event Action<bool> Pause;
 
 		/// <summary>
@@ -30,8 +34,14 @@ namespace SmileProject.SpaceShooter
 		/// <value></value>
 		public float Timer { get; private set; }
 
+		private const int firstWave = 1;
+		private const int waveInterval = 5000;
+
 		[SerializeField]
 		private Vector2 playerSpawnPoint;
+
+		[SerializeField]
+		private bool triggerPointBlank;
 
 		private PlayerController playerController;
 		private EnemyManager enemyManager;
@@ -63,6 +73,15 @@ namespace SmileProject.SpaceShooter
 			IsPause = true;
 			await playerController.CreatePlayer(playerSpawnPoint);
 			uiManager.SetPlayerHp(playerController.PlayerSpaceship.HP);
+		}
+
+		/// <summary>
+		/// Get current player's spaceship
+		/// </summary>
+		/// <returns></returns>
+		public PlayerSpaceship GetPlayerSpaceship()
+		{
+			return playerController.PlayerSpaceship;
 		}
 
 		/// <summary>

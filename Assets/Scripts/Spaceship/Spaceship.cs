@@ -69,12 +69,19 @@ namespace SmileProject.SpaceShooter
 		/// <param name="customWeapon">Custom weapon to shoot. If 'null' will use weapon attached to spaceship</param>
 		public virtual void Shoot(SpaceshipGun customWeapon = null)
 		{
-			if (weapon == null)
+			if (weapon == null && customWeapon == null)
 			{
 				Debug.LogAssertion("Spaceship weapon should not be null.");
 				return;
 			}
-			weapon.Shoot(this);
+			if (customWeapon != null)
+			{
+				customWeapon.Shoot(this);
+			}
+			else
+			{
+				weapon.Shoot(this);
+			}
 		}
 
 		public virtual void SetSprite(Sprite sprite)
@@ -148,7 +155,7 @@ namespace SmileProject.SpaceShooter
 			this.destroyedSound = destroyedSound;
 		}
 
-		protected async void PlaySound(SoundKeys soundKey)
+		public async void PlaySound(SoundKeys soundKey)
 		{
 			if (audioManager != null && soundKey != null)
 			{
