@@ -64,16 +64,6 @@ namespace SmileProject.SpaceShooter
 		{
 			this.formationTypes = formation;
 		}
-
-		/// <summary>
-		/// Get formation point position
-		/// </summary>
-		/// <returns>formation point position</returns>
-		public Vector2 GetPosition()
-		{
-			return this.transform.position;
-		}
-
 		private void OnLandedShipDestroyed(Spaceship destroyedSpaceship)
 		{
 			destroyedSpaceship.Destroyed -= OnLandedShipDestroyed;

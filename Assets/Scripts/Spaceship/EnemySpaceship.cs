@@ -48,7 +48,7 @@ namespace SmileProject.SpaceShooter
 		/// <summary>
 		/// Perform point-blank attack
 		/// </summary>
-		public void PointBlankAttack(Vector2 targetPos)
+		public void PointBlankAttack(Transform target)
 		{
 			if (pointBlankWeapon == null)
 			{
@@ -56,18 +56,18 @@ namespace SmileProject.SpaceShooter
 				return;
 			}
 			IsPerformPointBlank = true;
-			pointBlankCoroutine = StartCoroutine(PointBlankCoroutine(targetPos));
+			pointBlankCoroutine = StartCoroutine(PointBlankCoroutine(target));
 		}
 
-		private IEnumerator PointBlankCoroutine(Vector2 targetPos)
+		private IEnumerator PointBlankCoroutine(Transform target)
 		{
-			Vector2 startPosition = this.transform.position;
-			Vector2 pointBlankPos = new Vector2(targetPos.x, targetPos.y + pointBlankRange);
+			Transform parent = transform.parent;
+			transform.SetParent(null);
 			bool isReachedPoint = false;
 			Action onReached = () => { isReachedPoint = true; };
 
 			// move to point-blank position
-			MoveToTarget(pointBlankPos, onReached);
+			MoveToTarget(target, onReached, new Vector2(0, pointBlankRange), true);
 			yield return new WaitUntil(() => isReachedPoint);
 
 			// point-blank shot
@@ -79,9 +79,10 @@ namespace SmileProject.SpaceShooter
 
 			// move back to position
 			isReachedPoint = false;
-			MoveToTarget(startPosition, onReached);
+			MoveToTarget(parent.transform, onReached);
 			yield return new WaitUntil(() => isReachedPoint);
-
+			transform.SetParent(parent);
+			transform.localPosition = Vector2.zero;
 			IsPerformPointBlank = false;
 			pointBlankCoroutine = null;
 		}

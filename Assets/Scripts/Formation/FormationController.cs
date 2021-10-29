@@ -134,7 +134,7 @@ namespace SmileProject.SpaceShooter
 		{
 			Spaceship spaceship = await this.spaceshipBuilder.BuildSpaceshipById(spaceshipId);
 			bool isArrived = false;
-			spaceship.MoveToTarget(point.GetPosition(), () => { isArrived = true; });
+			spaceship.MoveToTarget(point.transform, () => { isArrived = true; });
 			spaceship.SetPosition(spawnPoint);
 			point.SetLandedSpaceship(spaceship);
 			await TaskExtensions.WaitUntil(() => isArrived);

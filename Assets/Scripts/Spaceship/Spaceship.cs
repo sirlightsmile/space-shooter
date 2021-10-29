@@ -47,7 +47,7 @@ namespace SmileProject.SpaceShooter
 		/// <summary>
 		/// Move smooth time
 		/// </summary>
-		private float smoothTime = 0.5f;
+		private float smoothTime = 0.1f;
 
 		[SerializeField]
 		/// <summary>
@@ -134,18 +134,20 @@ namespace SmileProject.SpaceShooter
 		}
 
 		/// <summary>
-		/// Start coroutine for move to target position (2d)
+		/// Start coroutine for move to target transform (2d)
 		/// </summary>
-		/// <param name="targetPos">Target position</param>
+		/// <param name="target">Target transform</param>
 		/// <param name="reachedCallback">Callback when reached target position</param>
-		public virtual void MoveToTarget(Vector2 targetPos, Action reachedCallback = null)
+		/// <param name="offset">target position offset</param>
+		/// <param name="useStartPosition">if true, will not update target position by transform but use start position</param>
+		public virtual void MoveToTarget(Transform target, Action reachedCallback = null, Vector2? offset = null, bool useStartPosition = false)
 		{
 			if (MoveCoroutine != null)
 			{
 				StopCoroutine(MoveCoroutine);
 			}
 
-			MoveCoroutine = StartCoroutine(MoveToTargetCoroutine(targetPos, reachedCallback));
+			MoveCoroutine = StartCoroutine(MoveToTargetCoroutine(target, reachedCallback, offset, useStartPosition));
 		}
 
 		public virtual void SetSounds(AudioManager audioManager, SoundKeys getHitSound, SoundKeys destroyedSound)
@@ -174,22 +176,33 @@ namespace SmileProject.SpaceShooter
 			Destroyed?.Invoke(this);
 		}
 
-		private IEnumerator MoveToTargetCoroutine(Vector2 targetPos, Action reachedCallback)
+		private IEnumerator MoveToTargetCoroutine(Transform target, Action reachedCallback, Vector2? offset = null, bool useStartPosition = false)
 		{
 			Vector2 currentPos = this.transform.position;
-			float distance = Vector2.Distance(currentPos, targetPos);
+			Vector2 startTargetPos = target.position;
+			float distance = Vector2.Distance(currentPos, startTargetPos);
 			Vector2 velocity = Vector3.zero;
+
+			Func<Vector2> getTargetPos = () =>
+			{
+				Vector2 targetPos = useStartPosition ? startTargetPos : (Vector2)target.position;
+				targetPos.x += offset?.x ?? 0;
+				targetPos.y += offset?.y ?? 0;
+				return targetPos;
+			};
 
 			while (distance > approximate)
 			{
+				Vector2 targetPos = getTargetPos();
 				Vector2 dampPos = Vector2.SmoothDamp(transform.position, targetPos, ref velocity, smoothTime, speed);
 				SetPosition(dampPos);
 				currentPos = this.transform.position;
 				distance = (targetPos - currentPos).magnitude;
 				yield return new WaitForFixedUpdate();
 			}
+
 			// snap
-			SetPosition(targetPos);
+			SetPosition(getTargetPos());
 			reachedCallback?.Invoke();
 			MoveCoroutine = null;
 		}

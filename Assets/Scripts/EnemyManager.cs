@@ -110,7 +110,12 @@ namespace SmileProject.SpaceShooter
 			lastShootTimestamp = currentTime;
 			foreach (var spaceship in enemySpaceships)
 			{
-				// random for percent
+				if (spaceship.IsPerformPointBlank)
+				{
+					continue;
+				}
+
+				// random for shoot percent
 				float random = UnityEngine.Random.Range(0f, 1f);
 				bool isShoot = random <= randomShootChance;
 				if (isShoot)
@@ -130,8 +135,7 @@ namespace SmileProject.SpaceShooter
 			var target = gameplayController.GetPlayerSpaceship();
 			if (target != null)
 			{
-				Vector2 targetPos = target.transform.position;
-				TriggerPointBlankAttack(targetPos);
+				TriggerPointBlankAttack(target.transform);
 				triggerPointBlankInterval = UnityEngine.Random.Range(minPointBlankInterval, maxPointBlankInterval);
 			}
 		}
@@ -143,7 +147,7 @@ namespace SmileProject.SpaceShooter
 			return enemySpaceships[index];
 		}
 
-		private void TriggerPointBlankAttack(Vector2 target)
+		private void TriggerPointBlankAttack(Transform target)
 		{
 			EnemySpaceship[] availableSpaceships = enemySpaceships.Where(o => !o.IsPerformPointBlank).ToArray();
 			EnemySpaceship spaceship = null;
