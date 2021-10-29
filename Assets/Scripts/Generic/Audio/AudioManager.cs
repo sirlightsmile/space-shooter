@@ -78,6 +78,7 @@ namespace SmileProject.Generic
 			source.clip = clip;
 			source.loop = loop;
 			source.Play();
+			Debug.Log($"Play sound : {soundKey.ToString()}");
 			playingSource.Add(playId, source);
 			return playId++;
 		}

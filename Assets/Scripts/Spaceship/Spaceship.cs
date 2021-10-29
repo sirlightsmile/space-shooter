@@ -104,6 +104,7 @@ namespace SmileProject.SpaceShooter
 			int result = HP - damage;
 			HP = Mathf.Clamp(result, 0, this.HP);
 			GotHit?.Invoke(attacker, this);
+			PlaySound(getHitSound);
 			if (IsBroken())
 			{
 				ShipDestroy();
