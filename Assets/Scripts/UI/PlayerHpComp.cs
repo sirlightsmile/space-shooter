@@ -4,8 +4,7 @@ using UnityEngine.UI;
 
 namespace SmileProject.SpaceShooter.UI
 {
-	[Serializable]
-	public class PlayerHpComp
+	public class PlayerHpComp : MonoBehaviour
 	{
 		[SerializeField]
 		private Text playerHpText;
