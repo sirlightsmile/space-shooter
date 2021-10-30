@@ -3,11 +3,13 @@ using UnityEngine;
 
 namespace SmileProject.SpaceShooter
 {
-	public class InputManager : ISpaceShooterInput
+	public class InputManager : MonoBehaviour, ISpaceShooterInput
 	{
 		public event Action<MoveDirection> HorizontalInput;
 
 		public event Action AttackInput;
+
+		public event Action MenuInput;
 
 		private bool allowInput = true;
 		private bool allowAttack = true;
@@ -30,7 +32,7 @@ namespace SmileProject.SpaceShooter
 			this.allowAttack = allowAttack;
 		}
 
-		public void Update()
+		private void Update()
 		{
 			if (!allowInput)
 			{
@@ -47,6 +49,11 @@ namespace SmileProject.SpaceShooter
 			if (allowAttack && Input.GetButtonDown("Fire1"))
 			{
 				AttackInput?.Invoke();
+			}
+
+			if (Input.GetKeyDown(KeyCode.Escape))
+			{
+				MenuInput?.Invoke();
 			}
 		}
 	}

@@ -62,6 +62,10 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - manager
+  - m_GUID: 983d34cbc34e32646b7ecb0a648129ee
+    m_Address: InputManager
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: e7da8c064d2834f458c2bcf8af1f6581, type: 2}
   m_SchemaSet:

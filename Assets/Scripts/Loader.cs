@@ -43,15 +43,20 @@ namespace SmileProject.SpaceShooter
 			IsInitialized = true;
 			Initialized?.Invoke(this, new EventArgs());
 		}
-
 		public async Task InitGameplayController(IResourceLoader resourceLoader, GameDataManager gameDataManager, PoolManager poolManager, AudioManager audioManager)
 		{
-			FormationController enemyFormationController = await resourceLoader.InstantiateAsync<FormationController>("FormationController");
-			GameplayController gameplayController = await resourceLoader.InstantiateAsync<GameplayController>("GameplayController");
-			GameplayUIManager uiManager = await resourceLoader.InstantiateAsync<GameplayUIManager>("GameplayUIManager");
+			// init async
+			FormationController enemyFormationController = null;
+			GameplayController gameplayController = null;
+			GameplayUIManager uiManager = null;
+			InputManager inputManager = null;
+			Func<Task> initInputManager = async () => { inputManager = await resourceLoader.InstantiateAsync<InputManager>("InputManager"); };
+			Func<Task> initFormationController = async () => { enemyFormationController = await resourceLoader.InstantiateAsync<FormationController>("FormationController"); };
+			Func<Task> initGameplayController = async () => { gameplayController = await resourceLoader.InstantiateAsync<GameplayController>("GameplayController"); };
+			Func<Task> initGameplayUIManager = async () => { uiManager = await resourceLoader.InstantiateAsync<GameplayUIManager>("GameplayUIManager"); };
+			await Task.WhenAll(new Task[] { initInputManager(), initFormationController(), initGameplayController(), initGameplayUIManager() });
 
 			// inject player controller
-			InputManager inputManager = new InputManager();
 			WeaponFactory weaponFactory = new WeaponFactory(gameDataManager, poolManager, audioManager);
 			PlayerSpaceshipBuilder playerBuilder = new PlayerSpaceshipBuilder(resourceLoader, gameDataManager, weaponFactory, audioManager);
 			PlayerController playerController = new PlayerController(inputManager, playerBuilder);

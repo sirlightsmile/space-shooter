@@ -1,5 +1,4 @@
 using System;
-using UnityEngine;
 
 namespace SmileProject.SpaceShooter
 {
@@ -9,10 +8,10 @@ namespace SmileProject.SpaceShooter
 
 		event Action AttackInput;
 
+		event Action MenuInput;
+
 		void SetAllowInput(bool isAllowInput);
 
 		void SetAllowAttack(bool isAllowAttack);
-
-		void Update();
 	}
 }
