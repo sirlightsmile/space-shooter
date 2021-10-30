@@ -28,6 +28,7 @@ namespace SmileProject.SpaceShooter
 		private int pointBlankShot = 6;
 		protected SpaceshipGun pointBlankWeapon;
 		private Coroutine pointBlankCoroutine;
+		private int pointBlankSoundIdRef = -1;
 
 		/// <summary>
 		/// Set score that player will get when this spaceship destroyed
@@ -48,7 +49,7 @@ namespace SmileProject.SpaceShooter
 		/// <summary>
 		/// Perform point-blank attack
 		/// </summary>
-		public void PointBlankAttack(Transform target)
+		public async void PointBlankAttack(Transform target)
 		{
 			if (pointBlankWeapon == null)
 			{
@@ -56,6 +57,7 @@ namespace SmileProject.SpaceShooter
 				return;
 			}
 			IsPerformPointBlank = true;
+			pointBlankSoundIdRef = await PlaySound(GameSoundKeys.Drone);
 			pointBlankCoroutine = StartCoroutine(PointBlankCoroutine(target));
 		}
 
@@ -85,6 +87,7 @@ namespace SmileProject.SpaceShooter
 			transform.localPosition = Vector2.zero;
 			IsPerformPointBlank = false;
 			pointBlankCoroutine = null;
+			pointBlankSoundIdRef = -1;
 		}
 
 		protected override void ShipDestroy()
@@ -94,6 +97,10 @@ namespace SmileProject.SpaceShooter
 			{
 				StopCoroutine(pointBlankCoroutine);
 				pointBlankCoroutine = null;
+			}
+			if (pointBlankSoundIdRef >= 0)
+			{
+				audioManager?.StopSound(pointBlankSoundIdRef);
 			}
 			ReturnToPool();
 		}

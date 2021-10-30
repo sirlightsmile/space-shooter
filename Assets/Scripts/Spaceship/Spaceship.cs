@@ -179,12 +179,13 @@ namespace SmileProject.SpaceShooter
 			weapon = null;
 		}
 
-		public async void PlaySound(SoundKeys soundKey)
+		public async Task<int> PlaySound(SoundKeys soundKey)
 		{
 			if (audioManager != null && soundKey != null)
 			{
-				await audioManager.PlaySound(soundKey);
+				return await audioManager.PlaySound(soundKey);
 			}
+			return -1;
 		}
 
 		protected virtual void ShipDestroy()

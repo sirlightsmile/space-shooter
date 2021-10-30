@@ -162,7 +162,6 @@ namespace SmileProject.SpaceShooter
 				return;
 			}
 			spaceship.PointBlankAttack(target);
-			spaceship.PlaySound(GameSoundKeys.Drone);
 		}
 
 		private async void TriggerShootAsync(EnemySpaceship spaceship)
