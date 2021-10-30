@@ -194,9 +194,13 @@ namespace SmileProject.SpaceShooter
 				StopCoroutine(MoveCoroutine);
 				MoveCoroutine = null;
 			}
-			ResetAnimation();
 			Destroyed?.Invoke(this);
 			await PlaySound(destroyedSound);
+		}
+
+		private void OnEnable()
+		{
+			ResetAnimation();
 		}
 
 		private IEnumerator MoveToTargetCoroutine(Transform target, Action reachedCallback, Vector2? offset = null, bool useStartPosition = false)
