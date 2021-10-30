@@ -26,7 +26,7 @@ namespace SmileProject.SpaceShooter
 			string weaponId = model.BasicWeaponId;
 			SpaceshipGun weapon = !String.IsNullOrEmpty(weaponId) ? weaponFactory.CreateSpaceshipGunById(weaponId) : weaponFactory.CreateRandomSpaceshipGun();
 			await spaceship.SetWeapon(weapon);
-			spaceship.SetSounds(audioManager, GameSoundKeys.Hit, GameSoundKeys.PlayerExplosion);
+			spaceship.SetSounds(audioManager, GameSoundKeys.Impact, GameSoundKeys.PlayerExplosion);
 			return spaceship;
 		}
 

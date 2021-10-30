@@ -42,6 +42,7 @@ namespace SmileProject.SpaceShooter
 		public static readonly GameSoundKeys Succeed = new GameSoundKeys(nameof(Succeed), "Succeed.mp3", MixerGroup.SoundEffect.ToString());
 		public static readonly GameSoundKeys Hit = new GameSoundKeys(nameof(Hit), "Hit.wav", MixerGroup.SoundEffect.ToString());
 		public static readonly GameSoundKeys Drone = new GameSoundKeys(nameof(Drone), "Drone.wav", MixerGroup.SoundEffect.ToString());
+		public static readonly GameSoundKeys Impact = new GameSoundKeys(nameof(Impact), "Impact.wav", MixerGroup.SoundEffect.ToString());
 		#endregion
 	}
 }
