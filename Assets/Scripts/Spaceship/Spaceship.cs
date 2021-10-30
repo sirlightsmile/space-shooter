@@ -121,7 +121,7 @@ namespace SmileProject.SpaceShooter
 		/// </summary>
 		/// <param name="damage">damage or weapon shot that bullet</param>
 		/// <param name="attacker">attacker</param>
-		public virtual void GetHit(int damage, Spaceship attacker)
+		public virtual async void GetHit(int damage, Spaceship attacker)
 		{
 			int result = HP - damage;
 			HP = Mathf.Clamp(result, 0, this.HP);
@@ -133,8 +133,8 @@ namespace SmileProject.SpaceShooter
 			}
 			else
 			{
-				PlaySound(getHitSound);
 				PlayGetHitAnimation();
+				await PlaySound(getHitSound);
 			}
 		}
 
@@ -188,15 +188,15 @@ namespace SmileProject.SpaceShooter
 			return -1;
 		}
 
-		protected virtual void ShipDestroy()
+		protected virtual async void ShipDestroy()
 		{
 			if (MoveCoroutine != null)
 			{
 				StopCoroutine(MoveCoroutine);
 				MoveCoroutine = null;
 			}
-			PlaySound(destroyedSound);
 			Destroyed?.Invoke(this);
+			await PlaySound(destroyedSound);
 		}
 
 		private IEnumerator MoveToTargetCoroutine(Transform target, Action reachedCallback, Vector2? offset = null, bool useStartPosition = false)
