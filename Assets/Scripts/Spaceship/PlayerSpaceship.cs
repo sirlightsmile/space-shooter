@@ -16,6 +16,10 @@ namespace SmileProject.SpaceShooter
 		private const int playerInitialLevel = 1;
 		private float moveBorder = 0;
 
+		/// <summary>
+		/// Move spaceship in horizontal direction
+		/// </summary>
+		/// <param name="direction">move direction</param>
 		public void MoveToDirection(MoveDirection direction)
 		{
 			float directionValue = (float)direction;
@@ -24,6 +28,10 @@ namespace SmileProject.SpaceShooter
 			this.transform.position = new Vector3(posX, this.transform.position.y, this.transform.position.z);
 		}
 
+		/// <summary>
+		/// Set sprite image
+		/// </summary>
+		/// <param name="sprite">sprite image</param>
 		public override void SetSprite(Sprite sprite)
 		{
 			base.SetSprite(sprite);
