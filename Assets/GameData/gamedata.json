@@ -1,0 +1,165 @@
+{
+  "spaceship_gun_model": [
+    {
+      "id": "sg01",
+      "bullet_type": "TypeA",
+      "bullet_asset": "BulletPrefabs/TypeA.prefab",
+      "base_damage": 1,
+      "base_speed": 5,
+      "damage_increment": 1,
+      "speed_increment": 2,
+      "max_level": 5
+    },
+    {
+      "id": "sg02",
+      "bullet_type": "TypeB",
+      "bullet_asset": "BulletPrefabs/TypeB.prefab",
+      "base_damage": 1,
+      "base_speed": 5,
+      "damage_increment": 2,
+      "speed_increment": 2,
+      "max_level": 5
+    }
+  ],
+  "player_spaceship_model": [
+    {
+      "id": "ps01",
+      "asset_name": "PlayerShip01.png",
+      "hp": 5,
+      "speed": 10,
+      "basic_weapon_id": "sg02"
+    }
+  ],
+  "enemy_spaceship_model": [
+    {
+      "id": "es01",
+      "asset_name": "enemyBlack1.png",
+      "hp": 1,
+      "speed": 10,
+      "basic_weapon_id": "sg01",
+      "score": 100
+    },
+    {
+      "id": "es02",
+      "asset_name": "enemyBlue1.png",
+      "hp": 5,
+      "speed": 10,
+      "basic_weapon_id": "sg01",
+      "score": 200
+    },
+    {
+      "id": "es03",
+      "asset_name": "enemyGreen1.png",
+      "hp": 10,
+      "speed": 10,
+      "basic_weapon_id": "sg02",
+      "score": 500
+    },
+    {
+      "id": "es04",
+      "asset_name": "enemyRed1.png",
+      "hp": 20,
+      "speed": 10,
+      "basic_weapon_id": "sg02",
+      "score": 1000
+    }
+  ],
+  "wave_data_model": [
+    {
+      "wave_number": 1,
+      "wave_spawns_data": [
+        {
+          "formation": ["CenterGroup"],
+          "spawn_spaceship_id": "es01"
+        }
+      ],
+      "spawn_interval": 0
+    },
+    {
+      "wave_number": 2,
+      "wave_spawns_data": [
+        {
+          "formation": ["LinearOne"],
+          "spawn_spaceship_id": "es01"
+        },
+        {
+          "formation": ["LinearTwo"],
+          "spawn_spaceship_id": "es01"
+        }
+      ],
+      "spawn_interval": 0.5
+    },
+    {
+      "wave_number": 3,
+      "wave_spawns_data": [
+        {
+          "formation": ["UpperZigZag"],
+          "spawn_spaceship_id": "es02"
+        },
+        {
+          "formation": ["BottomZigzag"],
+          "spawn_spaceship_id": "es01"
+        }
+      ],
+      "spawn_interval": 0.5
+    },
+    {
+      "wave_number": 4,
+      "wave_spawns_data": [
+        {
+          "formation": ["SideZigzag"],
+          "spawn_spaceship_id": "es03"
+        },
+        {
+          "formation": ["LinearTwo"],
+          "spawn_spaceship_id": "es02"
+        },
+        {
+          "formation": ["LinearFour"],
+          "spawn_spaceship_id": "es01"
+        }
+      ],
+      "spawn_interval": 0.3
+    },
+    {
+      "wave_number": 5,
+      "wave_spawns_data": [
+        {
+          "formation": ["BottomZigzag"],
+          "spawn_spaceship_id": "es02"
+        },
+        {
+          "formation": ["LinearOne"],
+          "spawn_spaceship_id": "es03"
+        },
+        {
+          "formation": ["LinearTwo"],
+          "spawn_spaceship_id": "es03"
+        }
+      ],
+      "spawn_interval": 0
+    },
+    {
+      "wave_number": 6,
+      "wave_spawns_data": [
+        {
+          "formation": ["LinearOne"],
+          "spawn_spaceship_id": "es02"
+        },
+        {
+          "formation": ["LinearTwo"],
+          "spawn_spaceship_id": "es03"
+        },
+        {
+          "formation": ["LinearThree"],
+          "spawn_spaceship_id": "es03"
+        },
+        {
+          "formation": ["LinearFour"],
+          "spawn_spaceship_id": "es04"
+        }
+      ],
+      "spawn_interval": 0
+    }
+  ]
+}

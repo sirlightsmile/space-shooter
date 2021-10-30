@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Loader
+  m_EditorClassIdentifier: 
+  m_GroupName: Loader
+  m_Data:
+    m_SerializedData: []
+  m_GUID: e29f474303a1b934ca27b84cac444dec
+  m_SerializeEntries:
+  - m_GUID: c49eafa8d73d8fa4bbdd2cd86f5195f1
+    m_Address: PoolManager
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - manager
+  - m_GUID: 529c255c72073e8449e440f9a8e9ffe0
+    m_Address: FormationController
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - manager
+  - m_GUID: 08e9395bdb50dcd4aa5f65f51ead74b4
+    m_Address: GameplayController
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - manager
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: e7da8c064d2834f458c2bcf8af1f6581, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 79ff5686d9d189d4ebdb66c9f873631a, type: 2}
+    - {fileID: 11400000, guid: 700f329fad1eff24c9e0b95d5ae28d60, type: 2}

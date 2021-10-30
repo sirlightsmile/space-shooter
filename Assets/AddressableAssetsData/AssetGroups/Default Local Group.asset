@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: 
+  m_GroupName: Default Local Group
+  m_Data:
+    m_SerializedData: []
+  m_GUID: aadf56dbc3118b94e99bf9e2ac7c541a
+  m_SerializeEntries:
+  - m_GUID: 9c94337c5f17050458b5999f93e2e68e
+    m_Address: EnemyPrefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - gameplay
+  - m_GUID: 3b5ba9e377c71284f95f520861c7c19a
+    m_Address: PlayerPrefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - gameplay
+  - m_GUID: 42a6cd5af34c7f243b3b37a964c4dab7
+    m_Address: SpaceshipSprites
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - gameplay
+  - m_GUID: 87d560f5d72370e4094cc93a7741cf18
+    m_Address: BulletPrefabs
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - gameplay
+  - m_GUID: 0bfb2fa3244c62640af852a423b25fad
+    m_Address: MenuSounds
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+  - m_GUID: eaeada1e3b937844ea8ed8cf9a48ad01
+    m_Address: GameplaySounds
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - gameplay
+  - m_GUID: a8dca8b91bdab0a468f42cafa986f12b
+    m_Address: SoundMixer
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+  - m_GUID: ecd5d42cb3816ff4caf87d738645a0d4
+    m_Address: AudioManager
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - manager
+  - m_GUID: 90429c3a0cb0bc245865581399beefc7
+    m_Address: GameplayUIManager
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - manager
+  - m_GUID: 983d34cbc34e32646b7ecb0a648129ee
+    m_Address: InputManager
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: e7da8c064d2834f458c2bcf8af1f6581, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: e1eaa54979418e44fa6bdf4601f883b3, type: 2}
+    - {fileID: 11400000, guid: 881f08e3425ac5c409707862111fd0c8, type: 2}
