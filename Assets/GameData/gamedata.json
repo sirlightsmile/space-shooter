@@ -87,7 +87,7 @@
           "spawn_spaceship_id": "es01"
         }
       ],
-      "spawn_interval": 0.5
+      "spawn_interval": 0.2
     },
     {
       "wave_number": 3,
@@ -119,7 +119,7 @@
           "spawn_spaceship_id": "es01"
         }
       ],
-      "spawn_interval": 0.3
+      "spawn_interval": 0.2
     },
     {
       "wave_number": 5,
@@ -129,15 +129,11 @@
           "spawn_spaceship_id": "es02"
         },
         {
-          "formation": ["LinearOne"],
-          "spawn_spaceship_id": "es03"
-        },
-        {
-          "formation": ["LinearTwo"],
+          "formation": ["LinearOne", "LinearTwo"],
           "spawn_spaceship_id": "es03"
         }
       ],
-      "spawn_interval": 0
+      "spawn_interval": 0.2
     },
     {
       "wave_number": 6,
@@ -147,11 +143,7 @@
           "spawn_spaceship_id": "es02"
         },
         {
-          "formation": ["LinearTwo"],
-          "spawn_spaceship_id": "es03"
-        },
-        {
-          "formation": ["LinearThree"],
+          "formation": ["LinearTwo", "LinearThree"],
           "spawn_spaceship_id": "es03"
         },
         {
@@ -159,7 +151,7 @@
           "spawn_spaceship_id": "es04"
         }
       ],
-      "spawn_interval": 0
+      "spawn_interval": 0.2
     }
   ]
 }

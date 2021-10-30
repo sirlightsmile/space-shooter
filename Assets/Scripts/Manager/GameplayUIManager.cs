@@ -16,6 +16,9 @@ namespace SmileProject.SpaceShooter.UI
 		private WaveChangeComp waveChangComp;
 
 		[SerializeField]
+		private GameStartComp gameStartComp;
+
+		[SerializeField]
 		private GameEndComp gameEndComp;
 
 		[SerializeField]
@@ -31,6 +34,11 @@ namespace SmileProject.SpaceShooter.UI
 			gameEndComp.Show("Game Over");
 		}
 
+		public void ShowWaveChange(int waveNumber, int showTime)
+		{
+			waveChangComp.ShowWave(waveNumber, showTime);
+		}
+
 		public void SetGameplayMenu(bool isShow)
 		{
 			if (isShow)
@@ -43,9 +51,30 @@ namespace SmileProject.SpaceShooter.UI
 			}
 		}
 
-		public void ShowWaveChange(int waveNumber, int showTime)
+		public void SetShowPlayerInfo(bool isShow)
 		{
-			waveChangComp.ShowWave(waveNumber, showTime);
+			if (isShow)
+			{
+				playerScoreComp.Show();
+				playerHpComp.Show();
+			}
+			else
+			{
+				playerScoreComp.Hide();
+				playerHpComp.Hide();
+			}
+		}
+
+		public void SetShowGameStart(bool isShow)
+		{
+			if (isShow)
+			{
+				gameStartComp.Show();
+			}
+			else
+			{
+				gameStartComp.Hide();
+			}
 		}
 
 		public void SetPlayerScore(int score)

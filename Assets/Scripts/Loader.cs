@@ -82,7 +82,7 @@ namespace SmileProject.SpaceShooter
 			);
 
 			this.gameplayController = gameplayController;
-			this.gameplayController.GameStart();
+			this.gameplayController.StandBy();
 		}
 
 		private async Task InitPoolManager(IResourceLoader resourceLoader)

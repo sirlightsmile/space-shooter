@@ -53,7 +53,8 @@ namespace SmileProject.SpaceShooter
 		private int currentWave = 0;
 		private int waveCount;
 		private int playerScore = 0;
-		private bool isGameEnd = false;
+		private bool isGameEnded = false;
+		private bool isGameStarted = false;
 
 		/// <summary>
 		/// Initialize gameplay controller
@@ -67,7 +68,7 @@ namespace SmileProject.SpaceShooter
 			this.uiManager = uiManager;
 
 			// setup listener
-			inputManager.ConfirmInput += ResetGame;
+			inputManager.ConfirmInput += OnPressConfirm;
 			inputManager.MenuInput += () => { SetGamePause(!IsPause); };
 			enemyManager.AllSpaceshipDestroyed += OnWaveClear;
 			playerController.PlayerDestroyed += OnPlayerDestroyed;
@@ -98,24 +99,39 @@ namespace SmileProject.SpaceShooter
 			this.waveCount = wave;
 		}
 
-		public void GameStart()
+		public void StandBy()
+		{
+			uiManager.SetShowGameStart(true);
+		}
+
+		private void GameStart()
 		{
 			playerScore = 0;
 			Timer = 0;
 			currentWave = 0;
 			IsPause = false;
-			isGameEnd = false;
+			isGameEnded = false;
+			isGameStarted = true;
+			uiManager.SetShowGameStart(false);
 			PlayGameplayBGM();
 			Start?.Invoke();
 			NextWave();
 		}
 
+		private void OnPressConfirm()
+		{
+			if (!isGameStarted)
+			{
+				GameStart();
+			}
+			else if (isGameEnded)
+			{
+				ResetGame();
+			}
+		}
+
 		private void ResetGame()
 		{
-			if (!isGameEnd)
-			{
-				return;
-			}
 			Debug.Log("Reset scene");
 			SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 		}
@@ -144,7 +160,7 @@ namespace SmileProject.SpaceShooter
 
 		private void GameEnd()
 		{
-			isGameEnd = true;
+			isGameEnded = true;
 			IsPause = true;
 		}
 
@@ -202,7 +218,7 @@ namespace SmileProject.SpaceShooter
 
 		private void Update()
 		{
-			if (IsPause || isGameEnd)
+			if (IsPause || isGameEnded)
 			{
 				return;
 			}
