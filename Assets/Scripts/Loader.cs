@@ -2,10 +2,11 @@ using System;
 using System.Threading.Tasks;
 using SmileProject.Generic;
 using SmileProject.SpaceShooter.UI;
+using UnityEngine;
 
 namespace SmileProject.SpaceShooter
 {
-	public class Loader : MonoSingleton<Loader>
+	public class Loader : MonoBehaviour
 	{
 		public event EventHandler Initialized;
 
@@ -26,7 +27,7 @@ namespace SmileProject.SpaceShooter
 		/// Async initialize. Call only once per session.
 		/// </summary>
 		/// <returns></returns>
-		private async void Initialize()
+		public async void Initialize()
 		{
 			resourceLoader = new AddressableResourceLoader();
 			gameDataManager = new GameDataManager();

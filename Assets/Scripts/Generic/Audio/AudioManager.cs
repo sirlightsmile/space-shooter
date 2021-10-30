@@ -21,7 +21,7 @@ namespace SmileProject.Generic
 		private Dictionary<string, AudioMixerGroup> mixerMap;
 		private int playId = 0;
 
-		private void Start()
+		private void Awake()
 		{
 			audioSources = new List<AudioSource>(audioSourcesContainer.GetComponentsInChildren<AudioSource>());
 			playingSource = new Dictionary<int, AudioSource>();
