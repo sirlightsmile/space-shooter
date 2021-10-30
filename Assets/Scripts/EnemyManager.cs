@@ -171,7 +171,7 @@ namespace SmileProject.SpaceShooter
 			// from second to millisecond
 			int delayTimeMillisecond = (int)(randomDelay * 1000);
 			await Task.Delay(delayTimeMillisecond);
-			if (spaceship != null && spaceship.transform != null)
+			if (spaceship.IsActive)
 			{
 				spaceship?.Shoot();
 			}
