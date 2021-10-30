@@ -95,8 +95,7 @@ namespace SmileProject.SpaceShooter
 				StopCoroutine(pointBlankCoroutine);
 				pointBlankCoroutine = null;
 			}
-			//TODO: make it pool
-			Destroy(this.gameObject);
+			ReturnToPool();
 		}
 	}
 }

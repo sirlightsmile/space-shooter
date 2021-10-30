@@ -58,13 +58,22 @@ namespace SmileProject.SpaceShooter
 
 			// inject enemy manager
 			EnemySpaceshipBuilder enemiesBuilder = new EnemySpaceshipBuilder(resourceLoader, gameDataManager, weaponFactory, audioManager);
+
 			enemyFormationController.Initialize(gameDataManager, enemiesBuilder);
 			EnemyManager enemyManager = new EnemyManager(gameplayController, enemyFormationController);
 
 
 			int waveCount = gameDataManager.GetWaveDataModels().Length;
 			gameplayController.SetWaveCount(waveCount);
-			await gameplayController.Initialize(playerController, enemyManager, inputManager, audioManager, uiManager);
+
+			await Task.WhenAll
+			(
+				new Task[]
+				{
+					gameplayController.Initialize(playerController, enemyManager, inputManager, audioManager, uiManager),
+					enemiesBuilder.SetupSpaceshipPool(poolManager)
+				}
+			);
 
 			this.gameplayController = gameplayController;
 			this.gameplayController.GameStart();

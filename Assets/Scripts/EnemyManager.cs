@@ -30,6 +30,7 @@ namespace SmileProject.SpaceShooter
 		public bool IsEnemiesReady { get; private set; }
 
 		private FormationController formationController;
+		private GameplayController gameplayController;
 		private List<EnemySpaceship> enemySpaceships = new List<EnemySpaceship>();
 
 		/// <summary>
@@ -71,8 +72,6 @@ namespace SmileProject.SpaceShooter
 		/// Reference of time that trigger point-blank shot
 		/// </summary>
 		private float lastPointBlankTimestamp = 0;
-
-		private GameplayController gameplayController;
 
 		public EnemyManager(GameplayController gameplayController, FormationController formationController)
 		{

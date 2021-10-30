@@ -9,6 +9,7 @@ namespace SmileProject.SpaceShooter
 	{
 		private const string assetPrefix = "SpaceshipSprites/";
 		private const string enemyPrefabKey = "EnemyPrefab";
+		private const int enemyPoolSize = 10;
 		private GameDataManager gameDataManager;
 		private AudioManager audioManager;
 		private WeaponFactory weaponFactory;
@@ -18,6 +19,11 @@ namespace SmileProject.SpaceShooter
 			this.gameDataManager = gameDataManager;
 			this.audioManager = audioManager;
 			this.weaponFactory = weaponFactory;
+		}
+
+		public async Task SetupSpaceshipPool(PoolManager poolManager)
+		{
+			await SetupPool(poolManager, enemyPrefabKey, enemyPoolSize);
 		}
 
 		public async Task<EnemySpaceship> BuildEnemySpaceship(EnemySpaceshipModel model)

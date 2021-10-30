@@ -9,19 +9,66 @@ namespace SmileProject.SpaceShooter
 	{
 		public event Action<Spaceship> SpaceshipBuilded;
 		private IResourceLoader resourceLoader;
+		private PoolManager poolManager;
 
 		public SpaceshipBuilder(IResourceLoader resourceLoader)
 		{
 			this.resourceLoader = resourceLoader;
 		}
 
+		/// <summary>
+		/// (Optional) Setup pool to generate spaceship
+		/// </summary>
+		/// <param name="poolManager">pool manager</param>
+		/// <param name="templateKey">pool asset name</param>
+		/// <param name="size">pool size</param>
+		/// <returns></returns>
+		public virtual async Task SetupPool(PoolManager poolManager, string templateKey, int size)
+		{
+			this.poolManager = poolManager;
+			if (!poolManager.HasPool(templateKey))
+			{
+				PoolOptions options = new PoolOptions
+				{
+					AssetKey = templateKey,
+					PoolName = templateKey,
+					InitialSize = size,
+					CanExtend = true,
+					ExtendAmount = size
+				};
+				await poolManager.CreatePool<Spaceship>(options);
+			}
+		}
+
+		/// <summary>
+		/// Build spaceship from id. If pool manager has assigned this will build from pool
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
 		public abstract Task<Spaceship> BuildSpaceshipById(string id);
 
+		/// <summary>
+		/// Build spaceship from model. If pool manager has assigned this will build from pool
+		/// </summary>
+		/// <param name="templateKey">asset name</param>
+		/// <param name="model">spaceship data model</param>
+		/// <typeparam name="T">T extends Spaceship</typeparam>
+		/// <typeparam name="T2">T2 extends SpaceshipModel</typeparam>
+		/// <returns></returns>
 		public async virtual Task<T> BuildSpaceship<T, T2>(string templateKey, T2 model) where T : Spaceship where T2 : SpaceshipModel
 		{
-			string spriteName = GetAssetPrefix() + model.AssetName;
-			T spaceship = await resourceLoader.InstantiateAsync<T>(templateKey, null, true);
+			T spaceship = null;
+			if (poolManager != null && poolManager.HasPool(templateKey))
+			{
+				spaceship = poolManager.GetItem<T>(templateKey);
+			}
+			else
+			{
+				spaceship = await resourceLoader.InstantiateAsync<T>(templateKey, null, true);
+			}
 			spaceship.Setup(model);
+			spaceship.SetActive(true);
+			string spriteName = GetAssetPrefix() + model.AssetName;
 			resourceLoader.SetSpriteAsync(spriteName, spaceship.SetSprite);
 			SpaceshipBuilded?.Invoke(spaceship);
 			return spaceship;

@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace SmileProject.SpaceShooter
 {
-	public abstract class Spaceship : MonoBehaviour
+	public abstract class Spaceship : PoolObject
 	{
 		/// <summary>
 		/// Invoke when got hit <Attacker, Defender>
@@ -155,6 +155,18 @@ namespace SmileProject.SpaceShooter
 			this.audioManager = audioManager;
 			this.getHitSound = getHitSound;
 			this.destroyedSound = destroyedSound;
+		}
+
+		public override void OnSpawn()
+		{
+			Debug.Log("Spawn spaceship from pool");
+			SetActive(true);
+		}
+
+		public override void OnDespawn()
+		{
+			SetSprite(null);
+			weapon = null;
 		}
 
 		public async void PlaySound(SoundKeys soundKey)
