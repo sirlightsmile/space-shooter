@@ -13,6 +13,9 @@ namespace SmileProject.SpaceShooter.UI
 		private PlayerHpComp playerHpComp;
 
 		[SerializeField]
+		private WaveChangeComp waveChangComp;
+
+		[SerializeField]
 		private GameStartComp gameStartComp;
 
 		[SerializeField]
@@ -34,6 +37,11 @@ namespace SmileProject.SpaceShooter.UI
 		public void ShowGameplayMenu()
 		{
 			//TODO: implement
+		}
+
+		public void ShowWaveChange(int waveNumber, int showTime)
+		{
+			waveChangComp.Show(waveNumber, showTime);
 		}
 
 		public void SetPlayerScore(int score)

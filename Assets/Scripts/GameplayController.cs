@@ -35,8 +35,7 @@ namespace SmileProject.SpaceShooter
 		/// <value></value>
 		public float Timer { get; private set; }
 
-		private const int firstWave = 1;
-		private const int waveInterval = 5000;
+		private const int waveInterval = 3000;
 
 		[SerializeField]
 		private Vector2 playerSpawnPoint;
@@ -50,7 +49,7 @@ namespace SmileProject.SpaceShooter
 		private AudioManager audioManager;
 		private GameplayUIManager uiManager;
 
-		private int currentWave = firstWave;
+		private int currentWave = 0;
 		private int waveCount;
 		private int playerScore = 0;
 
@@ -98,10 +97,11 @@ namespace SmileProject.SpaceShooter
 		{
 			playerScore = 0;
 			Timer = 0;
+			currentWave = 0;
 			IsPause = false;
 			PlayGameplayBGM();
 			Start?.Invoke();
-			WaveChange?.Invoke(currentWave);
+			NextWave();
 		}
 
 		public void SetGamePause(bool isPause)
@@ -147,7 +147,7 @@ namespace SmileProject.SpaceShooter
 
 		private async void NextWave()
 		{
-			//TODO: UI for wave clear
+			uiManager.ShowWaveChange(currentWave + 1, waveInterval);
 			await Task.Delay(waveInterval);
 			currentWave++;
 			WaveChange?.Invoke(currentWave);
