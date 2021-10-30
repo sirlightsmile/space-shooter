@@ -5,7 +5,7 @@ using UnityEngine.UI;
 namespace SmileProject.SpaceShooter.UI
 {
 	[Serializable]
-	public class GameplayMenuComp
+	public class GameplayMenuComp : BaseUIComponent
 	{
 	}
 }

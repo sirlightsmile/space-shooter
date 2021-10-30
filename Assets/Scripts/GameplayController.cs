@@ -64,6 +64,8 @@ namespace SmileProject.SpaceShooter
 			this.enemyManager = enemyManager;
 			this.uiManager = uiManager;
 
+			// setup listener
+			inputManager.MenuInput += () => { SetGamePause(!IsPause); };
 			enemyManager.AllSpaceshipDestroyed += OnWaveClear;
 			playerController.PlayerDestroyed += OnGameOver;
 			playerController.PlayerGetHit += OnPlayerGetHit;
@@ -108,6 +110,7 @@ namespace SmileProject.SpaceShooter
 		{
 			IsPause = isPause;
 			Pause?.Invoke(isPause);
+			uiManager.SetGameplayMenu(isPause);
 			Time.timeScale = isPause ? 0f : 1f;
 		}
 
@@ -130,14 +133,11 @@ namespace SmileProject.SpaceShooter
 
 		private void OnEnemyReadyStatusChanged(bool isReady)
 		{
-			if (isReady)
+			if (!isReady)
 			{
-				inputManager.SetAllowAttack(true);
+				return;
 			}
-			else
-			{
-				//TODO: show prepare UI
-			}
+			inputManager.SetAllowAttack(true);
 		}
 
 		private void OnPlayerGetHit(int hp)
@@ -180,7 +180,6 @@ namespace SmileProject.SpaceShooter
 				return;
 			}
 
-			inputManager.Update();
 			enemyManager.Update();
 			Timer += Time.time;
 		}

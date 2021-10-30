@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace SmileProject.SpaceShooter.UI
 {
-	public class PlayerScoreComp : MonoBehaviour
+	public class PlayerScoreComp : BaseUIComponent
 	{
 		[SerializeField]
 		private Text playerScoreText;
