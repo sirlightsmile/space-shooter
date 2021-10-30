@@ -26,7 +26,7 @@ namespace SmileProject.SpaceShooter.UI
 		/// <param name="isActive">is active</param>
 		public virtual void SetActive(bool isActive)
 		{
-			this.gameObject.SetActive(isActive);
+			this.gameObject?.SetActive(isActive);
 		}
 
 		/// <summary>
