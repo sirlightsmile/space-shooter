@@ -12,6 +12,12 @@ namespace SmileProject.SpaceShooter
 	{
 		public override SpaceshipTag SpaceshipTag { get { return SpaceshipTag.Player; } }
 		public int PlayerLevel { get; private set; } = playerInitialLevel;
+
+		private const string getHitAnimState = "GetHit";
+
+		[SerializeField]
+		private Animator animator;
+
 		private const int playerInitialLevel = 1;
 		private float moveBorder = 0;
 
@@ -28,6 +34,12 @@ namespace SmileProject.SpaceShooter
 			this.transform.position = new Vector3(posX, this.transform.position.y, this.transform.position.z);
 		}
 
+		public override void GetHit(int damage, Spaceship attacker)
+		{
+			base.GetHit(damage, attacker);
+			PlayGetHitAnimation();
+		}
+
 		/// <summary>
 		/// Setup world border for move
 		/// </summary>
@@ -37,6 +49,11 @@ namespace SmileProject.SpaceShooter
 			float borderRight = Screen.width - halfSize;
 			float borderWorldPoint = Camera.main.ScreenToWorldPoint(new Vector3(borderRight, 0, 0)).x;
 			this.moveBorder = borderWorldPoint;
+		}
+
+		private void PlayGetHitAnimation()
+		{
+			animator.Play(getHitAnimState);
 		}
 	}
 }
