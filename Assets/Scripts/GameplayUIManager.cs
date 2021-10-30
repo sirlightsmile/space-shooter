@@ -1,24 +1,49 @@
+using SmileProject.SpaceShooter.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace SmileProject.SpaceShooter
+namespace SmileProject.SpaceShooter.UI
 {
 	public class GameplayUIManager : MonoBehaviour
 	{
 		[SerializeField]
-		private Text playerScoreText;
+		private PlayerScoreComp playerScoreComp;
 
 		[SerializeField]
-		private Text playerHpText;
+		private PlayerHpComp playerHpComp;
+
+		[SerializeField]
+		private GameStartComp gameStartComp;
+
+		[SerializeField]
+		private GameOverComp gameOverComp;
+
+		[SerializeField]
+		private GameplayMenuComp gameplayMenu;
+
+		public void ShowGameStart()
+		{
+			//TODO: implement
+		}
+
+		public void ShowGameOver()
+		{
+			//TODO: implement
+		}
+
+		public void ShowGameplayMenu()
+		{
+			//TODO: implement
+		}
 
 		public void SetPlayerScore(int score)
 		{
-			playerScoreText.text = $"Player score : {score}";
+			playerScoreComp.SetPlayerScore(score);
 		}
 
 		public void SetPlayerHp(int hp)
 		{
-			playerHpText.text = $"HP : {hp.ToString()}";
+			playerHpComp.SetPlayerHp(hp);
 		}
 	}
 }
