@@ -16,19 +16,19 @@ namespace SmileProject.SpaceShooter.UI
 		private WaveChangeComp waveChangComp;
 
 		[SerializeField]
-		private GameOverComp gameOverComp;
+		private GameEndComp gameEndComp;
 
 		[SerializeField]
 		private GameplayMenuComp gameplayMenu;
 
-		public void ShowGameStart()
+		public void ShowGameClear(int score)
 		{
-			//TODO: implement
+			gameEndComp.Show($"Clear!\nYour score : {score}");
 		}
 
 		public void ShowGameOver()
 		{
-			//TODO: implement
+			gameEndComp.Show("Game Over");
 		}
 
 		public void SetGameplayMenu(bool isShow)

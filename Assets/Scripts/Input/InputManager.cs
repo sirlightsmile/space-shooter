@@ -11,6 +11,8 @@ namespace SmileProject.SpaceShooter
 
 		public event Action MenuInput;
 
+		public event Action ConfirmInput;
+
 		private bool allowInput = true;
 		private bool allowAttack = true;
 
@@ -54,6 +56,11 @@ namespace SmileProject.SpaceShooter
 			if (Input.GetKeyDown(KeyCode.Escape))
 			{
 				MenuInput?.Invoke();
+			}
+
+			if (Input.GetButtonDown("Submit"))
+			{
+				ConfirmInput?.Invoke();
 			}
 		}
 	}

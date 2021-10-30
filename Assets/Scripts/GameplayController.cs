@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using SmileProject.Generic;
 using SmileProject.SpaceShooter.UI;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace SmileProject.SpaceShooter
 {
@@ -52,6 +53,7 @@ namespace SmileProject.SpaceShooter
 		private int currentWave = 0;
 		private int waveCount;
 		private int playerScore = 0;
+		private bool isGameEnd = false;
 
 		/// <summary>
 		/// Initialize gameplay controller
@@ -65,9 +67,10 @@ namespace SmileProject.SpaceShooter
 			this.uiManager = uiManager;
 
 			// setup listener
+			inputManager.ConfirmInput += ResetGame;
 			inputManager.MenuInput += () => { SetGamePause(!IsPause); };
 			enemyManager.AllSpaceshipDestroyed += OnWaveClear;
-			playerController.PlayerDestroyed += OnGameOver;
+			playerController.PlayerDestroyed += OnPlayerDestroyed;
 			playerController.PlayerGetHit += OnPlayerGetHit;
 			enemyManager.EnemyDestroyed += OnEnemyDestroyed;
 			enemyManager.EnemyReadyStatusChanged += OnEnemyReadyStatusChanged;
@@ -101,12 +104,23 @@ namespace SmileProject.SpaceShooter
 			Timer = 0;
 			currentWave = 0;
 			IsPause = false;
+			isGameEnd = false;
 			PlayGameplayBGM();
 			Start?.Invoke();
 			NextWave();
 		}
 
-		public void SetGamePause(bool isPause)
+		private void ResetGame()
+		{
+			if (!isGameEnd)
+			{
+				return;
+			}
+			Debug.Log("Reset scene");
+			SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+		}
+
+		private void SetGamePause(bool isPause)
 		{
 			IsPause = isPause;
 			Pause?.Invoke(isPause);
@@ -114,10 +128,24 @@ namespace SmileProject.SpaceShooter
 			Time.timeScale = isPause ? 0f : 1f;
 		}
 
-		public void ClearGame()
+		private async void ClearGame()
 		{
-			//TODO: show clear game with retry UI
-			Debug.Log("Clear game !");
+			GameEnd();
+			uiManager.ShowGameClear(playerScore);
+			await audioManager.PlaySound(GameSoundKeys.Succeed);
+		}
+
+		private async void GameOver()
+		{
+			GameEnd();
+			uiManager.ShowGameOver();
+			await audioManager.PlaySound(GameSoundKeys.Failed);
+		}
+
+		private void GameEnd()
+		{
+			isGameEnd = true;
+			IsPause = true;
 		}
 
 		private async void PlayGameplayBGM()
@@ -167,10 +195,9 @@ namespace SmileProject.SpaceShooter
 			}
 		}
 
-		private void OnGameOver()
+		private void OnPlayerDestroyed()
 		{
-			IsPause = true;
-			//TODO: show retry UI
+			GameOver();
 		}
 
 		private void Update()
