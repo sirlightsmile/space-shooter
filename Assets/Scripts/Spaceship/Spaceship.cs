@@ -26,6 +26,8 @@ namespace SmileProject.SpaceShooter
 
 		public int HP { get; protected set; }
 
+		private const string getHitAnimState = "GetHit";
+
 		[SerializeField]
 		protected float speed;
 
@@ -35,13 +37,16 @@ namespace SmileProject.SpaceShooter
 		[SerializeField]
 		protected SpriteRenderer shipImage;
 
-		protected float width { get { return shipImage.bounds.size.x * shipImage.sprite.pixelsPerUnit; } }
-		protected float height { get { return shipImage.bounds.size.y * shipImage.sprite.pixelsPerUnit; } }
+		protected float width { get { return shipImage?.bounds.size.x * shipImage?.sprite.pixelsPerUnit ?? 0; } }
+		protected float height { get { return shipImage?.bounds.size.y * shipImage?.sprite.pixelsPerUnit ?? 0; } }
 
 		protected SpaceshipGun weapon;
 		protected AudioManager audioManager;
 		protected SoundKeys getHitSound;
 		protected SoundKeys destroyedSound;
+
+		[SerializeField]
+		private Animator animator;
 
 		[SerializeField]
 		/// <summary>
@@ -121,10 +126,15 @@ namespace SmileProject.SpaceShooter
 			int result = HP - damage;
 			HP = Mathf.Clamp(result, 0, this.HP);
 			GotHit?.Invoke(attacker, this);
-			PlaySound(getHitSound);
+
 			if (IsBroken())
 			{
 				ShipDestroy();
+			}
+			else
+			{
+				PlaySound(getHitSound);
+				PlayGetHitAnimation();
 			}
 		}
 
@@ -217,6 +227,11 @@ namespace SmileProject.SpaceShooter
 			SetPosition(getTargetPos());
 			reachedCallback?.Invoke();
 			MoveCoroutine = null;
+		}
+
+		private void PlayGetHitAnimation()
+		{
+			animator.Play(getHitAnimState);
 		}
 	}
 }

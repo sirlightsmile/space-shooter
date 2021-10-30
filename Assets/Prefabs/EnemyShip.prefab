@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 6899399453829682022}
   - component: {fileID: -183935142188327621}
   - component: {fileID: 117305663461141265}
+  - component: {fileID: 2971910795002196730}
   m_Layer: 8
   m_Name: EnemyShip
   m_TagString: Enemy
@@ -78,12 +79,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d1bc137e43ff0f41b49f20d2290d6bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 3
   speed: 10
   attackPointTransform: {fileID: 755940592231839850}
   shipImage: {fileID: 657401795837474271}
+  animator: {fileID: 2971910795002196730}
   smoothTime: 0.5
   approximate: 0.01
+  pointBlankRange: 2
 --- !u!61 &-183935142188327621
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -131,6 +133,25 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!95 &2971910795002196730
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 812334156182985140}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d8c3223763b377440a1af6bbc783f61c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1937234354778291833
 GameObject:
   m_ObjectHideFlags: 0
@@ -142,7 +163,7 @@ GameObject:
   - component: {fileID: 6951268108882908772}
   - component: {fileID: 657401795837474271}
   m_Layer: 8
-  m_Name: ShipImage
+  m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -201,7 +222,7 @@ SpriteRenderer:
   m_SortingLayerID: 1496277393
   m_SortingLayer: 2
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 4e2f6dfc13b6ac544bd49349396d6598, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -209,7 +230,7 @@ SpriteRenderer:
   m_Size: {x: 0.99, y: 0.75}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &4722924556458442165
