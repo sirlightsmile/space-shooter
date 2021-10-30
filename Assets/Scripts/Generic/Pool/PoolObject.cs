@@ -4,7 +4,7 @@ namespace SmileProject.Generic
 {
 	public abstract class PoolObject : MonoBehaviour
 	{
-		public bool IsActive { get { return gameObject.activeInHierarchy; } }
+		public bool IsActive { get { return gameObject?.activeInHierarchy ?? false; } }
 		private string poolName;
 		private PoolManager poolManager;
 
