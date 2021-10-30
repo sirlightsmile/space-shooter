@@ -49,13 +49,19 @@ namespace SmileProject.SpaceShooter
 
 		private void PlayerShoot()
 		{
-			PlayerSpaceship?.Shoot();
+			if (PlayerSpaceship != null && PlayerSpaceship.IsActive)
+			{
+				PlayerSpaceship.Shoot();
+			}
 		}
 
 
 		private void PlayerMove(MoveDirection moveDirection)
 		{
-			PlayerSpaceship?.MoveToDirection(moveDirection);
+			if (PlayerSpaceship != null && PlayerSpaceship.IsActive)
+			{
+				PlayerSpaceship.MoveToDirection(moveDirection);
+			}
 		}
 
 		private void OnPlayerGotHit(Spaceship other, Spaceship player)
