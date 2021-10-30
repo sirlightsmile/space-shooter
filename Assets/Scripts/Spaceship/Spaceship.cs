@@ -26,6 +26,7 @@ namespace SmileProject.SpaceShooter
 
 		public int HP { get; protected set; }
 
+		private const string idleAnimState = "Idle";
 		private const string getHitAnimState = "GetHit";
 
 		[SerializeField]
@@ -169,8 +170,6 @@ namespace SmileProject.SpaceShooter
 
 		public override void OnSpawn()
 		{
-			Debug.Log("Spawn spaceship from pool");
-			SetActive(true);
 		}
 
 		public override void OnDespawn()
@@ -195,6 +194,7 @@ namespace SmileProject.SpaceShooter
 				StopCoroutine(MoveCoroutine);
 				MoveCoroutine = null;
 			}
+			ResetAnimation();
 			Destroyed?.Invoke(this);
 			await PlaySound(destroyedSound);
 		}
@@ -233,6 +233,11 @@ namespace SmileProject.SpaceShooter
 		private void PlayGetHitAnimation()
 		{
 			animator.Play(getHitAnimState);
+		}
+
+		private void ResetAnimation()
+		{
+			animator.Play(idleAnimState);
 		}
 	}
 }

@@ -60,6 +60,7 @@ namespace SmileProject.Generic
 				}
 			}
 			PoolObject poolObject = poolObjectList[index];
+			poolObject.OnSpawn();
 			return poolObject as T;
 		}
 
