@@ -202,7 +202,7 @@ namespace SmileProject.SpaceShooter
 
 		private void Update()
 		{
-			if (IsPause)
+			if (IsPause || isGameEnd)
 			{
 				return;
 			}
