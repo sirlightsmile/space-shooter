@@ -40,5 +40,11 @@ namespace SmileProject.SpaceShooter
 			float borderWorldPoint = Camera.main.ScreenToWorldPoint(new Vector3(borderRight, 0, 0)).x;
 			this.moveBorder = borderWorldPoint;
 		}
+
+		protected override void ShipDestroy()
+		{
+			base.ShipDestroy();
+			this.gameObject.SetActive(false);
+		}
 	}
 }
