@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace SmileProject.SpaceShooter
@@ -11,24 +10,12 @@ namespace SmileProject.SpaceShooter
 		public int height = 4;
 		public float widthInterval = 1f;
 		public float heightInterval = 1f;
-		public bool trigger = false;
-		public bool triggerReset = false;
 		public Transform container;
 
-		void Update()
-		{
-			GenerateFormation();
-			Reset();
-		}
 
+		[ContextMenu("GenerateFormation")]
 		void GenerateFormation()
 		{
-			if (!trigger)
-			{
-				return;
-			}
-			trigger = false;
-
 			for (int x = 0; x < width; x++)
 			{
 				for (int y = 0; y < height; y++)
@@ -65,14 +52,9 @@ namespace SmileProject.SpaceShooter
 			}
 		}
 
+		[ContextMenu("Reset")]
 		void Reset()
 		{
-			if (!triggerReset)
-			{
-				return;
-			}
-			triggerReset = false;
-
 			for (int i = container.childCount - 1; i >= 0; i--)
 			{
 				DestroyImmediate(container.GetChild(i).gameObject);
