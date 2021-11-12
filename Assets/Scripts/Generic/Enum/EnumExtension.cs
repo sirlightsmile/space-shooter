@@ -6,7 +6,7 @@ using System.Reflection;
 
 public static class EnumExtensions
 {
-	private static void CheckIsEnum<T>(bool withFlags)
+	private static void ValidateEnum<T>(bool withFlags)
 	{
 		if (!typeof(T).IsEnum)
 			throw new ArgumentException(string.Format("Type '{0}' is not an enum", typeof(T).FullName));
@@ -16,7 +16,7 @@ public static class EnumExtensions
 
 	public static bool IsFlagSet<T>(this T value, T flag) where T : struct
 	{
-		CheckIsEnum<T>(true);
+		ValidateEnum<T>(true);
 		long lValue = Convert.ToInt64(value);
 		long lFlag = Convert.ToInt64(flag);
 		return (lValue & lFlag) != 0;
@@ -24,7 +24,7 @@ public static class EnumExtensions
 
 	public static IEnumerable<T> GetFlags<T>(this T value) where T : struct
 	{
-		CheckIsEnum<T>(true);
+		ValidateEnum<T>(true);
 		foreach (T flag in Enum.GetValues(typeof(T)).Cast<T>())
 		{
 			if (value.IsFlagSet(flag))
@@ -34,7 +34,7 @@ public static class EnumExtensions
 
 	public static T SetFlags<T>(this T value, T flags, bool on) where T : struct
 	{
-		CheckIsEnum<T>(true);
+		ValidateEnum<T>(true);
 		long lValue = Convert.ToInt64(value);
 		long lFlag = Convert.ToInt64(flags);
 		if (on)
@@ -60,7 +60,7 @@ public static class EnumExtensions
 
 	public static T CombineFlags<T>(this IEnumerable<T> flags) where T : struct
 	{
-		CheckIsEnum<T>(true);
+		ValidateEnum<T>(true);
 		long lValue = 0;
 		foreach (T flag in flags)
 		{
@@ -72,7 +72,7 @@ public static class EnumExtensions
 
 	public static string GetDescription<T>(this T value) where T : struct
 	{
-		CheckIsEnum<T>(false);
+		ValidateEnum<T>(false);
 		string name = Enum.GetName(typeof(T), value);
 		if (name != null)
 		{
