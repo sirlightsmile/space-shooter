@@ -84,10 +84,10 @@ namespace SmileProject.SpaceShooter
 			Debug.Log("Invoke Formation Change");
 			SetMoveAnimation(false);
 			WaveDataModel waveData = gameDataManager.GetWaveDataModelByWaveNumber(waveNumber);
-			GenerateSpaceshipFromWaveData(waveData);
+			var _ = GenerateSpaceshipFromWaveData(waveData);
 		}
 
-		private async void GenerateSpaceshipFromWaveData(WaveDataModel waveData)
+		private async Task GenerateSpaceshipFromWaveData(WaveDataModel waveData)
 		{
 			WaveSpawnData[] spawnsData = waveData.WaveSpawnsData;
 			float interval = waveData.SpawnInterval;
