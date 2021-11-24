@@ -134,10 +134,14 @@ namespace SmileProject.SpaceShooter
 		{
 			Spaceship spaceship = await _spaceshipBuilder.BuildSpaceshipById(spaceshipId);
 			bool isArrived = false;
+			bool isAbort = false;
+			Action<Spaceship> Abort = (_) => { isAbort = true; };
 			spaceship.MoveToTarget(point.transform, () => { isArrived = true; });
 			spaceship.SetPosition(_spawnPoint);
+			spaceship.Destroyed += Abort;
 			point.SetLandedSpaceship(spaceship);
-			await TaskExtensions.WaitUntil(() => isArrived);
+			await TaskExtensions.WaitUntil(() => isAbort || isArrived);
+			spaceship.Destroyed -= Abort;
 		}
 
 		public void SetupFormationMap()

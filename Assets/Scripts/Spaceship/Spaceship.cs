@@ -16,8 +16,7 @@ namespace SmileProject.SpaceShooter
 		/// <summary>
 		/// Invoke when spaceship destroyed
 		/// </summary>
-		public event SpaceshipDestroyed Destroyed;
-		public delegate void SpaceshipDestroyed(Spaceship spaceship);
+		public event Action<Spaceship> Destroyed;
 
 		public abstract SpaceshipTag SpaceshipTag
 		{
