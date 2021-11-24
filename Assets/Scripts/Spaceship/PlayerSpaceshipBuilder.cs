@@ -7,18 +7,9 @@ namespace SmileProject.SpaceShooter
 {
 	public class PlayerSpaceshipBuilder : SpaceshipBuilder
 	{
-		private const string ASSET_PREFIX = "SpaceshipSprites/";
 		private const string PREFAB_KEY = "PlayerPrefab";
-		private GameDataManager _gameDataManager;
-		private WeaponFactory _weaponFactory;
-		private AudioManager _audioManager;
 
-		public PlayerSpaceshipBuilder(IResourceLoader resourceLoader, GameDataManager gameDataManager, WeaponFactory weaponFactory, AudioManager audioManager) : base(resourceLoader)
-		{
-			_gameDataManager = gameDataManager;
-			_weaponFactory = weaponFactory;
-			_audioManager = audioManager;
-		}
+		public PlayerSpaceshipBuilder(IResourceLoader resourceLoader, GameDataManager gameDataManager, WeaponFactory weaponFactory, AudioManager audioManager) : base(resourceLoader, gameDataManager, weaponFactory, audioManager) { }
 
 		public async Task<PlayerSpaceship> BuildPlayerSpaceship(SpaceshipModel model)
 		{
@@ -42,11 +33,6 @@ namespace SmileProject.SpaceShooter
 			int randomIndex = UnityEngine.Random.Range(0, models.Length);
 			SpaceshipModel randomModel = models[randomIndex];
 			return await BuildPlayerSpaceship(randomModel);
-		}
-
-		protected override string GetAssetPrefix()
-		{
-			return ASSET_PREFIX;
 		}
 	}
 }

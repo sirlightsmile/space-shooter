@@ -55,14 +55,14 @@ namespace SmileProject.SpaceShooter
 
 		private Dictionary<Formation, List<FormationPoint>> _formationMap = new Dictionary<Formation, List<FormationPoint>>();
 		private GameDataManager _gameDataManager;
-		private SpaceshipBuilder _spaceshipBuilder;
+		private BaseSpaceshipBuilder _spaceshipBuilder;
 
 		private void Start()
 		{
 			SetupFormationMap();
 		}
 
-		public void Initialize(GameDataManager gameDataManager, SpaceshipBuilder spaceshipBuilder)
+		public void Initialize(GameDataManager gameDataManager, BaseSpaceshipBuilder spaceshipBuilder)
 		{
 			_gameDataManager = gameDataManager;
 			_spaceshipBuilder = spaceshipBuilder;

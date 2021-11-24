@@ -7,28 +7,19 @@ namespace SmileProject.SpaceShooter
 {
 	public class EnemySpaceshipBuilder : SpaceshipBuilder
 	{
-		private const string ASSET_PREFIX = "SpaceshipSprites/";
-		private const string ENEMY_PREFAB_KEY = "EnemyPrefab";
+		private const string PREFAB_KEY = "EnemyPrefab";
 		private const int ENEMY_INITIAL_POOL_SIZE = 10;
-		private GameDataManager _gameDataManager;
-		private AudioManager _audioManager;
-		private WeaponFactory _weaponFactory;
 
-		public EnemySpaceshipBuilder(IResourceLoader resourceLoader, GameDataManager gameDataManager, WeaponFactory weaponFactory, AudioManager audioManager) : base(resourceLoader)
-		{
-			_gameDataManager = gameDataManager;
-			_audioManager = audioManager;
-			_weaponFactory = weaponFactory;
-		}
+		public EnemySpaceshipBuilder(IResourceLoader resourceLoader, GameDataManager gameDataManager, WeaponFactory weaponFactory, AudioManager audioManager) : base(resourceLoader, gameDataManager, weaponFactory, audioManager) { }
 
 		public async Task SetupSpaceshipPool(PoolManager poolManager)
 		{
-			await SetupPool(poolManager, ENEMY_PREFAB_KEY, ENEMY_INITIAL_POOL_SIZE);
+			await SetupPool(poolManager, PREFAB_KEY, ENEMY_INITIAL_POOL_SIZE);
 		}
 
 		public async Task<EnemySpaceship> BuildEnemySpaceship(EnemySpaceshipModel model)
 		{
-			var spaceship = await BuildSpaceship<EnemySpaceship, EnemySpaceshipModel>(ENEMY_PREFAB_KEY, model);
+			var spaceship = await BuildSpaceship<EnemySpaceship, EnemySpaceshipModel>(PREFAB_KEY, model);
 			string weaponId = model.BasicWeaponId;
 			if (!String.IsNullOrEmpty(weaponId))
 			{
@@ -47,11 +38,6 @@ namespace SmileProject.SpaceShooter
 		{
 			EnemySpaceshipModel model = _gameDataManager.GetEnemySpaceshipModelById(id);
 			return await BuildEnemySpaceship(model);
-		}
-
-		protected override string GetAssetPrefix()
-		{
-			return ASSET_PREFIX;
 		}
 	}
 }
