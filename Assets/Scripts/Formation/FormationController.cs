@@ -39,23 +39,23 @@ namespace SmileProject.SpaceShooter
 		/// </summary>
 		public event Action FormationReady;
 
-		private const string moveAnimatorParameter = "isMove";
+		private const string _moveAnimatorParameter = "isMove";
 
 		[SerializeField, EnumFlag(EnumFlagAttribute.FlagLayout.List)]
-		private Formation activeFormations;
+		private Formation _activeFormations;
 
 		[SerializeField]
-		private Transform formationContainer;
+		private Transform _formationContainer;
 
 		[SerializeField]
-		private Animator animator;
+		private Animator _animator;
 
 		[SerializeField]
-		private Vector3 spawnPoint = Vector3.zero;
+		private Vector3 _spawnPoint = Vector3.zero;
 
-		private Dictionary<Formation, List<FormationPoint>> formationMap = new Dictionary<Formation, List<FormationPoint>>();
-		private GameDataManager gameDataManager;
-		private SpaceshipBuilder spaceshipBuilder;
+		private Dictionary<Formation, List<FormationPoint>> _formationMap = new Dictionary<Formation, List<FormationPoint>>();
+		private GameDataManager _gameDataManager;
+		private SpaceshipBuilder _spaceshipBuilder;
 
 		private void Start()
 		{
@@ -64,8 +64,8 @@ namespace SmileProject.SpaceShooter
 
 		public void Initialize(GameDataManager gameDataManager, SpaceshipBuilder spaceshipBuilder)
 		{
-			this.gameDataManager = gameDataManager;
-			this.spaceshipBuilder = spaceshipBuilder;
+			this._gameDataManager = gameDataManager;
+			this._spaceshipBuilder = spaceshipBuilder;
 			spaceshipBuilder.SpaceshipBuilded += OnSpaceshipBuilded;
 		}
 
@@ -74,7 +74,7 @@ namespace SmileProject.SpaceShooter
 			Debug.Log("On wave changed");
 
 			// clear all active flags
-			activeFormations.ClearFlags<Formation>(activeFormations);
+			_activeFormations.ClearFlags<Formation>(_activeFormations);
 			UpdateActiveFormation(waveNumber);
 		}
 
@@ -83,7 +83,7 @@ namespace SmileProject.SpaceShooter
 			FormationChange?.Invoke();
 			Debug.Log("Invoke Formation Change");
 			SetMoveAnimation(false);
-			WaveDataModel waveData = gameDataManager.GetWaveDataModelByWaveNumber(waveNumber);
+			WaveDataModel waveData = _gameDataManager.GetWaveDataModelByWaveNumber(waveNumber);
 			var _ = GenerateSpaceshipFromWaveData(waveData);
 		}
 
@@ -99,7 +99,7 @@ namespace SmileProject.SpaceShooter
 				List<Task> spawnTasks = new List<Task>();
 				foreach (Formation formation in formations)
 				{
-					if (formationMap.TryGetValue(formation, out var points))
+					if (_formationMap.TryGetValue(formation, out var points))
 					{
 						foreach (FormationPoint point in points)
 						{
@@ -127,40 +127,40 @@ namespace SmileProject.SpaceShooter
 
 		private void SetMoveAnimation(bool isMove)
 		{
-			animator.SetBool(moveAnimatorParameter, isMove);
+			_animator.SetBool(_moveAnimatorParameter, isMove);
 		}
 
 		private async Task SendSpaceshipToPoint(string spaceshipId, FormationPoint point)
 		{
-			Spaceship spaceship = await this.spaceshipBuilder.BuildSpaceshipById(spaceshipId);
+			Spaceship spaceship = await this._spaceshipBuilder.BuildSpaceshipById(spaceshipId);
 			bool isArrived = false;
 			spaceship.MoveToTarget(point.transform, () => { isArrived = true; });
-			spaceship.SetPosition(spawnPoint);
+			spaceship.SetPosition(_spawnPoint);
 			point.SetLandedSpaceship(spaceship);
 			await TaskExtensions.WaitUntil(() => isArrived);
 		}
 
 		public void SetupFormationMap()
 		{
-			FormationPoint[] formationPoints = formationContainer.GetComponentsInChildren<FormationPoint>();
+			FormationPoint[] formationPoints = _formationContainer.GetComponentsInChildren<FormationPoint>();
 			foreach (FormationPoint point in formationPoints)
 			{
 				Formation pointFormation = point.GetFormations();
 				IEnumerable<Formation> flags = pointFormation.GetFlags<Formation>();
 				foreach (Formation formation in flags)
 				{
-					if (!formationMap.ContainsKey(formation))
+					if (!_formationMap.ContainsKey(formation))
 					{
-						formationMap.Add(formation, new List<FormationPoint>());
+						_formationMap.Add(formation, new List<FormationPoint>());
 					}
-					formationMap[formation].Add(point);
+					_formationMap[formation].Add(point);
 				}
 			}
 		}
 
 		public bool IsActiveFormation(Formation flag)
 		{
-			return flag.IsFlagSet(activeFormations);
+			return flag.IsFlagSet(_activeFormations);
 		}
 
 		private void OnSpaceshipBuilded(Spaceship spaceship)
