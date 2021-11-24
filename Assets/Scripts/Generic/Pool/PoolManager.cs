@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 namespace SmileProject.Generic
 {
@@ -60,6 +59,7 @@ namespace SmileProject.Generic
 				}
 			}
 			PoolObject poolObject = poolObjectList[index];
+			poolObject.SetParent(null);
 			poolObject.OnSpawn();
 			return poolObject as T;
 		}
