@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20ad14050a08bb94d8e9a2f50378ead8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  poolContainer: {fileID: 8538528446672284498}
+  _poolContainer: {fileID: 8538528446672284498}
 --- !u!1 &8228184601406782860
 GameObject:
   m_ObjectHideFlags: 0
