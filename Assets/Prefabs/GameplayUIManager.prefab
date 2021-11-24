@@ -308,12 +308,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2623537aa4268cb4ca35f03002c800f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerScoreComp: {fileID: 1788051145047735721}
-  playerHpComp: {fileID: 5355501028132689628}
-  waveChangComp: {fileID: 3758712631610069267}
-  gameStartComp: {fileID: 1050220740756811808}
-  gameEndComp: {fileID: 7015805422877446986}
-  gameplayMenu: {fileID: 6248004910502894262}
+  _playerScoreComp: {fileID: 3348017053943131665}
+  _playerHpComp: {fileID: 5355501028132689628}
+  _waveChangComp: {fileID: 3758712631610069267}
+  _gameStartComp: {fileID: 1050220740756811808}
+  _gameEndComp: {fileID: 7015805422877446986}
+  _gameplayMenu: {fileID: 6248004910502894262}
 --- !u!1 &1519380559315612211
 GameObject:
   m_ObjectHideFlags: 0
@@ -545,8 +545,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0beb7149c2e43ce4d8913d6ebf75f0e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  playerHpText: {fileID: 1519380560407837180}
+  _animator: {fileID: 0}
+  _playerHpText: {fileID: 1519380560407837180}
 --- !u!1 &1519380560971109040
 GameObject:
   m_ObjectHideFlags: 0
@@ -557,7 +557,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1519380560971109041}
   - component: {fileID: 1519380560971109047}
-  - component: {fileID: 1788051145047735721}
   - component: {fileID: 1519380560971109046}
   m_Layer: 5
   m_Name: PlayerScoreText
@@ -593,20 +592,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1519380560971109040}
   m_CullTransparentMesh: 0
---- !u!114 &1788051145047735721
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1519380560971109040}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 737083183fcf6ca42ba6ab6566ee247c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  playerScoreText: {fileID: 1519380560971109046}
 --- !u!114 &1519380560971109046
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1015,6 +1000,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3120589766944201826}
+  - component: {fileID: 3348017053943131665}
   m_Layer: 5
   m_Name: PlayerScoreComp
   m_TagString: Untagged
@@ -1043,6 +1029,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
+--- !u!114 &3348017053943131665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4082432913955373557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 737083183fcf6ca42ba6ab6566ee247c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animator: {fileID: 0}
+  _playerScoreText: {fileID: 1519380560971109046}
 --- !u!1 &4120200028107427137
 GameObject:
   m_ObjectHideFlags: 0
@@ -1103,8 +1103,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cbdce17005fa4647ab5ed2aa3793e83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 3543994827221619484}
-  endText: {fileID: 2852293875093375443}
+  _animator: {fileID: 3543994827221619484}
+  _endText: {fileID: 2852293875093375443}
 --- !u!95 &3543994827221619484
 Animator:
   serializedVersion: 3
@@ -1174,8 +1174,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc475ad81ef1dd94c811543c99809106, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 8505890236153893216}
-  waveNumberText: {fileID: 6192574122947113508}
+  _animator: {fileID: 8505890236153893216}
+  _waveNumberText: {fileID: 6192574122947113508}
 --- !u!95 &8505890236153893216
 Animator:
   serializedVersion: 3
@@ -1550,7 +1550,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 390f793cd2c0f7a4198f8f330fd71b32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
+  _animator: {fileID: 0}
 --- !u!1 &6587414854156201879
 GameObject:
   m_ObjectHideFlags: 0
@@ -1947,7 +1947,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d87836c54e0872a4d99f0e272a059ab4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
+  _animator: {fileID: 0}
 --- !u!1 &8147261931684609830
 GameObject:
   m_ObjectHideFlags: 0

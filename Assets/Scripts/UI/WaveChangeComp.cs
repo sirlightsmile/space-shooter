@@ -6,7 +6,7 @@ namespace SmileProject.SpaceShooter.UI
 	public class WaveChangeComp : BaseUIComponent
 	{
 		[SerializeField]
-		private Text waveNumberText;
+		private Text _waveNumberText;
 
 		/// <summary>
 		/// Show wave change UI then auto hide
@@ -16,7 +16,7 @@ namespace SmileProject.SpaceShooter.UI
 		/// <returns></returns>
 		public void ShowWave(int waveNumber, int showTime)
 		{
-			waveNumberText.text = $"Wave : {waveNumber}";
+			_waveNumberText.text = $"Wave : {waveNumber}";
 			Show(showTime);
 		}
 	}

@@ -79,12 +79,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce9ace812f6f1e94dbe336d537b08e1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  attackPointTransform: {fileID: 755940592231839850}
-  shipImage: {fileID: 657401795837474271}
-  smoothTime: 0.5
-  approximate: 0.01
-  animator: {fileID: 1025000331048391276}
+  _speed: 10
+  _attackPointTransform: {fileID: 755940592231839850}
+  _shipImage: {fileID: 657401795837474271}
+  _animator: {fileID: 1025000331048391276}
+  _smoothTime: 0.5
+  _approximate: 0.01
 --- !u!61 &2075065022684141885
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -3,12 +3,12 @@
 public class BackgroundScrolling : MonoBehaviour
 {
 	[SerializeField]
-	private float speed = 0;
+	private float _speed = 0;
 
 
 	private void FixedUpdate()
 	{
 		var renderer = GetComponent<Renderer>();
-		renderer.material.mainTextureOffset = new Vector2(0f, Time.time * speed);
+		renderer.material.mainTextureOffset = new Vector2(0f, Time.time * _speed);
 	}
 }

@@ -43,7 +43,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a2d395bbbe58cf4a9c305868f9f6b19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSpawnPoint: {x: 0, y: -4}
-  playerPrefab: {fileID: 5229204335637424265, guid: 3b5ba9e377c71284f95f520861c7c19a,
-    type: 3}
-  formationController: {fileID: 0}
+  _playerSpawnPoint: {x: 0, y: -4}

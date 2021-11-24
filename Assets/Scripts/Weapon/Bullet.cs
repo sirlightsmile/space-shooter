@@ -6,9 +6,9 @@ namespace SmileProject.SpaceShooter
 {
 	public class Bullet : PoolObject
 	{
-		private int damage;
-		private float yBorder;
-		private Spaceship owner;
+		private int _damage;
+		private float _yBorder;
+		private Spaceship _owner;
 
 		public override void OnSpawn() { }
 
@@ -19,14 +19,28 @@ namespace SmileProject.SpaceShooter
 			SetBorder();
 		}
 
-		public void SetDamage(int damage)
+		public Bullet SetDamage(int damage)
 		{
-			this.damage = damage;
+			_damage = damage;
+			return this;
 		}
 
-		public void SetOwner(Spaceship owner)
+		public Bullet SetOwner(Spaceship owner)
 		{
-			this.owner = owner;
+			_owner = owner;
+			return this;
+		}
+
+		public Bullet SetPosition(Vector2 position)
+		{
+			this.transform.position = position;
+			return this;
+		}
+
+		public Bullet SetRotation(Quaternion rotation)
+		{
+			this.transform.rotation = rotation;
+			return this;
 		}
 
 		private void FixedUpdate()
@@ -47,7 +61,7 @@ namespace SmileProject.SpaceShooter
 
 		private bool IsVisible()
 		{
-			return transform.position.y > yBorder || transform.position.y < -yBorder;
+			return transform.position.y > _yBorder || transform.position.y < -_yBorder;
 		}
 
 		/// <summary>
@@ -57,15 +71,15 @@ namespace SmileProject.SpaceShooter
 		{
 			float borderY = Screen.height;
 			float borderWorldPoint = Camera.main.ScreenToWorldPoint(new Vector3(0, borderY, 0)).y;
-			yBorder = borderWorldPoint;
+			_yBorder = borderWorldPoint;
 		}
 
 		private void OnTriggerEnter2D(Collider2D other)
 		{
 			Spaceship spaceship = other.transform.GetComponent<Spaceship>();
-			if (spaceship != null && spaceship.SpaceshipTag != owner.SpaceshipTag)
+			if (spaceship != null && spaceship.SpaceshipTag != _owner.SpaceshipTag)
 			{
-				spaceship.GetHit(damage, owner);
+				spaceship.GetHit(_damage, _owner);
 				ReturnToPool();
 			}
 		}

@@ -15,20 +15,20 @@ namespace SmileProject.SpaceShooter
 		/// Point-blank setup range
 		/// </summary>
 		[SerializeField]
-		private float pointBlankRange = 2f;
+		private float _pointBlankRange = 2f;
 
 		/// <summary>
 		/// Interval between each point-blank shot
 		/// </summary>
-		private float pointBlankShotInterval = 0.3f;
+		private float _pointBlankShotInterval = 0.3f;
 
 		/// <summary>
 		/// Number of point-blank shot
 		/// </summary>
-		private int pointBlankShot = 6;
-		protected SpaceshipGun pointBlankWeapon;
-		private Coroutine pointBlankCoroutine;
-		private int pointBlankSoundIdRef = -1;
+		private int _pointBlankShot = 6;
+		protected SpaceshipGun _pointBlankWeapon;
+		private Coroutine _pointBlankCoroutine;
+		private int _pointBlankSoundIdRef = -1;
 
 		/// <summary>
 		/// Set score that player will get when this spaceship destroyed
@@ -41,24 +41,24 @@ namespace SmileProject.SpaceShooter
 
 		public async Task SetPointBlankWeapon(SpaceshipGun weapon)
 		{
-			this.pointBlankWeapon = weapon;
-			this.pointBlankWeapon.SetAttackPointTransform(attackPointTransform);
-			await pointBlankWeapon.Reload();
+			_pointBlankWeapon = weapon;
+			_pointBlankWeapon.SetAttackPointTransform(_attackPointTransform);
+			await _pointBlankWeapon.Reload();
 		}
 
 		/// <summary>
 		/// Perform point-blank attack
 		/// </summary>
-		public async void PointBlankAttack(Transform target)
+		public async Task PointBlankAttack(Transform target)
 		{
-			if (pointBlankWeapon == null)
+			if (_pointBlankWeapon == null)
 			{
 				Debug.LogAssertion("No point-blank weapon to shoot");
 				return;
 			}
 			IsPerformPointBlank = true;
-			pointBlankSoundIdRef = await PlaySound(GameSoundKeys.Drone);
-			pointBlankCoroutine = StartCoroutine(PointBlankCoroutine(target));
+			_pointBlankSoundIdRef = await PlaySound(GameSoundKeys.Drone);
+			_pointBlankCoroutine = StartCoroutine(PointBlankCoroutine(target));
 		}
 
 		private IEnumerator PointBlankCoroutine(Transform target)
@@ -69,14 +69,14 @@ namespace SmileProject.SpaceShooter
 			Action onReached = () => { isReachedPoint = true; };
 
 			// move to point-blank position
-			MoveToTarget(target, onReached, new Vector2(0, pointBlankRange), true);
+			MoveToTarget(target, onReached, new Vector2(0, _pointBlankRange), true);
 			yield return new WaitUntil(() => isReachedPoint);
 
 			// point-blank shot
-			for (int i = 0; i < pointBlankShot; i++)
+			for (int i = 0; i < _pointBlankShot; i++)
 			{
-				Shoot(pointBlankWeapon);
-				yield return new WaitForSeconds(pointBlankShotInterval);
+				Shoot(_pointBlankWeapon);
+				yield return new WaitForSeconds(_pointBlankShotInterval);
 			}
 
 			// move back to position
@@ -86,21 +86,21 @@ namespace SmileProject.SpaceShooter
 			transform.SetParent(parent);
 			transform.localPosition = Vector2.zero;
 			IsPerformPointBlank = false;
-			pointBlankCoroutine = null;
-			pointBlankSoundIdRef = -1;
+			_pointBlankCoroutine = null;
+			_pointBlankSoundIdRef = -1;
 		}
 
 		protected override void ShipDestroy()
 		{
 			base.ShipDestroy();
-			if (pointBlankCoroutine != null)
+			if (_pointBlankCoroutine != null)
 			{
-				StopCoroutine(pointBlankCoroutine);
-				pointBlankCoroutine = null;
+				StopCoroutine(_pointBlankCoroutine);
+				_pointBlankCoroutine = null;
 			}
-			if (pointBlankSoundIdRef >= 0)
+			if (_pointBlankSoundIdRef >= 0)
 			{
-				audioManager?.StopSound(pointBlankSoundIdRef);
+				_audioManager?.StopSound(_pointBlankSoundIdRef);
 			}
 			ReturnToPool();
 		}
