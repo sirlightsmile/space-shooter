@@ -18,18 +18,18 @@ namespace SmileProject.SpaceShooter
 
 		public int PlayerScore { get; private set; } = 0;
 		public PlayerSpaceship PlayerSpaceship { get; private set; }
-		private PlayerSpaceshipBuilder builder;
+		private PlayerSpaceshipBuilder _builder;
 
 		public PlayerController(ISpaceShooterInput inputManager, PlayerSpaceshipBuilder builder)
 		{
-			this.builder = builder;
+			_builder = builder;
 			inputManager.AttackInput += PlayerShoot;
 			inputManager.HorizontalInput += PlayerMove;
 		}
 
 		public async Task<PlayerSpaceship> CreatePlayer(Vector2 spawnPoint)
 		{
-			PlayerSpaceship player = await builder.BuildRandomSpaceship();
+			PlayerSpaceship player = await _builder.BuildRandomSpaceship();
 			player.SetPosition(spawnPoint);
 			SetPlayer(player);
 			return player;

@@ -8,12 +8,12 @@ namespace SmileProject.SpaceShooter
 	public abstract class SpaceshipBuilder
 	{
 		public event Action<Spaceship> SpaceshipBuilded;
-		private IResourceLoader resourceLoader;
-		private PoolManager poolManager;
+		private IResourceLoader _resourceLoader;
+		private PoolManager _poolManager;
 
 		public SpaceshipBuilder(IResourceLoader resourceLoader)
 		{
-			this.resourceLoader = resourceLoader;
+			_resourceLoader = resourceLoader;
 		}
 
 		/// <summary>
@@ -25,7 +25,7 @@ namespace SmileProject.SpaceShooter
 		/// <returns></returns>
 		public virtual async Task SetupPool(PoolManager poolManager, string templateKey, int size)
 		{
-			this.poolManager = poolManager;
+			_poolManager = poolManager;
 			if (!poolManager.HasPool(templateKey))
 			{
 				PoolOptions options = new PoolOptions
@@ -58,18 +58,18 @@ namespace SmileProject.SpaceShooter
 		public async virtual Task<T> BuildSpaceship<T, T2>(string templateKey, T2 model) where T : Spaceship where T2 : SpaceshipModel
 		{
 			T spaceship = null;
-			if (poolManager != null && poolManager.HasPool(templateKey))
+			if (_poolManager != null && _poolManager.HasPool(templateKey))
 			{
-				spaceship = poolManager.GetItem<T>(templateKey);
+				spaceship = _poolManager.GetItem<T>(templateKey);
 			}
 			else
 			{
-				spaceship = await resourceLoader.InstantiateAsync<T>(templateKey, null, true);
+				spaceship = await _resourceLoader.InstantiateAsync<T>(templateKey, null, true);
 			}
 			spaceship.Setup(model);
 			spaceship.SetActive(true);
 			string spriteName = GetAssetPrefix() + model.AssetName;
-			resourceLoader.SetSpriteAsync(spriteName, spaceship.SetSprite);
+			await _resourceLoader.SetSpriteAsync(spriteName, spaceship.SetSprite);
 			SpaceshipBuilded?.Invoke(spaceship);
 			return spaceship;
 		}

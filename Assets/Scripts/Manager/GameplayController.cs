@@ -59,11 +59,11 @@ namespace SmileProject.SpaceShooter
 		/// </summary>
 		public async Task Initialize(PlayerController playerController, EnemyManager enemyManager, InputManager inputManager, AudioManager audioManager, GameplayUIManager uiManager)
 		{
-			this._playerController = playerController;
-			this._inputManager = inputManager;
-			this._audioManager = audioManager;
-			this._enemyManager = enemyManager;
-			this._uiManager = uiManager;
+			_playerController = playerController;
+			_inputManager = inputManager;
+			_audioManager = audioManager;
+			_enemyManager = enemyManager;
+			_uiManager = uiManager;
 
 			// setup listener
 			inputManager.ConfirmInput += OnPressConfirm;
@@ -94,7 +94,7 @@ namespace SmileProject.SpaceShooter
 		/// <param name="wave">total wave</param>
 		public void SetWaveCount(int wave)
 		{
-			this._waveCount = wave;
+			_waveCount = wave;
 		}
 
 		public void StandBy()

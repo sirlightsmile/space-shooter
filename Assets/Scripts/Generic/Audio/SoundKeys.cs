@@ -9,8 +9,8 @@ namespace SmileProject.Generic
 		protected readonly string _mixerKey;
 		protected SoundKeys(string value, string assetKey, string mixerKey) : base(value)
 		{
-			this._assetKey = assetKey;
-			this._mixerKey = mixerKey;
+			_assetKey = assetKey;
+			_mixerKey = mixerKey;
 			_soundList.Add(this);
 		}
 

@@ -13,11 +13,11 @@ namespace SmileProject.SpaceShooter
 
 		public event Action ConfirmInput;
 
-		private bool allowInput = true;
-		private bool allowAttack = true;
+		private bool _allowInput = true;
+		private bool _allowAttack = true;
 
-		private float invokeAttackInterval = 0.3f;
-		private float attackTimestamp = 0;
+		private float _invokeAttackInterval = 0.3f;
+		private float _attackTimestamp = 0;
 
 		/// <summary>
 		/// Set permission for every input.
@@ -25,7 +25,7 @@ namespace SmileProject.SpaceShooter
 		/// <param name="allowInput">whether allow input or not</param>
 		public void SetAllowInput(bool allowInput)
 		{
-			this.allowInput = allowInput;
+			_allowInput = allowInput;
 		}
 
 		/// <summary>
@@ -34,12 +34,12 @@ namespace SmileProject.SpaceShooter
 		/// <param name="allowAttack">whether allow attack input or not</param>
 		public void SetAllowAttack(bool allowAttack)
 		{
-			this.allowAttack = allowAttack;
+			_allowAttack = allowAttack;
 		}
 
 		private void Update()
 		{
-			if (!allowInput)
+			if (!_allowInput)
 			{
 				return;
 			}
@@ -51,7 +51,7 @@ namespace SmileProject.SpaceShooter
 				HorizontalInput?.Invoke(direction);
 			}
 
-			if (allowAttack)
+			if (_allowAttack)
 			{
 				if (Input.GetButtonDown("Fire1"))
 				{
@@ -76,7 +76,7 @@ namespace SmileProject.SpaceShooter
 
 		private void InvokeAttackInterval()
 		{
-			if (Time.time - attackTimestamp > invokeAttackInterval)
+			if (Time.time - _attackTimestamp > _invokeAttackInterval)
 			{
 				InvokeAttackInput();
 			}
@@ -84,7 +84,7 @@ namespace SmileProject.SpaceShooter
 
 		private void InvokeAttackInput()
 		{
-			attackTimestamp = Time.time;
+			_attackTimestamp = Time.time;
 			AttackInput?.Invoke();
 		}
 	}

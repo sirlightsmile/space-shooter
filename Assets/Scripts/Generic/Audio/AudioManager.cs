@@ -36,7 +36,7 @@ namespace SmileProject.Generic
 		/// <returns></returns>
 		public async Task Initialize(IResourceLoader resourceLoader, string mainMixerKey)
 		{
-			this._resourceLoader = resourceLoader;
+			_resourceLoader = resourceLoader;
 			await InitMixer(mainMixerKey);
 		}
 

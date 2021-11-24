@@ -7,38 +7,38 @@ namespace SmileProject.SpaceShooter
 {
 	public class PlayerSpaceshipBuilder : SpaceshipBuilder
 	{
-		private const string assetPrefix = "SpaceshipSprites/";
-		private const string prefabKey = "PlayerPrefab";
-		private GameDataManager gameDataManager;
-		private WeaponFactory weaponFactory;
-		private AudioManager audioManager;
+		private const string ASSET_PREFIX = "SpaceshipSprites/";
+		private const string PREFAB_KEY = "PlayerPrefab";
+		private GameDataManager _gameDataManager;
+		private WeaponFactory _weaponFactory;
+		private AudioManager _audioManager;
 
 		public PlayerSpaceshipBuilder(IResourceLoader resourceLoader, GameDataManager gameDataManager, WeaponFactory weaponFactory, AudioManager audioManager) : base(resourceLoader)
 		{
-			this.gameDataManager = gameDataManager;
-			this.weaponFactory = weaponFactory;
-			this.audioManager = audioManager;
+			_gameDataManager = gameDataManager;
+			_weaponFactory = weaponFactory;
+			_audioManager = audioManager;
 		}
 
 		public async Task<PlayerSpaceship> BuildPlayerSpaceship(SpaceshipModel model)
 		{
-			var spaceship = await BuildSpaceship<PlayerSpaceship, SpaceshipModel>(prefabKey, model);
+			var spaceship = await BuildSpaceship<PlayerSpaceship, SpaceshipModel>(PREFAB_KEY, model);
 			string weaponId = model.BasicWeaponId;
-			SpaceshipGun weapon = !String.IsNullOrEmpty(weaponId) ? weaponFactory.CreateSpaceshipGunById(weaponId) : weaponFactory.CreateRandomSpaceshipGun();
+			SpaceshipGun weapon = !String.IsNullOrEmpty(weaponId) ? _weaponFactory.CreateSpaceshipGunById(weaponId) : _weaponFactory.CreateRandomSpaceshipGun();
 			await spaceship.SetWeapon(weapon);
-			spaceship.SetSounds(audioManager, GameSoundKeys.Impact, GameSoundKeys.PlayerExplosion);
+			spaceship.SetSounds(_audioManager, GameSoundKeys.Impact, GameSoundKeys.PlayerExplosion);
 			return spaceship;
 		}
 
 		public async override Task<Spaceship> BuildSpaceshipById(string id)
 		{
-			SpaceshipModel model = gameDataManager.GetPlayerSpaceshipModelById(id);
+			SpaceshipModel model = _gameDataManager.GetPlayerSpaceshipModelById(id);
 			return await BuildPlayerSpaceship(model);
 		}
 
 		public async Task<PlayerSpaceship> BuildRandomSpaceship()
 		{
-			SpaceshipModel[] models = gameDataManager.GetPlayerSpaceshipModels();
+			SpaceshipModel[] models = _gameDataManager.GetPlayerSpaceshipModels();
 			int randomIndex = UnityEngine.Random.Range(0, models.Length);
 			SpaceshipModel randomModel = models[randomIndex];
 			return await BuildPlayerSpaceship(randomModel);
@@ -46,7 +46,7 @@ namespace SmileProject.SpaceShooter
 
 		protected override string GetAssetPrefix()
 		{
-			return assetPrefix;
+			return ASSET_PREFIX;
 		}
 	}
 }

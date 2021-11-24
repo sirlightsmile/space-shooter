@@ -7,11 +7,11 @@ namespace SmileProject.SpaceShooter.UI
 	public class PlayerHpComp : BaseUIComponent
 	{
 		[SerializeField]
-		private Text playerHpText;
+		private Text _playerHpText;
 
 		public void SetPlayerHp(int hp)
 		{
-			playerHpText.text = $"HP : {hp.ToString()}";
+			_playerHpText.text = $"HP : {hp.ToString()}";
 		}
 	}
 }

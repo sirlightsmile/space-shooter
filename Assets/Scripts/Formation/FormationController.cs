@@ -39,7 +39,7 @@ namespace SmileProject.SpaceShooter
 		/// </summary>
 		public event Action FormationReady;
 
-		private const string _moveAnimatorParameter = "isMove";
+		private const string MOVE_ANIMATOR_PARAM = "isMove";
 
 		[SerializeField, EnumFlag(EnumFlagAttribute.FlagLayout.List)]
 		private Formation _activeFormations;
@@ -64,8 +64,8 @@ namespace SmileProject.SpaceShooter
 
 		public void Initialize(GameDataManager gameDataManager, SpaceshipBuilder spaceshipBuilder)
 		{
-			this._gameDataManager = gameDataManager;
-			this._spaceshipBuilder = spaceshipBuilder;
+			_gameDataManager = gameDataManager;
+			_spaceshipBuilder = spaceshipBuilder;
 			spaceshipBuilder.SpaceshipBuilded += OnSpaceshipBuilded;
 		}
 
@@ -127,12 +127,12 @@ namespace SmileProject.SpaceShooter
 
 		private void SetMoveAnimation(bool isMove)
 		{
-			_animator.SetBool(_moveAnimatorParameter, isMove);
+			_animator.SetBool(MOVE_ANIMATOR_PARAM, isMove);
 		}
 
 		private async Task SendSpaceshipToPoint(string spaceshipId, FormationPoint point)
 		{
-			Spaceship spaceship = await this._spaceshipBuilder.BuildSpaceshipById(spaceshipId);
+			Spaceship spaceship = await _spaceshipBuilder.BuildSpaceshipById(spaceshipId);
 			bool isArrived = false;
 			spaceship.MoveToTarget(point.transform, () => { isArrived = true; });
 			spaceship.SetPosition(_spawnPoint);

@@ -29,7 +29,7 @@ namespace SmileProject.Generic
 
 		public void Initialize(IResourceLoader resourceLoader)
 		{
-			this._resourceLoader = resourceLoader;
+			_resourceLoader = resourceLoader;
 		}
 
 		/// <summary>

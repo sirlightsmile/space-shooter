@@ -5,7 +5,7 @@ namespace SmileProject.SpaceShooter
 {
 	public class MixerGroup : StringEnum<MixerGroup>
 	{
-		public const string MainMixerKey = "SoundMixer";
+		public const string MAIN_MIXER_KEY = "SoundMixer";
 		public MixerGroup(string value) : base(value)
 		{
 		}
@@ -16,7 +16,7 @@ namespace SmileProject.SpaceShooter
 
 	public sealed class GameSoundKeys : SoundKeys
 	{
-		private const string assetPath = "GameplaySounds/";
+		private const string ASSET_PATH = "GameplaySounds/";
 		public GameSoundKeys(string value, string assetKey, string mixerKey) : base(value, assetKey, mixerKey)
 		{
 		}
@@ -24,7 +24,7 @@ namespace SmileProject.SpaceShooter
 		public override string GetAssetKey()
 		{
 			string assetKey = base.GetAssetKey();
-			string fullPath = Path.Combine(assetPath, assetKey);
+			string fullPath = Path.Combine(ASSET_PATH, assetKey);
 			return fullPath;
 		}
 

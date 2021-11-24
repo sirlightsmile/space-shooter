@@ -26,42 +26,41 @@ namespace SmileProject.SpaceShooter
 
 		public int HP { get; protected set; }
 
-		private const string idleAnimState = "Idle";
-		private const string getHitAnimState = "GetHit";
+		private const string IDLE_ANIM_STATE = "Idle";
+		private const string GET_HIT_ANIM_STATE = "GetHit";
 
 		[SerializeField]
-		protected float speed;
+		protected float _speed;
 
 		[SerializeField]
-		protected Transform attackPointTransform;
+		protected Transform _attackPointTransform;
 
 		[SerializeField]
-		protected SpriteRenderer shipImage;
+		protected SpriteRenderer _shipImage;
 
-		protected float width { get { return shipImage?.bounds.size.x * shipImage?.sprite.pixelsPerUnit ?? 0; } }
-		protected float height { get { return shipImage?.bounds.size.y * shipImage?.sprite.pixelsPerUnit ?? 0; } }
+		protected float _width { get { return _shipImage?.bounds.size.x * _shipImage?.sprite.pixelsPerUnit ?? 0; } }
+		protected float _height { get { return _shipImage?.bounds.size.y * _shipImage?.sprite.pixelsPerUnit ?? 0; } }
 
-		protected SpaceshipGun weapon;
-		protected AudioManager audioManager;
-		protected SoundKeys getHitSound;
-		protected SoundKeys destroyedSound;
+		protected SpaceshipGun _weapon;
+		protected AudioManager _audioManager;
+		protected SoundKeys _getHitSound, _destroyedSound;
 
 		[SerializeField]
-		private Animator animator;
+		private Animator _animator;
 
 		[SerializeField]
 		/// <summary>
 		/// Move smooth time
 		/// </summary>
-		private float smoothTime = 0.1f;
+		private float _smoothTime = 0.1f;
 
 		[SerializeField]
 		/// <summary>
 		/// Reach target approximate distance
 		/// </summary>
-		private float approximate = 0.01f;
+		private float _approximate = 0.01f;
 
-		private Coroutine MoveCoroutine;
+		private Coroutine _moveCoroutine;
 
 		public virtual void Setup<T>(T spaceshipModel) where T : SpaceshipModel
 		{
@@ -75,7 +74,7 @@ namespace SmileProject.SpaceShooter
 		/// <param name="customWeapon">Custom weapon to shoot. If 'null' will use weapon attached to spaceship</param>
 		public virtual void Shoot(SpaceshipGun customWeapon = null)
 		{
-			if (weapon == null && customWeapon == null)
+			if (_weapon == null && customWeapon == null)
 			{
 				Debug.LogAssertion("Spaceship weapon should not be null.");
 				return;
@@ -86,13 +85,13 @@ namespace SmileProject.SpaceShooter
 			}
 			else
 			{
-				weapon.Shoot(this);
+				_weapon.Shoot(this);
 			}
 		}
 
 		public virtual void SetSprite(Sprite sprite)
 		{
-			this.shipImage.sprite = sprite;
+			_shipImage.sprite = sprite;
 		}
 
 		public virtual void SetHP(int hp)
@@ -107,14 +106,14 @@ namespace SmileProject.SpaceShooter
 
 		public virtual void SetSpeed(float speed)
 		{
-			this.speed = speed;
+			_speed = speed;
 		}
 
 		public virtual async Task SetWeapon(SpaceshipGun newWeapon)
 		{
 			await newWeapon.Reload();
-			this.weapon = newWeapon;
-			this.weapon.SetAttackPointTransform(attackPointTransform);
+			_weapon = newWeapon;
+			_weapon.SetAttackPointTransform(_attackPointTransform);
 		}
 
 		/// <summary>
@@ -122,7 +121,7 @@ namespace SmileProject.SpaceShooter
 		/// </summary>
 		/// <param name="damage">damage or weapon shot that bullet</param>
 		/// <param name="attacker">attacker</param>
-		public virtual async void GetHit(int damage, Spaceship attacker)
+		public virtual void GetHit(int damage, Spaceship attacker)
 		{
 			int result = HP - damage;
 			HP = Mathf.Clamp(result, 0, this.HP);
@@ -135,7 +134,7 @@ namespace SmileProject.SpaceShooter
 			else
 			{
 				PlayGetHitAnimation();
-				await PlaySound(getHitSound);
+				var _ = PlaySound(_getHitSound);
 			}
 		}
 
@@ -153,19 +152,19 @@ namespace SmileProject.SpaceShooter
 		/// <param name="useStartPosition">if true, will not update target position by transform but use start position</param>
 		public virtual void MoveToTarget(Transform target, Action reachedCallback = null, Vector2? offset = null, bool useStartPosition = false)
 		{
-			if (MoveCoroutine != null)
+			if (_moveCoroutine != null)
 			{
-				StopCoroutine(MoveCoroutine);
+				StopCoroutine(_moveCoroutine);
 			}
 
-			MoveCoroutine = StartCoroutine(MoveToTargetCoroutine(target, reachedCallback, offset, useStartPosition));
+			_moveCoroutine = StartCoroutine(MoveToTargetCoroutine(target, reachedCallback, offset, useStartPosition));
 		}
 
 		public virtual void SetSounds(AudioManager audioManager, SoundKeys getHitSound, SoundKeys destroyedSound)
 		{
-			this.audioManager = audioManager;
-			this.getHitSound = getHitSound;
-			this.destroyedSound = destroyedSound;
+			_audioManager = audioManager;
+			_getHitSound = getHitSound;
+			_destroyedSound = destroyedSound;
 		}
 
 		public override void OnSpawn()
@@ -175,27 +174,27 @@ namespace SmileProject.SpaceShooter
 		public override void OnDespawn()
 		{
 			SetSprite(null);
-			weapon = null;
+			_weapon = null;
 		}
 
 		public async Task<int> PlaySound(SoundKeys soundKey)
 		{
-			if (audioManager != null && soundKey != null)
+			if (_audioManager != null && soundKey != null)
 			{
-				return await audioManager.PlaySound(soundKey);
+				return await _audioManager.PlaySound(soundKey);
 			}
 			return -1;
 		}
 
-		protected virtual async void ShipDestroy()
+		protected virtual void ShipDestroy()
 		{
-			if (MoveCoroutine != null)
+			if (_moveCoroutine != null)
 			{
-				StopCoroutine(MoveCoroutine);
-				MoveCoroutine = null;
+				StopCoroutine(_moveCoroutine);
+				_moveCoroutine = null;
 			}
 			Destroyed?.Invoke(this);
-			await PlaySound(destroyedSound);
+			var _ = PlaySound(_destroyedSound);
 		}
 
 		private void OnEnable()
@@ -218,10 +217,10 @@ namespace SmileProject.SpaceShooter
 				return targetPos;
 			};
 
-			while (distance > approximate)
+			while (distance > _approximate)
 			{
 				Vector2 targetPos = getTargetPos();
-				Vector2 dampPos = Vector2.SmoothDamp(transform.position, targetPos, ref velocity, smoothTime, speed);
+				Vector2 dampPos = Vector2.SmoothDamp(transform.position, targetPos, ref velocity, _smoothTime, _speed);
 				SetPosition(dampPos);
 				currentPos = this.transform.position;
 				distance = (targetPos - currentPos).magnitude;
@@ -231,17 +230,17 @@ namespace SmileProject.SpaceShooter
 			// snap
 			SetPosition(getTargetPos());
 			reachedCallback?.Invoke();
-			MoveCoroutine = null;
+			_moveCoroutine = null;
 		}
 
 		private void PlayGetHitAnimation()
 		{
-			animator.Play(getHitAnimState);
+			_animator.Play(GET_HIT_ANIM_STATE);
 		}
 
 		private void ResetAnimation()
 		{
-			animator.Play(idleAnimState);
+			_animator.Play(IDLE_ANIM_STATE);
 		}
 	}
 }

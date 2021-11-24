@@ -15,8 +15,8 @@ namespace SmileProject.Generic
 		/// <param name="poolManager">Pool manager</param>
 		public void SetPool(string poolName, PoolManager poolManager)
 		{
-			this._poolName = poolName;
-			this._poolManager = poolManager;
+			_poolName = poolName;
+			_poolManager = poolManager;
 		}
 
 		/// <summary>

@@ -29,54 +29,54 @@ namespace SmileProject.SpaceShooter
 		/// <value></value>
 		public bool IsEnemiesReady { get; private set; }
 
-		private FormationController formationController;
-		private GameplayController gameplayController;
-		private List<EnemySpaceship> enemySpaceships = new List<EnemySpaceship>();
+		private FormationController _formationController;
+		private GameplayController _gameplayController;
+		private List<EnemySpaceship> _enemySpaceships = new List<EnemySpaceship>();
 
 		/// <summary>
 		/// Shoot chance in percent (max is 1)
 		/// </summary>
-		private float randomShootChance = 0.3f;
+		private float _randomShootChance = 0.3f;
 
 		/// <summary>
 		/// Reference of time that trigger spaceships shoot
 		/// </summary>
-		private float lastShootTimestamp = 0;
+		private float _lastShootTimestamp = 0;
 
 		/// <summary>
 		/// Time interval for trigger spaceships shoot (seconds)
 		/// </summary>
-		private float triggerShootInterval = 2f;
+		private float _triggerShootInterval = 2f;
 
 		/// <summary>
 		/// Max random time for shoot async (seconds)
 		/// </summary>
-		private float shootAsyncInterval = 1f;
+		private float _shootAsyncInterval = 1f;
 
 		/// <summary>
 		/// Min time interval for random triggerPointBlankInterval (seconds)
 		/// </summary>
-		private float minPointBlankInterval = 8f;
+		private float _minPointBlankInterval = 8f;
 
 		/// <summary>
 		/// Max time interval for random triggerPointBlankInterval (seconds)
 		/// </summary>
-		private float maxPointBlankInterval = 15f;
+		private float _maxPointBlankInterval = 15f;
 
 		/// <summary>
 		/// Time interval for trigger point-blank shot (seconds)
 		/// </summary>
-		private float triggerPointBlankInterval = 8f;
+		private float _triggerPointBlankInterval = 8f;
 
 		/// <summary>
 		/// Reference of time that trigger point-blank shot
 		/// </summary>
-		private float lastPointBlankTimestamp = 0;
+		private float _lastPointBlankTimestamp = 0;
 
 		public EnemyManager(GameplayController gameplayController, FormationController formationController)
 		{
-			this.gameplayController = gameplayController;
-			this.formationController = formationController;
+			_gameplayController = gameplayController;
+			_formationController = formationController;
 			formationController.SpaceshipAdded += OnEnemySpaceshipAdded;
 			formationController.FormationChange += OnFormationChanged;
 			formationController.FormationReady += OnFormationReady;
@@ -101,13 +101,13 @@ namespace SmileProject.SpaceShooter
 
 		private void RandomEnemiesShoot(float currentTime)
 		{
-			if (currentTime - lastShootTimestamp < triggerShootInterval)
+			if (currentTime - _lastShootTimestamp < _triggerShootInterval)
 			{
 				return;
 			}
 
-			lastShootTimestamp = currentTime;
-			foreach (var spaceship in enemySpaceships)
+			_lastShootTimestamp = currentTime;
+			foreach (var spaceship in _enemySpaceships)
 			{
 				if (spaceship.IsPerformPointBlank)
 				{
@@ -116,39 +116,39 @@ namespace SmileProject.SpaceShooter
 
 				// random for shoot percent
 				float random = UnityEngine.Random.Range(0f, 1f);
-				bool isShoot = random <= randomShootChance;
+				bool isShoot = random <= _randomShootChance;
 				if (isShoot)
 				{
-					TriggerShootAsync(spaceship);
+					var _ = TriggerShootAsync(spaceship);
 				}
 			}
 		}
 
 		private void RandomPointBlankAttack(float currentTime)
 		{
-			if (currentTime - lastPointBlankTimestamp < triggerPointBlankInterval)
+			if (currentTime - _lastPointBlankTimestamp < _triggerPointBlankInterval)
 			{
 				return;
 			}
-			lastPointBlankTimestamp = currentTime;
-			var target = gameplayController.GetPlayerSpaceship();
+			_lastPointBlankTimestamp = currentTime;
+			var target = _gameplayController.GetPlayerSpaceship();
 			if (target != null)
 			{
 				TriggerPointBlankAttack(target.transform);
-				triggerPointBlankInterval = UnityEngine.Random.Range(minPointBlankInterval, maxPointBlankInterval);
+				_triggerPointBlankInterval = UnityEngine.Random.Range(_minPointBlankInterval, _maxPointBlankInterval);
 			}
 		}
 
 
 		private EnemySpaceship GetRandomSpaceship()
 		{
-			int index = UnityEngine.Random.Range(0, enemySpaceships.Count);
-			return enemySpaceships[index];
+			int index = UnityEngine.Random.Range(0, _enemySpaceships.Count);
+			return _enemySpaceships[index];
 		}
 
 		private void TriggerPointBlankAttack(Transform target)
 		{
-			EnemySpaceship[] availableSpaceships = enemySpaceships.Where(o => !o.IsPerformPointBlank).ToArray();
+			EnemySpaceship[] availableSpaceships = _enemySpaceships.Where(o => !o.IsPerformPointBlank).ToArray();
 			EnemySpaceship spaceship = null;
 			int shipCount = availableSpaceships.Length;
 			if (shipCount > 0)
@@ -161,12 +161,12 @@ namespace SmileProject.SpaceShooter
 				Debug.Log("No spaceship available for point-blank shot");
 				return;
 			}
-			spaceship.PointBlankAttack(target);
+			var _ = spaceship.PointBlankAttack(target);
 		}
 
-		private async void TriggerShootAsync(EnemySpaceship spaceship)
+		private async Task TriggerShootAsync(EnemySpaceship spaceship)
 		{
-			float randomDelay = UnityEngine.Random.Range(0f, shootAsyncInterval);
+			float randomDelay = UnityEngine.Random.Range(0f, _shootAsyncInterval);
 			// from second to millisecond
 			int delayTimeMillisecond = (int)(randomDelay * 1000);
 			await Task.Delay(delayTimeMillisecond);
@@ -191,16 +191,16 @@ namespace SmileProject.SpaceShooter
 		private void OnEnemySpaceshipAdded(Spaceship spaceship)
 		{
 			spaceship.Destroyed += OnEnemyDestroyed;
-			enemySpaceships.Add(spaceship.GetComponent<EnemySpaceship>());
+			_enemySpaceships.Add(spaceship.GetComponent<EnemySpaceship>());
 		}
 
 		private void OnEnemyDestroyed(Spaceship spaceship)
 		{
 			spaceship.Destroyed -= OnEnemyDestroyed;
 			EnemySpaceship enemy = spaceship.GetComponent<EnemySpaceship>();
-			enemySpaceships.Remove(enemy);
+			_enemySpaceships.Remove(enemy);
 			EnemyDestroyed?.Invoke(enemy.DestroyScore);
-			if (enemySpaceships.Count == 0)
+			if (_enemySpaceships.Count == 0)
 			{
 				AllSpaceshipDestroyed?.Invoke();
 			}
