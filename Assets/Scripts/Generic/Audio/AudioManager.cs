@@ -11,21 +11,21 @@ namespace SmileProject.Generic
 	public class AudioManager : MonoBehaviour
 	{
 		[SerializeField]
-		private GameObject audioSourcesContainer;
+		private GameObject _audioSourcesContainer;
 
 		[SerializeField]
-		private List<AudioSource> audioSources;
+		private List<AudioSource> _audioSources;
 
-		private IResourceLoader resourceLoader;
-		private Dictionary<int, AudioSource> playingSource;
-		private Dictionary<string, AudioMixerGroup> mixerMap;
-		private int playId = 0;
+		private IResourceLoader _resourceLoader;
+		private Dictionary<int, AudioSource> _playingSource;
+		private Dictionary<string, AudioMixerGroup> _mixerMap;
+		private int _playId = 0;
 
 		private void Awake()
 		{
-			audioSources = new List<AudioSource>(audioSourcesContainer.GetComponentsInChildren<AudioSource>());
-			playingSource = new Dictionary<int, AudioSource>();
-			mixerMap = new Dictionary<string, AudioMixerGroup>();
+			_audioSources = new List<AudioSource>(_audioSourcesContainer.GetComponentsInChildren<AudioSource>());
+			_playingSource = new Dictionary<int, AudioSource>();
+			_mixerMap = new Dictionary<string, AudioMixerGroup>();
 		}
 
 		/// <summary>
@@ -36,7 +36,7 @@ namespace SmileProject.Generic
 		/// <returns></returns>
 		public async Task Initialize(IResourceLoader resourceLoader, string mainMixerKey)
 		{
-			this.resourceLoader = resourceLoader;
+			this._resourceLoader = resourceLoader;
 			await InitMixer(mainMixerKey);
 		}
 
@@ -52,7 +52,7 @@ namespace SmileProject.Generic
 			{
 				preloadList.Add(soundKey.GetAssetKey());
 			}
-			await resourceLoader.Preload(preloadList);
+			await _resourceLoader.Preload(preloadList);
 		}
 
 		/// <summary>
@@ -64,10 +64,10 @@ namespace SmileProject.Generic
 		/// <returns>play id</returns>
 		public async Task<int> PlaySound(SoundKeys soundKey, bool loop = false)
 		{
-			AudioClip clip = await resourceLoader.Load<AudioClip>(soundKey.GetAssetKey());
+			AudioClip clip = await _resourceLoader.Load<AudioClip>(soundKey.GetAssetKey());
 			AudioSource source = GetAvaliableAudioSource();
 			string mixerKey = soundKey.GetMixerKey();
-			if (mixerKey != null && mixerMap.TryGetValue(mixerKey, out AudioMixerGroup mixerGroup))
+			if (mixerKey != null && _mixerMap.TryGetValue(mixerKey, out AudioMixerGroup mixerGroup))
 			{
 				source.outputAudioMixerGroup = mixerGroup;
 			}
@@ -79,8 +79,8 @@ namespace SmileProject.Generic
 			source.loop = loop;
 			source.Play();
 			Debug.Log($"Play sound : {soundKey.ToString()}");
-			playingSource.Add(playId, source);
-			return playId++;
+			_playingSource.Add(_playId, source);
+			return _playId++;
 		}
 
 		/// <summary>
@@ -89,24 +89,24 @@ namespace SmileProject.Generic
 		/// <param name="playId">play id</param>
 		public void StopSound(int playId)
 		{
-			if (playingSource.TryGetValue(playId, out AudioSource source))
+			if (_playingSource.TryGetValue(playId, out AudioSource source))
 			{
 				if (source.isPlaying)
 				{
 					source.Stop();
 				}
-				playingSource.Remove(playId);
+				_playingSource.Remove(playId);
 			}
 		}
 
 		private AudioSource GetAvaliableAudioSource()
 		{
-			AudioSource audioSource = audioSources.Find(item => !item.isPlaying);
+			AudioSource audioSource = _audioSources.Find(item => !item.isPlaying);
 			if (audioSource == null)
 			{
-				audioSource = audioSourcesContainer.AddComponent<AudioSource>();
+				audioSource = _audioSourcesContainer.AddComponent<AudioSource>();
 				audioSource.playOnAwake = false;
-				audioSources.Add(audioSource);
+				_audioSources.Add(audioSource);
 			}
 			return audioSource;
 		}
@@ -115,14 +115,14 @@ namespace SmileProject.Generic
 		{
 			if (!string.IsNullOrEmpty(mixerKey))
 			{
-				AudioMixer mixer = await resourceLoader.Load<AudioMixer>(mixerKey);
+				AudioMixer mixer = await _resourceLoader.Load<AudioMixer>(mixerKey);
 				if (mixer != null)
 				{
 					// find all mixer group
 					AudioMixerGroup[] groups = mixer.FindMatchingGroups(string.Empty);
 					foreach (var group in groups)
 					{
-						mixerMap.Add(group.name, group);
+						_mixerMap.Add(group.name, group);
 					}
 				}
 			}
