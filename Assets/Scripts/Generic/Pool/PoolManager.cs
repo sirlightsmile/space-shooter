@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 namespace SmileProject.Generic
 {
@@ -24,13 +23,13 @@ namespace SmileProject.Generic
 	public class PoolManager : MonoBehaviour
 	{
 		[SerializeField]
-		private Transform poolContainer;
-		private Dictionary<string, PoolInfo> poolInfoDict = new Dictionary<string, PoolInfo>();
-		private IResourceLoader resourceLoader;
+		private Transform _poolContainer;
+		private Dictionary<string, PoolInfo> _poolInfoDict = new Dictionary<string, PoolInfo>();
+		private IResourceLoader _resourceLoader;
 
 		public void Initialize(IResourceLoader resourceLoader)
 		{
-			this.resourceLoader = resourceLoader;
+			_resourceLoader = resourceLoader;
 		}
 
 		/// <summary>
@@ -60,6 +59,7 @@ namespace SmileProject.Generic
 				}
 			}
 			PoolObject poolObject = poolObjectList[index];
+			poolObject.SetParent(null);
 			poolObject.OnSpawn();
 			return poolObject as T;
 		}
@@ -100,15 +100,15 @@ namespace SmileProject.Generic
 			}
 
 			// prevent duplicate while creating
-			poolInfoDict.Add(poolName, null);
+			_poolInfoDict.Add(poolName, null);
 
 			GameObject container = new GameObject(poolName);
-			container.transform.SetParent(poolContainer);
+			container.transform.SetParent(_poolContainer);
 			string assetKey = options.AssetKey;
-			T poolObject = await resourceLoader.LoadPrefab<T>(assetKey);
-			resourceLoader.Release(poolObject.gameObject);
+			T poolObject = await _resourceLoader.LoadPrefab<T>(assetKey);
+			_resourceLoader.Release(poolObject.gameObject);
 			PoolInfo poolInfo = new PoolInfo(options, container.transform, poolObject);
-			poolInfoDict[poolName] = poolInfo;
+			_poolInfoDict[poolName] = poolInfo;
 			AddObjectsToPool(poolInfo, options.InitialSize);
 		}
 
@@ -125,7 +125,7 @@ namespace SmileProject.Generic
 				return;
 			}
 			Destroy(poolInfo.Container.gameObject);
-			poolInfoDict.Remove(poolName);
+			_poolInfoDict.Remove(poolName);
 			Debug.Log($"Destroy pool : [{poolName}]");
 		}
 
@@ -136,7 +136,7 @@ namespace SmileProject.Generic
 		/// <returns></returns>
 		public bool HasPool(string poolName)
 		{
-			return poolInfoDict.ContainsKey(poolName);
+			return _poolInfoDict.ContainsKey(poolName);
 		}
 
 		private void AddObjectsToPool(PoolInfo poolInfo, int extendAmount)
@@ -150,7 +150,7 @@ namespace SmileProject.Generic
 		private void AddObjectToPoolAsync(PoolInfo poolInfo)
 		{
 			PoolOptions options = poolInfo.Options;
-			PoolObject poolObj = GameObject.Instantiate<PoolObject>(poolInfo.Prefab, poolContainer);
+			PoolObject poolObj = GameObject.Instantiate<PoolObject>(poolInfo.Prefab, _poolContainer);
 			Transform container = poolInfo.Container;
 			if (container)
 			{
@@ -177,7 +177,7 @@ namespace SmileProject.Generic
 		private PoolInfo GetPoolInfo(string poolName)
 		{
 			PoolInfo poolInfo;
-			poolInfoDict.TryGetValue(poolName, out poolInfo);
+			_poolInfoDict.TryGetValue(poolName, out poolInfo);
 			if (poolInfo == null)
 			{
 				Debug.Log($"Pool info name {poolName} not found");

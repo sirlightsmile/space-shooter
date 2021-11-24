@@ -11,10 +11,10 @@ namespace SmileProject.SpaceShooter
 	public class PlayerSpaceship : Spaceship
 	{
 		public override SpaceshipTag SpaceshipTag { get { return SpaceshipTag.Player; } }
-		public int PlayerLevel { get; private set; } = playerInitialLevel;
+		public int PlayerLevel { get; private set; } = PLAYER_INITIAL_LEVEL;
 
-		private const int playerInitialLevel = 1;
-		private float moveBorder = 0;
+		private const int PLAYER_INITIAL_LEVEL = 1;
+		private float _moveBorder = 0;
 
 		/// <summary>
 		/// Move spaceship in horizontal direction
@@ -23,8 +23,8 @@ namespace SmileProject.SpaceShooter
 		public void MoveToDirection(MoveDirection direction)
 		{
 			float directionValue = (float)direction;
-			float posX = this.transform.position.x + (directionValue * (this.speed * Time.deltaTime));
-			posX = Mathf.Clamp(posX, -moveBorder, moveBorder);
+			float posX = this.transform.position.x + (directionValue * (_speed * Time.deltaTime));
+			posX = Mathf.Clamp(posX, -_moveBorder, _moveBorder);
 			this.transform.position = new Vector3(posX, this.transform.position.y, this.transform.position.z);
 		}
 
@@ -43,10 +43,10 @@ namespace SmileProject.SpaceShooter
 		/// </summary>
 		private void SetBorder()
 		{
-			float halfSize = this.width / 2;
+			float halfSize = _width / 2;
 			float borderRight = Screen.width - halfSize;
 			float borderWorldPoint = Camera.main.ScreenToWorldPoint(new Vector3(borderRight, 0, 0)).x;
-			this.moveBorder = borderWorldPoint;
+			_moveBorder = borderWorldPoint;
 		}
 
 		protected override void ShipDestroy()

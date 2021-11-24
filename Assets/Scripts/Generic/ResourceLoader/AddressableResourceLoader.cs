@@ -82,7 +82,7 @@ namespace SmileProject.Generic
 			return model;
 		}
 
-		public async void SetSpriteAsync(string key, SetSpriteHandler spriteHandler)
+		public async Task SetSpriteAsync(string key, SetSpriteHandler spriteHandler)
 		{
 			Sprite sprite = await Load<Sprite>(key);
 			spriteHandler?.Invoke(sprite);

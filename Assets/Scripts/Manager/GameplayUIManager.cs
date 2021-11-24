@@ -7,47 +7,47 @@ namespace SmileProject.SpaceShooter.UI
 	public class GameplayUIManager : MonoBehaviour
 	{
 		[SerializeField]
-		private PlayerScoreComp playerScoreComp;
+		private PlayerScoreComp _playerScoreComp;
 
 		[SerializeField]
-		private PlayerHpComp playerHpComp;
+		private PlayerHpComp _playerHpComp;
 
 		[SerializeField]
-		private WaveChangeComp waveChangComp;
+		private WaveChangeComp _waveChangComp;
 
 		[SerializeField]
-		private GameStartComp gameStartComp;
+		private GameStartComp _gameStartComp;
 
 		[SerializeField]
-		private GameEndComp gameEndComp;
+		private GameEndComp _gameEndComp;
 
 		[SerializeField]
-		private GameplayMenuComp gameplayMenu;
+		private GameplayMenuComp _gameplayMenu;
 
 		public void ShowGameClear(int score)
 		{
-			gameEndComp.Show($"Clear!\nYour score : {score}");
+			_gameEndComp.Show($"Clear!\nYour score : {score}");
 		}
 
 		public void ShowGameOver()
 		{
-			gameEndComp.Show("Game Over");
+			_gameEndComp.Show("Game Over");
 		}
 
 		public void ShowWaveChange(int waveNumber, int showTime)
 		{
-			waveChangComp.ShowWave(waveNumber, showTime);
+			_waveChangComp.ShowWave(waveNumber, showTime);
 		}
 
 		public void SetGameplayMenu(bool isShow)
 		{
 			if (isShow)
 			{
-				gameplayMenu.Show();
+				_gameplayMenu.Show();
 			}
 			else
 			{
-				gameplayMenu.Hide(true);
+				_gameplayMenu.Hide(true);
 			}
 		}
 
@@ -55,13 +55,13 @@ namespace SmileProject.SpaceShooter.UI
 		{
 			if (isShow)
 			{
-				playerScoreComp.Show();
-				playerHpComp.Show();
+				_playerScoreComp.Show();
+				_playerHpComp.Show();
 			}
 			else
 			{
-				playerScoreComp.Hide();
-				playerHpComp.Hide();
+				_playerScoreComp.Hide();
+				_playerHpComp.Hide();
 			}
 		}
 
@@ -69,22 +69,22 @@ namespace SmileProject.SpaceShooter.UI
 		{
 			if (isShow)
 			{
-				gameStartComp.Show();
+				_gameStartComp.Show();
 			}
 			else
 			{
-				gameStartComp.Hide();
+				_gameStartComp.Hide();
 			}
 		}
 
 		public void SetPlayerScore(int score)
 		{
-			playerScoreComp.SetPlayerScore(score);
+			_playerScoreComp.SetPlayerScore(score);
 		}
 
 		public void SetPlayerHp(int hp)
 		{
-			playerHpComp.SetPlayerHp(hp);
+			_playerHpComp.SetPlayerHp(hp);
 		}
 	}
 }

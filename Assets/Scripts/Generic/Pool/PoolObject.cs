@@ -5,8 +5,8 @@ namespace SmileProject.Generic
 	public abstract class PoolObject : MonoBehaviour
 	{
 		public bool IsActive { get { return gameObject?.activeInHierarchy ?? false; } }
-		private string poolName;
-		private PoolManager poolManager;
+		private string _poolName;
+		private PoolManager _poolManager;
 
 		/// <summary>
 		/// Set pool name and pool manager as reference for return self
@@ -15,8 +15,8 @@ namespace SmileProject.Generic
 		/// <param name="poolManager">Pool manager</param>
 		public void SetPool(string poolName, PoolManager poolManager)
 		{
-			this.poolName = poolName;
-			this.poolManager = poolManager;
+			_poolName = poolName;
+			_poolManager = poolManager;
 		}
 
 		/// <summary>
@@ -25,7 +25,7 @@ namespace SmileProject.Generic
 		public virtual void ReturnToPool()
 		{
 			SetActive(false);
-			poolManager.ReturnItem(poolName, this);
+			_poolManager.ReturnItem(_poolName, this);
 		}
 
 		public virtual void SetActive(bool isActive)

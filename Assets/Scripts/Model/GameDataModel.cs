@@ -7,15 +7,15 @@ namespace SmileProject.SpaceShooter
 	public class GameDataModel
 	{
 		[JsonProperty("spaceship_gun_model")]
-		public SpaceshipGunModel[] spaceshipGameData { get; private set; }
+		public SpaceshipGunModel[] SpaceshipGameData { get; private set; }
 
 		[JsonProperty("player_spaceship_model")]
-		public SpaceshipModel[] playerSpaceships { get; private set; }
+		public SpaceshipModel[] PlayerSpaceships { get; private set; }
 
 		[JsonProperty("enemy_spaceship_model")]
-		public EnemySpaceshipModel[] enemySpaceships { get; private set; }
+		public EnemySpaceshipModel[] EnemySpaceships { get; private set; }
 
 		[JsonProperty("wave_data_model")]
-		public WaveDataModel[] waveData { get; private set; }
+		public WaveDataModel[] WaveData { get; private set; }
 	}
 }

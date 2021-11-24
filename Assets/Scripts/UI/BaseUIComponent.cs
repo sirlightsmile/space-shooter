@@ -6,7 +6,7 @@ namespace SmileProject.SpaceShooter.UI
 	public abstract class BaseUIComponent : MonoBehaviour
 	{
 		[SerializeField]
-		private Animator animator;
+		private Animator _animator;
 
 		/// <summary>
 		/// Show UI and auto hide after show time
@@ -43,9 +43,9 @@ namespace SmileProject.SpaceShooter.UI
 		/// <param name="isForce">if false, will trigger hide animation</param>
 		public virtual void Hide(bool isForce = false)
 		{
-			if (!isForce && animator != null)
+			if (!isForce && _animator != null)
 			{
-				animator.SetTrigger("Hide");
+				_animator.SetTrigger("Hide");
 			}
 			else
 			{

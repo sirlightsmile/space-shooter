@@ -4,13 +4,13 @@ namespace SmileProject.SpaceShooter
 {
 	public abstract class Weapon
 	{
-		public const int WeaponInitialLevel = 1;
+		public const int WEAPON_INITIAL_LEVEL = 1;
 
-		protected int level;
-		protected int maxLevel;
-		protected int damage;
-		protected float attackSpeed;
-		protected Transform attackPointTransform;
+		protected int _level;
+		protected int _maxLevel;
+		protected int _damage;
+		protected float _attackSpeed;
+		protected Transform _attackPointTransform;
 
 		/// <summary>
 		/// Set attack initiate point
@@ -18,27 +18,31 @@ namespace SmileProject.SpaceShooter
 		/// <param name="transform">Transform which represent to attack initiate point</param>
 		public void SetAttackPointTransform(Transform transform)
 		{
-			this.attackPointTransform = transform;
+			_attackPointTransform = transform;
 		}
 
-		protected void SetDamage(int damage)
+		protected Weapon SetDamage(int damage)
 		{
-			this.damage = damage;
+			_damage = damage;
+			return this;
 		}
 
-		protected void SetLevel(int level)
+		protected Weapon SetLevel(int level)
 		{
-			this.level = level;
+			_level = level;
+			return this;
 		}
 
-		protected void SetMaxLevel(int maxLevel)
+		protected Weapon SetMaxLevel(int maxLevel)
 		{
-			this.maxLevel = maxLevel;
+			_maxLevel = maxLevel;
+			return this;
 		}
 
-		protected void SetAttackSpeed(int speed)
+		protected Weapon SetAttackSpeed(int speed)
 		{
-			this.attackSpeed = speed;
+			_attackSpeed = speed;
+			return this;
 		}
 	}
 }

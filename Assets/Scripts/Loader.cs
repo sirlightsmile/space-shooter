@@ -12,11 +12,11 @@ namespace SmileProject.SpaceShooter
 
 		public bool IsInitialized { get; private set; }
 
-		private GameDataManager gameDataManager;
-		private AddressableResourceLoader resourceLoader;
-		private GameplayController gameplayController;
-		private PoolManager poolManager;
-		private AudioManager audioManager;
+		private GameDataManager _gameDataManager;
+		private AddressableResourceLoader _resourceLoader;
+		private GameplayController _gameplayController;
+		private PoolManager _poolManager;
+		private AudioManager _audioManager;
 
 		private void Start()
 		{
@@ -29,17 +29,17 @@ namespace SmileProject.SpaceShooter
 		/// <returns></returns>
 		public async void Initialize()
 		{
-			resourceLoader = new AddressableResourceLoader();
-			gameDataManager = new GameDataManager();
+			_resourceLoader = new AddressableResourceLoader();
+			_gameDataManager = new GameDataManager();
 
-			await resourceLoader.InitializeAsync();
+			await _resourceLoader.InitializeAsync();
 			await Task.WhenAll(new Task[]
 			{
-				gameDataManager.Initialize(resourceLoader),
-				InitPoolManager(resourceLoader),
-				InitAudioManager(resourceLoader)
+				_gameDataManager.Initialize(_resourceLoader),
+				InitPoolManager(_resourceLoader),
+				InitAudioManager(_resourceLoader)
 			});
-			await InitGameplayController(resourceLoader, gameDataManager, poolManager, audioManager);
+			await InitGameplayController(_resourceLoader, _gameDataManager, _poolManager, _audioManager);
 
 			IsInitialized = true;
 			Initialized?.Invoke(this, new EventArgs());
@@ -81,22 +81,22 @@ namespace SmileProject.SpaceShooter
 				}
 			);
 
-			this.gameplayController = gameplayController;
-			this.gameplayController.StandBy();
+			_gameplayController = gameplayController;
+			_gameplayController.StandBy();
 		}
 
 		private async Task InitPoolManager(IResourceLoader resourceLoader)
 		{
 			PoolManager poolManager = await resourceLoader.InstantiateAsync<PoolManager>("PoolManager");
-			this.poolManager = poolManager;
-			this.poolManager.Initialize(resourceLoader);
+			_poolManager = poolManager;
+			_poolManager.Initialize(resourceLoader);
 		}
 
 		private async Task InitAudioManager(IResourceLoader resourceLoader)
 		{
 			AudioManager audioManager = await resourceLoader.InstantiateAsync<AudioManager>("AudioManager");
-			this.audioManager = audioManager;
-			await this.audioManager.Initialize(resourceLoader, MixerGroup.MainMixerKey);
+			_audioManager = audioManager;
+			await _audioManager.Initialize(resourceLoader, MixerGroup.MAIN_MIXER_KEY);
 		}
 	}
 }

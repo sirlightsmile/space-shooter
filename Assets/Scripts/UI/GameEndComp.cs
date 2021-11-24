@@ -7,7 +7,7 @@ namespace SmileProject.SpaceShooter.UI
 	public class GameEndComp : BaseUIComponent
 	{
 		[SerializeField]
-		private Text endText;
+		private Text _endText;
 
 		/// <summary>
 		/// Show end game ui with end title
@@ -15,7 +15,7 @@ namespace SmileProject.SpaceShooter.UI
 		/// <param name="end title"></param>
 		public void Show(string endTitle)
 		{
-			endText.text = endTitle;
+			_endText.text = endTitle;
 			Show();
 		}
 	}

@@ -7,11 +7,11 @@ namespace SmileProject.SpaceShooter.UI
 	public class PlayerScoreComp : BaseUIComponent
 	{
 		[SerializeField]
-		private Text playerScoreText;
+		private Text _playerScoreText;
 
 		public void SetPlayerScore(int score)
 		{
-			playerScoreText.text = $"Player score : {score}";
+			_playerScoreText.text = $"Player score : {score}";
 		}
 	}
 }

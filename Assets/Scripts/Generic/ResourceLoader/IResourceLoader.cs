@@ -16,6 +16,6 @@ namespace SmileProject.Generic
 		Task<T> InstantiateAsync<T>(object key, Transform parent = null, bool instantiateInWorldSpace = false, bool trackHandle = true) where T : MonoBehaviour;
 		void Release(System.Object key);
 		void ReleaseInstance(GameObject obj);
-		void SetSpriteAsync(string key, SetSpriteHandler eventHandler);
+		Task SetSpriteAsync(string key, SetSpriteHandler eventHandler);
 	}
 }

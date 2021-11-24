@@ -7,8 +7,8 @@ namespace SmileProject.SpaceShooter
 {
 	public class GameDataManager
 	{
-		private const string gameDataKey = "GameData";
-		private GameDataModel gameData;
+		private const string GAME_DATA_KEY = "GameData";
+		private GameDataModel _gameData;
 
 		/// <summary>
 		/// Load game data to game data manager. Call only once per session.
@@ -16,7 +16,7 @@ namespace SmileProject.SpaceShooter
 		/// <returns></returns>
 		public async Task Initialize(IResourceLoader resourceLoader)
 		{
-			gameData = await resourceLoader.LoadJsonAsModel<GameDataModel>(gameDataKey);
+			_gameData = await resourceLoader.LoadJsonAsModel<GameDataModel>(GAME_DATA_KEY);
 			Debug.Log("Game Data Initialized.");
 		}
 
@@ -29,14 +29,14 @@ namespace SmileProject.SpaceShooter
 
 		public SpaceshipGunModel[] GetSpaceshipGunModels()
 		{
-			Debug.Assert(gameData.spaceshipGameData != null, "SpaceShipGun game data should not be null.");
-			return gameData.spaceshipGameData;
+			Debug.Assert(_gameData.SpaceshipGameData != null, "SpaceShipGun game data should not be null.");
+			return _gameData.SpaceshipGameData;
 		}
 
 		public WaveDataModel[] GetWaveDataModels()
 		{
-			Debug.Assert(gameData.waveData != null, "Wave game data should not be null.");
-			return gameData.waveData;
+			Debug.Assert(_gameData.WaveData != null, "Wave game data should not be null.");
+			return _gameData.WaveData;
 		}
 
 		public WaveDataModel GetWaveDataModelByWaveNumber(int number)
@@ -48,8 +48,8 @@ namespace SmileProject.SpaceShooter
 
 		public EnemySpaceshipModel[] GetEnemySpaceshipModels()
 		{
-			Debug.Assert(gameData.enemySpaceships != null, "Enemy spaceship game data should not be null.");
-			return gameData.enemySpaceships;
+			Debug.Assert(_gameData.EnemySpaceships != null, "Enemy spaceship game data should not be null.");
+			return _gameData.EnemySpaceships;
 		}
 
 		public EnemySpaceshipModel GetEnemySpaceshipModelById(string id)
@@ -61,8 +61,8 @@ namespace SmileProject.SpaceShooter
 
 		public SpaceshipModel[] GetPlayerSpaceshipModels()
 		{
-			Debug.Assert(gameData.playerSpaceships != null, "Enemy spaceship game data should not be null.");
-			return gameData.playerSpaceships;
+			Debug.Assert(_gameData.PlayerSpaceships != null, "Enemy spaceship game data should not be null.");
+			return _gameData.PlayerSpaceships;
 		}
 
 		public SpaceshipModel GetPlayerSpaceshipModelById(string id)

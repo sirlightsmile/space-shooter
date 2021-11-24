@@ -10,16 +10,16 @@ namespace SmileProject.SpaceShooter
 		/// <summary>
 		/// Formation type included this point
 		/// </summary>
-		private Formation formationTypes;
+		private Formation _formationTypes;
 
 		/// <summary>
 		/// Spaceship took this position
 		/// </summary>
-		private Spaceship spaceship;
+		private Spaceship _spaceship;
 
 		private void Start()
 		{
-			Debug.Assert(formationTypes.GetFlags<Formation>().Count() > 0, "Formation point should have at least one formation");
+			Debug.Assert(_formationTypes.GetFlags<Formation>().Count() > 0, "Formation point should have at least one formation");
 		}
 
 		/// <summary>
@@ -33,9 +33,9 @@ namespace SmileProject.SpaceShooter
 				Debug.LogError("FormationPoint already been token.");
 				return;
 			}
-			this.spaceship = spaceship;
-			this.spaceship.transform.SetParent(this.transform);
-			this.spaceship.Destroyed += OnLandedShipDestroyed;
+			_spaceship = spaceship;
+			_spaceship.transform.SetParent(this.transform);
+			_spaceship.Destroyed += OnLandedShipDestroyed;
 		}
 
 		/// <summary>
@@ -44,7 +44,7 @@ namespace SmileProject.SpaceShooter
 		/// <returns></returns>
 		public bool HasLandedSpaceship()
 		{
-			return this.spaceship != null;
+			return _spaceship != null;
 		}
 
 		/// <summary>
@@ -53,7 +53,7 @@ namespace SmileProject.SpaceShooter
 		/// <returns>formation flag</returns>
 		public Formation GetFormations()
 		{
-			return this.formationTypes;
+			return _formationTypes;
 		}
 
 		/// <summary>
@@ -62,17 +62,17 @@ namespace SmileProject.SpaceShooter
 		/// <param name="formation">formation flag</param>
 		public void SetFormation(Formation formation)
 		{
-			this.formationTypes = formation;
+			_formationTypes = formation;
 		}
 		private void OnLandedShipDestroyed(Spaceship destroyedSpaceship)
 		{
 			destroyedSpaceship.Destroyed -= OnLandedShipDestroyed;
-			if (this.spaceship != destroyedSpaceship)
+			if (_spaceship != destroyedSpaceship)
 			{
 				Debug.LogError("Wrong landed ship destroy listener");
 				return;
 			}
-			this.spaceship = null;
+			_spaceship = null;
 		}
 
 #if UNITY_EDITOR
@@ -81,7 +81,7 @@ namespace SmileProject.SpaceShooter
 
 		void OnDrawGizmos()
 		{
-			if (controller != null && controller.IsActiveFormation(this.formationTypes))
+			if (controller != null && controller.IsActiveFormation(_formationTypes))
 			{
 				Gizmos.DrawWireSphere(this.transform.position, 0.5f);
 			}
