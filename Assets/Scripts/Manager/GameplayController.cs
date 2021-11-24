@@ -36,36 +36,34 @@ namespace SmileProject.SpaceShooter
 		/// <value></value>
 		public float Timer { get; private set; }
 
-		private const int waveInterval = 3000;
+		/// <summary>
+		/// Constant time (ms) before each wave start
+		/// </summary>
+		private const int _WAVE_INTERVAL = 3000;
 
 		[SerializeField]
-		private Vector2 playerSpawnPoint;
+		private Vector2 _playerSpawnPoint;
 
-		[SerializeField]
-		private bool triggerPointBlank;
+		private PlayerController _playerController;
+		private EnemyManager _enemyManager;
+		private InputManager _inputManager;
+		private AudioManager _audioManager;
+		private GameplayUIManager _uiManager;
 
-		private PlayerController playerController;
-		private EnemyManager enemyManager;
-		private InputManager inputManager;
-		private AudioManager audioManager;
-		private GameplayUIManager uiManager;
-
-		private int currentWave = 0;
-		private int waveCount;
-		private int playerScore = 0;
-		private bool isGameEnded = false;
-		private bool isGameStarted = false;
+		private int _currentWave, _waveCount = 0;
+		private int _playerScore = 0;
+		private bool _isGameEnded, _isGameStarted = false;
 
 		/// <summary>
 		/// Initialize gameplay controller
 		/// </summary>
 		public async Task Initialize(PlayerController playerController, EnemyManager enemyManager, InputManager inputManager, AudioManager audioManager, GameplayUIManager uiManager)
 		{
-			this.playerController = playerController;
-			this.inputManager = inputManager;
-			this.audioManager = audioManager;
-			this.enemyManager = enemyManager;
-			this.uiManager = uiManager;
+			this._playerController = playerController;
+			this._inputManager = inputManager;
+			this._audioManager = audioManager;
+			this._enemyManager = enemyManager;
+			this._uiManager = uiManager;
 
 			// setup listener
 			inputManager.ConfirmInput += OnPressConfirm;
@@ -77,7 +75,7 @@ namespace SmileProject.SpaceShooter
 			enemyManager.EnemyReadyStatusChanged += OnEnemyReadyStatusChanged;
 
 			IsPause = true;
-			await playerController.CreatePlayer(playerSpawnPoint);
+			await playerController.CreatePlayer(_playerSpawnPoint);
 			uiManager.SetPlayerHp(playerController.PlayerSpaceship.HP);
 		}
 
@@ -87,7 +85,7 @@ namespace SmileProject.SpaceShooter
 		/// <returns></returns>
 		public PlayerSpaceship GetPlayerSpaceship()
 		{
-			return playerController.PlayerSpaceship;
+			return _playerController.PlayerSpaceship;
 		}
 
 		/// <summary>
@@ -96,35 +94,35 @@ namespace SmileProject.SpaceShooter
 		/// <param name="wave">total wave</param>
 		public void SetWaveCount(int wave)
 		{
-			this.waveCount = wave;
+			this._waveCount = wave;
 		}
 
 		public void StandBy()
 		{
-			uiManager.SetShowGameStart(true);
+			_uiManager.SetShowGameStart(true);
 		}
 
 		private void GameStart()
 		{
-			playerScore = 0;
 			Timer = 0;
-			currentWave = 0;
 			IsPause = false;
-			isGameEnded = false;
-			isGameStarted = true;
-			uiManager.SetShowGameStart(false);
-			PlayGameplayBGM();
+			_playerScore = 0;
+			_currentWave = 0;
+			_isGameEnded = false;
+			_isGameStarted = true;
+			_uiManager.SetShowGameStart(false);
 			Start?.Invoke();
-			NextWave();
+			PlayGameplayBGM();
+			var _ = NextWave();
 		}
 
 		private void OnPressConfirm()
 		{
-			if (!isGameStarted)
+			if (!_isGameStarted)
 			{
 				GameStart();
 			}
-			else if (isGameEnded)
+			else if (_isGameEnded)
 			{
 				ResetGame();
 			}
@@ -140,39 +138,39 @@ namespace SmileProject.SpaceShooter
 		{
 			IsPause = isPause;
 			Pause?.Invoke(isPause);
-			uiManager.SetGameplayMenu(isPause);
+			_uiManager.SetGameplayMenu(isPause);
 			Time.timeScale = isPause ? 0f : 1f;
 		}
 
-		private async void ClearGame()
+		private void ClearGame()
 		{
 			GameEnd();
-			uiManager.ShowGameClear(playerScore);
-			await audioManager.PlaySound(GameSoundKeys.Succeed);
+			_uiManager.ShowGameClear(_playerScore);
+			var _ = _audioManager.PlaySound(GameSoundKeys.Succeed);
 		}
 
-		private async void GameOver()
+		private void GameOver()
 		{
 			GameEnd();
-			uiManager.ShowGameOver();
-			await audioManager.PlaySound(GameSoundKeys.Failed);
+			_uiManager.ShowGameOver();
+			var _ = _audioManager.PlaySound(GameSoundKeys.Failed);
 		}
 
 		private void GameEnd()
 		{
-			isGameEnded = true;
+			_isGameEnded = true;
 			IsPause = true;
 		}
 
-		private async void PlayGameplayBGM()
+		private void PlayGameplayBGM()
 		{
-			await audioManager.PlaySound(GameSoundKeys.GameplayBGM, true);
+			var _ = _audioManager.PlaySound(GameSoundKeys.GameplayBGM, true);
 		}
 
 		private void OnEnemyDestroyed(int score)
 		{
-			playerController.AddScore(score);
-			uiManager.SetPlayerScore(playerController.PlayerScore);
+			_playerController.AddScore(score);
+			_uiManager.SetPlayerScore(_playerController.PlayerScore);
 		}
 
 		private void OnEnemyReadyStatusChanged(bool isReady)
@@ -181,29 +179,29 @@ namespace SmileProject.SpaceShooter
 			{
 				return;
 			}
-			inputManager.SetAllowAttack(true);
+			_inputManager.SetAllowAttack(true);
 		}
 
 		private void OnPlayerGetHit(int hp)
 		{
-			uiManager.SetPlayerHp(hp);
+			_uiManager.SetPlayerHp(hp);
 		}
 
-		private async void NextWave()
+		private async Task NextWave()
 		{
-			uiManager.ShowWaveChange(currentWave + 1, waveInterval);
-			await Task.Delay(waveInterval);
-			currentWave++;
-			WaveChange?.Invoke(currentWave);
+			_uiManager.ShowWaveChange(_currentWave + 1, _WAVE_INTERVAL);
+			await Task.Delay(_WAVE_INTERVAL);
+			_currentWave++;
+			WaveChange?.Invoke(_currentWave);
 		}
 
 		private void OnWaveClear()
 		{
 			// wait for next wave generate
-			inputManager.SetAllowAttack(false);
-			if (waveCount > currentWave)
+			_inputManager.SetAllowAttack(false);
+			if (_waveCount > _currentWave)
 			{
-				NextWave();
+				var _ = NextWave();
 			}
 			else
 			{
@@ -218,12 +216,12 @@ namespace SmileProject.SpaceShooter
 
 		private void Update()
 		{
-			if (IsPause || isGameEnded)
+			if (IsPause || _isGameEnded)
 			{
 				return;
 			}
 
-			enemyManager.Update();
+			_enemyManager.Update();
 			Timer += Time.time;
 		}
 	}
